@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>com.github.syuchan1005.emojiprefix</id>
+    <name>EmojiPrefix</name>
+    <version>1.0</version>
+    <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
+
+    <description><![CDATA[
+        Do you like Emoji Prefix Commit? (ex. :bug: Fix!)<br>
+        This plugin makes it easy.<br>
+<br>
+        <em>How to use?</em><br>
+        create ".emojirc" and write a file.<br>
+        (ex.<br>
+        bug=Code Fix<br>
+        rocket=Performance upgrade<br>
+        )  <br>
+
+        <img src="https://pbs.twimg.com/media/DA_c4UdUQAATpfI.jpg" />
+    ]]></description>
+
+    <change-notes><![CDATA[
+        First Commit!
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="145.0"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <checkinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.EmojiCheckinHandlerFactory"/>
+    </extensions>
+</idea-plugin>
