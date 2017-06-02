@@ -4,6 +4,7 @@ import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
+import com.intellij.ui.components.JBScrollPane;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -58,7 +61,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		DialogBuilder dialogBuilder = new DialogBuilder(checkinProjectPanel.getProject());
 		dialogBuilder.setTitle("Emoji Select");
 		int i = dialogBuilder
-				.centerPanel(emojiPanel)
+				.centerPanel(new JBScrollPane(emojiPanel))
 				.okActionEnabled(true)
 				.show();
 		if (i != 0) {
