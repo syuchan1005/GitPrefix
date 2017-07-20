@@ -5,6 +5,8 @@ import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.ui.components.JBScrollPane;
+import com.vdurmont.emoji.EmojiParser;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,8 +19,6 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -35,13 +35,16 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.setLayout(new VerticalFlowLayout());
 		File resource = new File(checkinProjectPanel.getProject().getBasePath(), ".emojirc");
 		if (resource.exists()) {
+			Font font = new Font(Font.DIALOG, Font.PLAIN, 14);
 			try (InputStream stream = new FileInputStream(resource);
 				 InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
 				Properties properties = new Properties();
 				properties.load(reader);
 				properties.keySet().forEach(k -> {
 					String key = (String) k;
-					JRadioButton radioButton = new JRadioButton(":" + key + ": " + properties.getProperty(key));
+					String emoji = ":" + key + ":";
+					JRadioButton radioButton = new JRadioButton(EmojiParser.parseToUnicode(emoji) + " " + emoji + properties.getProperty(key));
+					radioButton.setFont(font);
 					buttonGroup.add(radioButton);
 					emojiPanel.add(radioButton);
 				});
@@ -49,6 +52,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 				e.printStackTrace();
 			}
 			JRadioButton noRadio = new JRadioButton(NO_EMOJI, true);
+			noRadio.setFont(font);
 			buttonGroup.add(noRadio);
 			emojiPanel.add(noRadio);
 			this.checkinProjectPanel = checkinProjectPanel;

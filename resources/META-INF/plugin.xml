@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>EmojiPrefix</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -15,11 +15,13 @@
         rocket=Performance upgrade<br>
         )  <br>
 
-        <img src="https://pbs.twimg.com/media/DA_c4UdUQAATpfI.jpg" />
+        <img src="https://pbs.twimg.com/media/DFLx-i6VYAAaXkg.jpg" />
     ]]></description>
 
     <change-notes><![CDATA[
-        First Commit!
+        1.2: show Emoji icon.
+        1.1: bug fix.
+        1.0: First Commit!
     ]]>
     </change-notes>
 
