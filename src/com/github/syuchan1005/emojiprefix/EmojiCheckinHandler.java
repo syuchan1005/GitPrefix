@@ -73,7 +73,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		} else {
 			Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 				if (!button.getText().equals(NO_EMOJI)) {
-					checkinProjectPanel.setCommitMessage(button.getText().split(": ")[0] + ": " + checkinProjectPanel.getCommitMessage());
+					checkinProjectPanel.setCommitMessage(":" + button.getText().split(":")[1] + ": " + checkinProjectPanel.getCommitMessage());
 				}
 			});
 			return ReturnResult.COMMIT;
