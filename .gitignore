@@ -1,4 +1,7 @@
 .idea
 *.iml
-out
 *.jar
+out/
+gen/
+
+lib/

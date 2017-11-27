@@ -1,4 +1,4 @@
-package com.github.syuchan1005.emojiprefix;
+package com.github.syuchan1005.emojiprefix.vcs;
 
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.changes.CommitContext;

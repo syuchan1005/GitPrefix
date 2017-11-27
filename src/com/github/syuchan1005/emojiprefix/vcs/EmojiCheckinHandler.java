@@ -1,20 +1,17 @@
-package com.github.syuchan1005.emojiprefix;
+package com.github.syuchan1005.emojiprefix.vcs;
 
+import com.github.syuchan1005.emojiprefix.EmojiUtil;
+import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
-import com.vdurmont.emoji.EmojiParser;
-import java.awt.Font;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import java.util.Properties;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -33,30 +30,22 @@ public class EmojiCheckinHandler extends CheckinHandler {
 	public EmojiCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		emojiPanel = new JPanel();
 		emojiPanel.setLayout(new VerticalFlowLayout());
-		File resource = new File(checkinProjectPanel.getProject().getBasePath(), ".emojirc");
-		if (resource.exists()) {
-			Font font = new Font(Font.DIALOG, Font.PLAIN, 14);
-			try (InputStream stream = new FileInputStream(resource);
-				 InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
-				Properties properties = new Properties();
-				properties.load(reader);
-				properties.keySet().forEach(k -> {
-					String key = (String) k;
-					String emoji = ":" + key + ":";
-					JRadioButton radioButton = new JRadioButton(EmojiParser.parseToUnicode(emoji) + " " + emoji + properties.getProperty(key));
-					radioButton.setFont(font);
-					buttonGroup.add(radioButton);
-					emojiPanel.add(radioButton);
-				});
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			JRadioButton noRadio = new JRadioButton(NO_EMOJI, true);
-			noRadio.setFont(font);
-			buttonGroup.add(noRadio);
-			emojiPanel.add(noRadio);
-			this.checkinProjectPanel = checkinProjectPanel;
+		VirtualFile emojirc = checkinProjectPanel.getProject().getBaseDir().findChild(".emojirc");
+		if (emojirc == null) return;
+		PsiFile psiFile = PsiManager.getInstance(checkinProjectPanel.getProject()).findFile(emojirc);
+		if (psiFile == null) return;
+		for (PsiElement psiElement : psiFile.getChildren()) {
+			if (!(psiElement instanceof EmojiResourceProperty)) continue;
+			String emoji = psiElement.getFirstChild().getText();
+			JRadioButton radioButton = new JRadioButton(emoji + " " + psiElement.getLastChild().getText());
+			radioButton.setToolTipText(emoji);
+			buttonGroup.add(radioButton);
+			emojiPanel.add(radioButton);
 		}
+		JRadioButton noRadio = new JRadioButton(NO_EMOJI, true);
+		buttonGroup.add(noRadio);
+		emojiPanel.add(noRadio);
+		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
 	@Override
@@ -73,7 +62,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		} else {
 			Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 				if (!button.getText().equals(NO_EMOJI)) {
-					checkinProjectPanel.setCommitMessage(":" + button.getText().split(":")[1] + ": " + checkinProjectPanel.getCommitMessage());
+					checkinProjectPanel.setCommitMessage(button.getToolTipText() + " " + checkinProjectPanel.getCommitMessage());
 				}
 			});
 			return ReturnResult.COMMIT;

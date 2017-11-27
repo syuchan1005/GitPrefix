@@ -1,0 +1,20 @@
+{
+  parserClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="EmojiResource"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.syuchan1005.emojiprefix.psi"
+  psiImplPackage="com.github.syuchan1005.emojiprefix.psi.impl"
+
+  elementTypeHolderClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceTypes"
+  elementTypeClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceElementType"
+  tokenTypeClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceTokenType"
+}
+
+emojiResourceFile ::= item_*
+
+private item_ ::= (property|COMMENT)
+
+property ::= KEY VALUE
