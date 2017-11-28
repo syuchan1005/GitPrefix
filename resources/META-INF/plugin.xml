@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
-    <name>EmojiPrefix</name>
+    <name>Emoji Prefix</name>
     <version>1.3</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
@@ -27,68 +27,10 @@
 
         <h3>Features</h3>
         <ol>
-            <li class="ok">
-                <span>Syntax Highlight</span>
-                <label>Clear!</label>
-            </li>
-            <li class="ok">
-                <span>Emoji Preview</span>
-                <label>Clear!</label>
-            </li>
-            <li>Input Completion</li>
+            <li>Input Completion(All Files)</li>
             <li>VCS CommitPanel show emoji</li>
             <li>VCS CommitMessage show preview icon</li>
         </ol>
-
-
-        <style>
-            pre.code {
-                border-radius: 3px;
-                border: 0;
-                margin: 0;
-                padding: .6em 1.2em;
-                line-height: 1.2;
-                background-color: #f7f7f7;
-                overflow-x: auto;
-                word-wrap: normal;
-                white-space: pre;
-                font-size: 1.1rem;
-            }
-
-            span.comment {
-                color: gray;
-            }
-
-            span.key {
-                color: blue;
-            }
-
-            span.value {
-                color: green;
-            }
-
-            #emoji_prefix_steps {
-                list-style-type: decimal;
-                color: #1e366a;
-                border-top: solid #1e366a 1px;
-                border-bottom: solid #1e366a 1px;
-                padding: 0.5em 0 0.5em 1.5em;
-            }
-
-            #emoji_prefix_steps li {
-                line-height: 1.5;
-                padding: 0.5em 0;
-            }
-
-            .ok span {
-                text-decoration: line-through;
-            }
-
-            .ok label {
-                color: green;
-                margin-left: 1.5rem;
-            }
-        </style>
     ]]></description>
 
     <change-notes><![CDATA[
