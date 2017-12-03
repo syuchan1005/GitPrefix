@@ -55,5 +55,7 @@
         <lang.syntaxHighlighterFactory language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.highlight.EmojiResourceSyntaxHighlighterFactory" />
 
         <codeInsight.lineMarkerProvider language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.linemark.EmojiIconLineMarkerProvider" />
+
+        <completion.contributor language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.completion.EmojiResourceCompletionContributor" />
     </extensions>
 </idea-plugin>
