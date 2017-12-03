@@ -11,11 +11,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
+import com.intellij.util.ui.UIUtil;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -36,15 +40,9 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		if (psiFile == null) return;
 		for (PsiElement psiElement : psiFile.getChildren()) {
 			if (!(psiElement instanceof EmojiResourceProperty)) continue;
-			String emoji = psiElement.getFirstChild().getText();
-			JRadioButton radioButton = new JRadioButton(emoji + " " + psiElement.getLastChild().getText());
-			radioButton.setToolTipText(emoji);
-			buttonGroup.add(radioButton);
-			emojiPanel.add(radioButton);
+			emojiPanel.add(createEmojiButton(psiElement.getFirstChild().getText(), psiElement.getLastChild().getText(), false, buttonGroup));
 		}
-		JRadioButton noRadio = new JRadioButton(NO_EMOJI, true);
-		buttonGroup.add(noRadio);
-		emojiPanel.add(noRadio);
+		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
@@ -53,19 +51,40 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		if (checkinProjectPanel == null) return ReturnResult.COMMIT;
 		DialogBuilder dialogBuilder = new DialogBuilder(checkinProjectPanel.getProject());
 		dialogBuilder.setTitle("Emoji Select");
-		int i = dialogBuilder
+		boolean isOk = dialogBuilder
 				.centerPanel(new JBScrollPane(emojiPanel))
 				.okActionEnabled(true)
-				.show();
-		if (i != 0) {
-			return ReturnResult.CANCEL;
-		} else {
+				.show() == 0;
+		if (isOk) {
 			Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
-				if (!button.getText().equals(NO_EMOJI)) {
-					checkinProjectPanel.setCommitMessage(button.getToolTipText() + " " + checkinProjectPanel.getCommitMessage());
+				String emoji = ((JLabel) button.getComponent(0)).getToolTipText();
+				if (emoji != null) {
+					checkinProjectPanel.setCommitMessage(emoji + " " + checkinProjectPanel.getCommitMessage());
 				}
 			});
 			return ReturnResult.COMMIT;
+		} else {
+			return ReturnResult.CANCEL;
 		}
+	}
+
+	private static JRadioButton createEmojiButton(String emoji, String description, boolean selected, ButtonGroup buttonGroup) {
+		JRadioButton radioButton = new JRadioButton("", selected);
+		buttonGroup.add(radioButton);
+		int leftBorder = (int) (UIManager.getIcon("RadioButton.icon").getIconWidth() * 1.5);
+		EmptyBorder border = new EmptyBorder(0, leftBorder, 0, 0);
+		if (emoji != null) {
+			JLabel iconLabel = new JLabel(EmojiUtil.getIcon(emoji.replace(":", "")));
+			iconLabel.setToolTipText(emoji);
+			iconLabel.setBorder(border);
+			border = null;
+			leftBorder += (UIUtil.isRetina() ? 32 : 16) + 5;
+			radioButton.add(iconLabel);
+		}
+		JLabel label = new JLabel(description);
+		if (border != null) label.setBorder(border);
+		else label.setBorder(new EmptyBorder(0, leftBorder, 0, 0));
+		radioButton.add(label);
+		return radioButton;
 	}
 }
