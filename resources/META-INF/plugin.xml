@@ -1,106 +1,29 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
-    <name>EmojiPrefix</name>
-    <version>1.3</version>
+    <name>Emoji Prefix</name>
+    <version>1.4</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
-        <h2>This can make 'Emoji Prefix Commit' easy.</h2>
-
-
-        <h3>Getting Started (in 3 step)</h3>
-        <ol id="emoji_prefix_steps">
+        <span style="font-size: 1.7rem">Easy to 'Emoji Prefix Commit'</span><br/>
+        <span style="font-size: 1.5rem">Getting Started (in 3 step)</span><br/>
+        <ol>
             <li>'.emojirc' create your project root.</li>
             <li>Write emojis(emoticons) you want to use</li>
             <li>After that, just commit</li>
         </ol>
 
-        <h3>.emojirc sample</h3>
-        <pre class="code">
-            <span class="key">:bug:</span>     <span class="value">BugFix</span>
-            <span class="key">:lock:</span>    <span class="value">SecurityFix</span> <span class="comment"># Comment</span>
-            <span class="key">:recycle:</span> <span class="value">Refactoring</span>
-            <span class="key">:books:</span>   <span class="value">Documentation</span>
-            <span class="comment"># Comment</span>
-
-        </pre>
-
-        <h3>Features</h3>
-        <ol>
-            <li class="ok">
-                <span>Syntax Highlight</span>
-                <label>Clear!</label>
-            </li>
-            <li class="ok">
-                <span>Emoji Preview</span>
-                <label>Clear!</label>
-            </li>
-            <li>Input Completion</li>
-            <li>VCS CommitPanel show emoji</li>
-            <li>VCS CommitMessage show preview icon</li>
-        </ol>
-
-
-        <style>
-            pre.code {
-                border-radius: 3px;
-                border: 0;
-                margin: 0;
-                padding: .6em 1.2em;
-                line-height: 1.2;
-                background-color: #f7f7f7;
-                overflow-x: auto;
-                word-wrap: normal;
-                white-space: pre;
-                font-size: 1.1rem;
-            }
-
-            span.comment {
-                color: gray;
-            }
-
-            span.key {
-                color: blue;
-            }
-
-            span.value {
-                color: green;
-            }
-
-            #emoji_prefix_steps {
-                list-style-type: decimal;
-                color: #1e366a;
-                border-top: solid #1e366a 1px;
-                border-bottom: solid #1e366a 1px;
-                padding: 0.5em 0 0.5em 1.5em;
-            }
-
-            #emoji_prefix_steps li {
-                line-height: 1.5;
-                padding: 0.5em 0;
-            }
-
-            .ok span {
-                text-decoration: line-through;
-            }
-
-            .ok label {
-                color: green;
-                margin-left: 1.5rem;
-            }
-        </style>
+        <span style="font-size: 1.5rem">.emojirc sample</span><br/>
+        <span>
+                <span style="color:#000080">:bug:</span>     <span style="color:#008000">BugFix</span><br/>
+                <span style="color:#000080">:lock:</span>    <span style="color:#008000">SecurityFix</span> <span style="color:#808080"># Comment</span><br/>
+                <span style="color:#000080">:recycle:</span> <span style="color:#008000">Refactoring</span><br/>
+                <span style="color:#000080">:books:</span>   <span style="color:#008000">Documentation</span><br/>
+                <span style="color:#808080"># Comment</span><br/>
+        </span>
     ]]></description>
 
-    <change-notes><![CDATA[
-        <pre>
-1.3: EmojiPreview and HighLight!!!
-1.2.1: WebStorm and more doesn't work fix.
-1.2: show Emoji icon.
-1.1: bug fix.
-1.0: First Commit!
-        </pre>
-    ]]>
-    </change-notes>
+    <change-notes>1.4: support Retina! VCS Commit Message add EmojiPanel! Emoji Completion!</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
@@ -113,5 +36,7 @@
         <lang.syntaxHighlighterFactory language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.highlight.EmojiResourceSyntaxHighlighterFactory" />
 
         <codeInsight.lineMarkerProvider language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.linemark.EmojiIconLineMarkerProvider" />
+
+        <completion.contributor language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.completion.EmojiResourceCompletionContributor" />
     </extensions>
 </idea-plugin>

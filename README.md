@@ -1,24 +1,21 @@
 # EmojiPrefix
-This is a Plugin to easily create an Emoji Prefix Commit.
+This can make 'Emoji Prefix Commit' easy.
 
 [IntelliJ Plugin Page](https://plugins.jetbrains.com/plugin/9725-emojiprefix)
 
-## emojiList
-[emoji-cheat-sheet](https://github.com/WebpageFX/emoji-cheat-sheet.com/tree/master/public/graphics/emojis) scraping it.
+## Getting Started (in 3 step)
+1. '.emojirc' create your project root.
+2. Write emojis(emoticons) you want to use
+3.After that, just commit
 
-```js:use-script.js
-var aliases = [];
-
-document.querySelectorAll("td.content > span > .js-navigation-open")
-.forEach((v) => aliases.push(v.title.slice(0,-4)));
-
-var str = "";
-for (var alias of aliases) {
-    str += '\"' + alias + '\",'
-}
-console.log(str.slice(0, -1));
+### .emojirc sample
 ```
-
+:bug:     BugFix 
+:lock:    SecurityFix # Comment
+:recycle: Refactoring
+:books:   Documentation
+# Comment
+```
 
 ## License
 MIT

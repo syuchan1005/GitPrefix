@@ -2,20 +2,26 @@ package com.github.syuchan1005.emojiprefix.vcs;
 
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
 import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
-import com.intellij.openapi.ui.DialogBuilder;
+import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
+import com.intellij.openapi.vcs.ui.CommitMessage;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.ui.components.JBScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -25,6 +31,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 
 	private JPanel emojiPanel;
 	private ButtonGroup buttonGroup = new ButtonGroup();
+
 	private CheckinProjectPanel checkinProjectPanel = null;
 
 	public EmojiCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
@@ -36,36 +43,51 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		if (psiFile == null) return;
 		for (PsiElement psiElement : psiFile.getChildren()) {
 			if (!(psiElement instanceof EmojiResourceProperty)) continue;
-			String emoji = psiElement.getFirstChild().getText();
-			JRadioButton radioButton = new JRadioButton(emoji + " " + psiElement.getLastChild().getText());
-			radioButton.setToolTipText(emoji);
-			buttonGroup.add(radioButton);
-			emojiPanel.add(radioButton);
+			emojiPanel.add(createEmojiButton(psiElement.getFirstChild().getText(), psiElement.getLastChild().getText(), false, buttonGroup));
 		}
-		JRadioButton noRadio = new JRadioButton(NO_EMOJI, true);
-		buttonGroup.add(noRadio);
-		emojiPanel.add(noRadio);
+		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
+		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
+		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
+		commitMessage.add(emojiPanel, "West");
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
 	@Override
 	public ReturnResult beforeCheckin() {
 		if (checkinProjectPanel == null) return ReturnResult.COMMIT;
-		DialogBuilder dialogBuilder = new DialogBuilder(checkinProjectPanel.getProject());
-		dialogBuilder.setTitle("Emoji Select");
-		int i = dialogBuilder
-				.centerPanel(new JBScrollPane(emojiPanel))
-				.okActionEnabled(true)
-				.show();
-		if (i != 0) {
-			return ReturnResult.CANCEL;
+		Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
+			String emoji = ((JLabel) button.getComponent(0)).getToolTipText();
+			if (emoji != null) {
+				checkinProjectPanel.setCommitMessage(emoji + " " + checkinProjectPanel.getCommitMessage());
+			}
+		});
+		return ReturnResult.COMMIT;
+	}
+
+	private static JRadioButton createEmojiButton(String emoji, String description, boolean selected, ButtonGroup buttonGroup) {
+		JRadioButton radioButton = new JRadioButton("", selected);
+		buttonGroup.add(radioButton);
+		int space = UIManager.getIcon("RadioButton.icon").getIconWidth() + radioButton.getIconTextGap();
+		JLabel iconLabel;
+		if (emoji != null) {
+			iconLabel = new JLabel(description, EmojiUtil.getIcon(emoji.replace(":", "")), SwingConstants.CENTER);
 		} else {
-			Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
-				if (!button.getText().equals(NO_EMOJI)) {
-					checkinProjectPanel.setCommitMessage(button.getToolTipText() + " " + checkinProjectPanel.getCommitMessage());
-				}
-			});
-			return ReturnResult.COMMIT;
+			iconLabel = new JLabel(description);
 		}
+		iconLabel.setToolTipText(emoji);
+		iconLabel.setBorder(new EmptyBorder(0, space, 0, 0));
+		radioButton.add(iconLabel);
+		iconLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				radioButton.setSelected(true);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				radioButton.requestFocus(true);
+			}
+		});
+		return radioButton;
 	}
 }
