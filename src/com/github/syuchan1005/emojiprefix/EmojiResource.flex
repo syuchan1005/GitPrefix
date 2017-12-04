@@ -23,7 +23,7 @@ CHARACTER=\S
 %state WAITING_VALUE VALUE
 
 %%
-{COMMENT_KEY}(.*){NewLine} { yybegin(YYINITIAL); return EmojiResourceTypes.COMMENT; }
+{COMMENT_KEY}(.*){NewLine}? { yybegin(YYINITIAL); return EmojiResourceTypes.COMMENT; }
 
 <YYINITIAL> {
 	:{CHARACTER}+: { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY; }

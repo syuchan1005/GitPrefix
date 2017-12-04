@@ -1,8 +1,7 @@
 .idea
 *.jar
+*.java~
 out/
-gen/
-
 lib/
-
 emoji-cheat-sheet/
+
