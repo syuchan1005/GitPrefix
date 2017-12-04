@@ -17,26 +17,5 @@ This can make 'Emoji Prefix Commit' easy.
 # Comment
 ```
 
-## Features
-- Input Completion(All Files)
-- VCS CommitPanel show emoji
-- VCS CommitMessage show preview icon
-
-## emojiList
-[emoji-cheat-sheet](https://github.com/WebpageFX/emoji-cheat-sheet.com/tree/master/public/graphics/emojis) scraping it.
-
-```js:use-script.js
-var aliases = [];
-
-document.querySelectorAll("td.content > span > .js-navigation-open")
-.forEach((v) => aliases.push(v.title.slice(0,-4)));
-
-var str = "";
-for (var alias of aliases) {
-    str += '\"' + alias + '\",'
-}
-console.log(str.slice(0, -1));
-```
-
 ## License
 MIT
