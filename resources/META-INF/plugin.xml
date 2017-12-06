@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Emoji Prefix</name>
-    <version>1.4</version>
+    <version>1.4.5</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -23,7 +23,7 @@
         </span>
     ]]></description>
 
-    <change-notes>1.4: support Retina! VCS Commit Message add EmojiPanel! Emoji Completion!</change-notes>
+    <change-notes>1.4.5: support Retina!</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>

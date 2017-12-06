@@ -11,6 +11,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.util.ui.JBUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collections;
@@ -19,9 +20,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -48,7 +49,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
-		commitMessage.add(emojiPanel, "West");
+		commitMessage.add(new JScrollPane(emojiPanel), "West");
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
@@ -75,7 +76,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 			iconLabel = new JLabel(description);
 		}
 		iconLabel.setToolTipText(emoji);
-		iconLabel.setBorder(new EmptyBorder(0, space, 0, 0));
+		iconLabel.setBorder(JBUI.Borders.emptyLeft(space));
 		radioButton.add(iconLabel);
 		iconLabel.addMouseListener(new MouseAdapter() {
 			@Override
