@@ -19,6 +19,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -48,7 +49,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
-		commitMessage.add(emojiPanel, "West");
+		commitMessage.add(new JScrollPane(emojiPanel), "West");
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
