@@ -35,7 +35,7 @@ public class EmojiUtil {
 
 	static {
 		for (String emoji : emojiNames) {
-			emojiMap.put(emoji, IconLoader.getIcon("/icons/" + emoji + ".png"));
+			emojiMap.put(emoji, IconLoader.getIcon("/emojis/" + emoji + ".png"));
 		}
 	}
 
