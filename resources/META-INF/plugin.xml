@@ -38,5 +38,7 @@
         <codeInsight.lineMarkerProvider language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.linemark.EmojiIconLineMarkerProvider" />
 
         <completion.contributor language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.completion.EmojiResourceCompletionContributor" />
+        <lang.commenter language="EmojiPrefix Resource"
+                        implementationClass="com.github.syuchan1005.emojiprefix.comments.EmojiResourceCommenter"/>
     </extensions>
 </idea-plugin>
