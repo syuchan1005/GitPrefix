@@ -13,15 +13,19 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBUI;
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -51,9 +55,13 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
+		JComponent component = (JComponent) commitMessage.getComponent(1);
 		JBScrollPane scrollPane = new JBScrollPane(emojiPanel);
 		scrollPane.setBorder(null);
-		commitMessage.add(scrollPane, "West");
+		Splitter commitSplitter = new Splitter();
+		commitSplitter.setFirstComponent(scrollPane);
+		commitSplitter.setSecondComponent((JComponent) commitMessage.getComponent(0));
+		commitMessage.add(commitSplitter, 0);
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
