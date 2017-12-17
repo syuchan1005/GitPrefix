@@ -16,14 +16,17 @@ import com.intellij.psi.TokenType;
 %eof}
 
 NewLine=[\n|\r\n]
-COMMENT_KEY="#"
+LINE_COMMENT_KEY="#"
+BLOCK_COMMENT_BEGIN="/*"
+BLOCK_COMMENT_END="*/"
 WHITE_SPACE=\s
 CHARACTER=\S
 
 %state WAITING_VALUE VALUE
 
 %%
-{COMMENT_KEY}(.*){NewLine}? { yybegin(YYINITIAL); return EmojiResourceTypes.COMMENT; }
+{LINE_COMMENT_KEY}(.*){NewLine}? { yybegin(YYINITIAL); return EmojiResourceTypes.LINE_COMMENT; }
+{BLOCK_COMMENT_BEGIN}[^[*/]]*{BLOCK_COMMENT_END} { return EmojiResourceTypes.BLOCK_COMMENT; }
 
 <YYINITIAL> {
 	:{CHARACTER}+: { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY; }
@@ -33,4 +36,4 @@ CHARACTER=\S
 
 <WAITING_VALUE> {WHITE_SPACE}* { yybegin(VALUE); return TokenType.WHITE_SPACE; }
 
-<VALUE> [^#\n]* { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE; }
+<VALUE> [^#\n[/*]]* { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE; }

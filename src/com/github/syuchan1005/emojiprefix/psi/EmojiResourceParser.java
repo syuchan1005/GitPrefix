@@ -50,20 +50,20 @@ public class EmojiResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // property|COMMENT
+  // property|LINE_COMMENT|BLOCK_COMMENT
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
-    if (!nextTokenIs(b, "", COMMENT, KEY)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = property(b, l + 1);
-    if (!r) r = consumeToken(b, COMMENT);
+    if (!r) r = consumeToken(b, LINE_COMMENT);
+    if (!r) r = consumeToken(b, BLOCK_COMMENT);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // KEY VALUE?
+  // KEY BLOCK_COMMENT? VALUE?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
     if (!nextTokenIs(b, KEY)) return false;
@@ -71,13 +71,21 @@ public class EmojiResourceParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, KEY);
     r = r && property_1(b, l + 1);
+    r = r && property_2(b, l + 1);
     exit_section_(b, m, PROPERTY, r);
     return r;
   }
 
-  // VALUE?
+  // BLOCK_COMMENT?
   private static boolean property_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property_1")) return false;
+    consumeToken(b, BLOCK_COMMENT);
+    return true;
+  }
+
+  // VALUE?
+  private static boolean property_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_2")) return false;
     consumeToken(b, VALUE);
     return true;
   }

@@ -1,4 +1,4 @@
-package com.github.syuchan1005.emojiprefix.vcs;
+package com.github.syuchan1005.emojiprefix.commit;
 
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
 import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
