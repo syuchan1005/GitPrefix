@@ -38,25 +38,26 @@ class EmojiResourceLexer implements FlexLexer {
 
   /** 
    * Translates characters to character classes
-   * Chosen bits are [8, 7, 6]
-   * Total runtime size is 1808 bytes
+   * Chosen bits are [7, 7, 7]
+   * Total runtime size is 1928 bytes
    */
   public static int ZZ_CMAP(int ch) {
-    return ZZ_CMAP_A[(ZZ_CMAP_Y[(ZZ_CMAP_Z[ch>>13]<<7)|((ch>>6)&0x7f)]<<6)|(ch&0x3f)];
+    return ZZ_CMAP_A[(ZZ_CMAP_Y[ZZ_CMAP_Z[ch>>14]|((ch>>7)&0x7f)]<<7)|(ch&0x7f)];
   }
 
-  /* The ZZ_CMAP_Z table has 136 entries */
+  /* The ZZ_CMAP_Z table has 68 entries */
   static final char ZZ_CMAP_Z[] = zzUnpackCMap(
-    "\1\0\1\1\206\2");
+    "\1\0\103\200");
 
-  /* The ZZ_CMAP_Y table has 384 entries */
+  /* The ZZ_CMAP_Y table has 256 entries */
   static final char ZZ_CMAP_Y[] = zzUnpackCMap(
-    "\1\0\1\1\1\2\127\1\1\3\45\1\1\4\1\5\76\1\1\3\277\1");
+    "\1\0\1\1\53\2\1\3\22\2\1\4\37\2\1\3\237\2");
 
-  /* The ZZ_CMAP_A table has 384 entries */
+  /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\4\1\6\2\7\1\5\22\0\1\4\2\0\1\1\6\0\1\3\4\0\1\2\12\0\1\10\112\0\1\7"+
-    "\32\0\1\4\37\0\1\4\77\0\13\4\35\0\2\7\5\0\1\4\57\0\1\4\40\0");
+    "\11\0\1\5\1\7\2\10\1\6\22\0\1\5\2\0\1\2\4\0\2\12\1\4\4\0\1\3\12\0\1\11\101"+
+    "\0\1\1\10\0\1\10\32\0\1\5\337\0\1\5\177\0\13\5\35\0\2\10\5\0\1\5\57\0\1\5"+
+    "\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -65,11 +66,11 @@ class EmojiResourceLexer implements FlexLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\1\1\2\1\3\1\4\1\5\1\4\1\1\1\4"+
-    "\1\0\1\2\1\3\1\5\2\4\1\0\1\4\1\6"+
-    "\1\0\2\7";
+    "\1\0\1\2\1\3\2\6\1\5\2\4\1\0\1\4"+
+    "\1\7\1\0\2\10";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[20];
+    int [] result = new int[22];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -94,12 +95,12 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\11\0\22\0\33\0\44\0\55\0\66\0\77"+
-    "\0\110\0\121\0\132\0\143\0\154\0\165\0\176\0\207"+
-    "\0\165\0\220\0\33\0\143";
+    "\0\0\0\13\0\26\0\41\0\54\0\67\0\102\0\115"+
+    "\0\130\0\143\0\156\0\156\0\171\0\171\0\204\0\217"+
+    "\0\232\0\245\0\217\0\260\0\41\0\171";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[20];
+    int [] result = new int[22];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -122,18 +123,18 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\1\6\1\4\4\7\1\10\1\0\1\5"+
-    "\1\11\1\0\4\12\1\0\1\13\1\5\1\11\1\0"+
-    "\2\13\1\0\2\13\4\4\4\0\1\4\5\5\2\14"+
-    "\1\0\1\5\3\4\1\15\4\0\1\4\4\0\4\7"+
-    "\1\0\4\16\4\0\1\16\3\0\1\17\11\0\4\12"+
-    "\1\0\1\13\3\0\2\13\1\0\2\13\11\0\2\15"+
-    "\1\4\1\20\4\17\1\15\4\16\4\0\1\21\2\17"+
-    "\1\0\1\22\5\17\2\4\1\23\1\4\4\0\1\4"+
-    "\2\0\1\24\6\0";
+    "\2\4\1\5\1\6\1\4\4\7\1\10\1\4\2\0"+
+    "\1\5\1\11\1\0\4\12\2\0\1\13\1\14\1\5"+
+    "\1\11\1\0\1\13\1\14\1\15\1\13\2\0\5\4"+
+    "\4\0\2\4\6\5\2\16\1\0\2\5\4\4\1\17"+
+    "\4\0\2\4\5\0\4\7\2\0\5\20\4\0\2\20"+
+    "\4\0\1\21\13\0\4\12\2\0\2\13\3\0\2\13"+
+    "\1\0\1\13\15\0\3\17\1\4\1\22\4\21\2\17"+
+    "\5\20\4\0\1\23\1\20\3\21\1\0\1\24\6\21"+
+    "\3\4\1\25\1\4\4\0\2\4\3\0\1\26\7\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[153];
+    int [] result = new int[187];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -171,11 +172,11 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\10\1\1\0\2\1\1\11\2\1\1\0\2\1\1\0"+
+    "\10\1\1\0\3\1\2\11\2\1\1\0\2\1\1\0"+
     "\1\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[20];
+    int [] result = new int[22];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -492,37 +493,42 @@ class EmojiResourceLexer implements FlexLexer {
             { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 8: break;
+          case 9: break;
           case 2: 
             { yybegin(VALUE); return TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 9: break;
+          case 10: break;
           case 3: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE;
             } 
             // fall through
-          case 10: break;
+          case 11: break;
           case 4: 
             { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER;
             } 
             // fall through
-          case 11: break;
+          case 12: break;
           case 5: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.LINE_COMMENT;
             } 
             // fall through
-          case 12: break;
-          case 6: 
-            { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY;
-            } 
-            // fall through
           case 13: break;
-          case 7: 
-            { return EmojiResourceTypes.BLOCK_COMMENT;
+          case 6: 
+            { yybegin(YYINITIAL);
             } 
             // fall through
           case 14: break;
+          case 7: 
+            { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY;
+            } 
+            // fall through
+          case 15: break;
+          case 8: 
+            { return EmojiResourceTypes.BLOCK_COMMENT;
+            } 
+            // fall through
+          case 16: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }
