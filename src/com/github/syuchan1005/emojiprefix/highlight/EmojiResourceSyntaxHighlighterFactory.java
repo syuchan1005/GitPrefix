@@ -1,6 +1,5 @@
 package com.github.syuchan1005.emojiprefix.highlight;
 
-import com.intellij.ide.IdeEventQueue;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;

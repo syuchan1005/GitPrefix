@@ -3,8 +3,6 @@ package com.github.syuchan1005.emojiprefix.filetype;
 import com.intellij.openapi.fileTypes.FileNameMatcher;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
 import com.intellij.openapi.fileTypes.FileTypeFactory;
-import com.intellij.openapi.ui.DialogBuilder;
-import com.intellij.ui.components.JBScrollPane;
 import org.jetbrains.annotations.NotNull;
 
 public class EmojiResourceFileTypeFactory extends FileTypeFactory {

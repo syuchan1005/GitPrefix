@@ -13,10 +13,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBUI;
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -24,11 +22,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -36,13 +31,12 @@ import javax.swing.border.EmptyBorder;
 public class EmojiCheckinHandler extends CheckinHandler {
 	private static final String NO_EMOJI = "No Emoji";
 
-	private JPanel emojiPanel;
 	private ButtonGroup buttonGroup = new ButtonGroup();
 
 	private CheckinProjectPanel checkinProjectPanel = null;
 
 	public EmojiCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
-		emojiPanel = new JPanel();
+		JPanel emojiPanel = new JPanel();
 		emojiPanel.setLayout(new VerticalFlowLayout());
 		VirtualFile emojirc = checkinProjectPanel.getProject().getBaseDir().findChild(".emojirc");
 		if (emojirc == null) return;
