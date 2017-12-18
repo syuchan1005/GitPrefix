@@ -1,7 +1,9 @@
 package com.github.syuchan1005.emojiprefix.commit;
 
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
+import com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory;
 import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
+import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
@@ -15,6 +17,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -30,6 +33,20 @@ import javax.swing.UIManager;
  */
 public class EmojiCheckinHandler extends CheckinHandler {
 	private static final String NO_EMOJI = "No Emoji";
+	private static EmojiPanelFactory[] factories;
+	static {
+		ExtensionPointName<EmojiPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.EmojiPanelFactory");
+		ArrayList<EmojiPanelFactory> emojiPanelFactories = new ArrayList<>();
+		for (EmojiPanelFactory factory : extensionPointName.getExtensions()) {
+			try {
+				Class clazz = Class.forName(factory.implementationClass);
+				emojiPanelFactories.add((EmojiPanelFactory) clazz.getConstructor().newInstance());
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
+			}
+		}
+		factories = emojiPanelFactories.toArray(new EmojiPanelFactory[0]);
+	}
 
 	private ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -56,11 +73,19 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		commitSplitter.setFirstComponent(scrollPane);
 		commitSplitter.setSecondComponent((JComponent) commitMessage.getComponent(0));
 		commitMessage.add(commitSplitter, 0);
+		for (EmojiPanelFactory factory : factories) {
+			factory.createPanel(commitMessage);
+		}
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
 	@Override
 	public ReturnResult beforeCheckin() {
+		for (EmojiPanelFactory emojiPanelFactory : factories) {
+			if (emojiPanelFactory.beforeCheckin() == EmojiPanelFactory.ReturnResult.CANCEL) {
+				return ReturnResult.CANCEL;
+			}
+		}
 		if (checkinProjectPanel == null) return ReturnResult.COMMIT;
 		Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 			String emoji = ((JLabel) button.getComponent(0)).getToolTipText();

@@ -42,4 +42,11 @@
         <lang.commenter language="EmojiPrefix Resource"
                         implementationClass="com.github.syuchan1005.emojiprefix.comments.EmojiResourceCommenter"/>
     </extensions>
+
+    <extensionPoints>
+        <extensionPoint name="EmojiPanelFactory" beanClass="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory" >
+            <with attribute="implementationClass"
+                  implements="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory"/>
+        </extensionPoint>
+    </extensionPoints>
 </idea-plugin>

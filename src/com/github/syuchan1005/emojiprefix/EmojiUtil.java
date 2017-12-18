@@ -1,13 +1,6 @@
 package com.github.syuchan1005.emojiprefix;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.util.IconLoader;
-import com.intellij.util.ResourceUtil;
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.Icon;
