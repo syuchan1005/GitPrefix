@@ -12,18 +12,9 @@
             <li>Write emojis(emoticons) you want to use</li>
             <li>After that, just commit</li>
         </ol>
-
-        <span style="font-size: 1.5rem">.emojirc sample</span><br/>
-        <span>
-                <span style="color:#000080">:bug:</span>     <span style="color:#008000">BugFix</span><br/>
-                <span style="color:#000080">:lock:</span>    <span style="color:#008000">SecurityFix</span> <span style="color:#808080"># Comment</span><br/>
-                <span style="color:#000080">:recycle:</span> <span style="color:#008000">Refactoring</span><br/>
-                <span style="color:#000080">:books:</span>   <span style="color:#008000">Documentation</span><br/>
-                <span style="color:#808080"># Comment</span><br/>
-        </span>
     ]]></description>
 
-    <change-notes>1.4.6: add ResourceFileIcon and Commenter.</change-notes>
+    <change-notes>1.4.7: change ResourceFileIcon and UI.</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
