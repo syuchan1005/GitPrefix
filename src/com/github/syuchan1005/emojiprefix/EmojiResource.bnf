@@ -17,4 +17,4 @@ emojiResourceFile ::= item_*
 
 private item_ ::= (property|LINE_COMMENT|BLOCK_COMMENT)
 
-property ::= KEY BLOCK_COMMENT? VALUE?
+property ::= KEY VALUE?

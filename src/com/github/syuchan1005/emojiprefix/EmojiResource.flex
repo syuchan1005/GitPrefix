@@ -37,6 +37,6 @@ CHARACTER=\S
 <WAITING_VALUE> {WHITE_SPACE}* { yybegin(VALUE); return TokenType.WHITE_SPACE; }
 
 <VALUE> {
-	{NewLine} { yybegin(YYINITIAL); }
+	{NewLine} { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 	[^:#\(\/\*\)\n]* { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE; }
 }

@@ -66,8 +66,8 @@ class EmojiResourceLexer implements FlexLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\1\1\2\1\3\1\4\1\5\1\4\1\1\1\4"+
-    "\1\0\1\2\1\3\2\6\1\5\2\4\1\0\1\4"+
-    "\1\7\1\0\2\10";
+    "\1\0\1\2\1\3\2\1\1\5\2\4\1\0\1\4"+
+    "\1\6\1\0\2\7";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[22];
@@ -493,42 +493,37 @@ class EmojiResourceLexer implements FlexLexer {
             { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 9: break;
+          case 8: break;
           case 2: 
             { yybegin(VALUE); return TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 10: break;
+          case 9: break;
           case 3: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE;
             } 
             // fall through
-          case 11: break;
+          case 10: break;
           case 4: 
             { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER;
             } 
             // fall through
-          case 12: break;
+          case 11: break;
           case 5: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.LINE_COMMENT;
             } 
             // fall through
-          case 13: break;
+          case 12: break;
           case 6: 
-            { yybegin(YYINITIAL);
-            } 
-            // fall through
-          case 14: break;
-          case 7: 
             { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY;
             } 
             // fall through
-          case 15: break;
-          case 8: 
+          case 13: break;
+          case 7: 
             { return EmojiResourceTypes.BLOCK_COMMENT;
             } 
             // fall through
-          case 16: break;
+          case 14: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }
