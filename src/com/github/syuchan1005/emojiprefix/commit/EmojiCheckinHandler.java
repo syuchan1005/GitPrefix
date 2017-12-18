@@ -1,7 +1,9 @@
-package com.github.syuchan1005.emojiprefix.vcs;
+package com.github.syuchan1005.emojiprefix.commit;
 
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
+import com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory;
 import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
+import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
@@ -11,16 +13,18 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
@@ -29,14 +33,27 @@ import javax.swing.UIManager;
  */
 public class EmojiCheckinHandler extends CheckinHandler {
 	private static final String NO_EMOJI = "No Emoji";
+	private static EmojiPanelFactory[] factories;
+	static {
+		ExtensionPointName<EmojiPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.EmojiPanelFactory");
+		ArrayList<EmojiPanelFactory> emojiPanelFactories = new ArrayList<>();
+		for (EmojiPanelFactory factory : extensionPointName.getExtensions()) {
+			try {
+				Class clazz = Class.forName(factory.implementationClass);
+				emojiPanelFactories.add((EmojiPanelFactory) clazz.getConstructor().newInstance());
+			} catch (ReflectiveOperationException e) {
+				e.printStackTrace();
+			}
+		}
+		factories = emojiPanelFactories.toArray(new EmojiPanelFactory[0]);
+	}
 
-	private JPanel emojiPanel;
 	private ButtonGroup buttonGroup = new ButtonGroup();
 
 	private CheckinProjectPanel checkinProjectPanel = null;
 
 	public EmojiCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
-		emojiPanel = new JPanel();
+		JPanel emojiPanel = new JPanel();
 		emojiPanel.setLayout(new VerticalFlowLayout());
 		VirtualFile emojirc = checkinProjectPanel.getProject().getBaseDir().findChild(".emojirc");
 		if (emojirc == null) return;
@@ -49,12 +66,26 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
-		commitMessage.add(new JScrollPane(emojiPanel), "West");
+		JComponent component = (JComponent) commitMessage.getComponent(1);
+		JBScrollPane scrollPane = new JBScrollPane(emojiPanel);
+		scrollPane.setBorder(null);
+		Splitter commitSplitter = new Splitter();
+		commitSplitter.setFirstComponent(scrollPane);
+		commitSplitter.setSecondComponent((JComponent) commitMessage.getComponent(0));
+		commitMessage.add(commitSplitter, 0);
+		for (EmojiPanelFactory factory : factories) {
+			factory.createPanel(commitMessage);
+		}
 		this.checkinProjectPanel = checkinProjectPanel;
 	}
 
 	@Override
 	public ReturnResult beforeCheckin() {
+		for (EmojiPanelFactory emojiPanelFactory : factories) {
+			if (emojiPanelFactory.beforeCheckin() == EmojiPanelFactory.ReturnResult.CANCEL) {
+				return ReturnResult.CANCEL;
+			}
+		}
 		if (checkinProjectPanel == null) return ReturnResult.COMMIT;
 		Collections.list(buttonGroup.getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 			String emoji = ((JLabel) button.getComponent(0)).getToolTipText();

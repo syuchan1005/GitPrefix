@@ -17,17 +17,19 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class EmojiResourceSyntaxHighlighter extends SyntaxHighlighterBase {
-	public static final TextAttributesKey KEY = createTextAttributesKey("EMOJI_RESOURCE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey VALUE = createTextAttributesKey("EMOJI_RESOURCE_VALUE", DefaultLanguageHighlighterColors.STRING);
-	public static final TextAttributesKey COMMENT = createTextAttributesKey("EMOJI_RESOURCE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-	public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("EMOJI_RESOURCE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+	private static final TextAttributesKey KEY = createTextAttributesKey("EMOJI_RESOURCE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+	private static final TextAttributesKey VALUE = createTextAttributesKey("EMOJI_RESOURCE_VALUE", DefaultLanguageHighlighterColors.STRING);
+	private static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+	private static final TextAttributesKey BLOCK_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+	private static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("EMOJI_RESOURCE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 	private static Map<IElementType, TextAttributesKey[]> textAttrMap = new HashMap<>();
 	static {
 		textAttrMap.put(EmojiResourceTypes.KEY, new TextAttributesKey[]{KEY});
 		textAttrMap.put(EmojiResourceTypes.VALUE, new TextAttributesKey[]{VALUE});
-		textAttrMap.put(EmojiResourceTypes.COMMENT, new TextAttributesKey[]{COMMENT});
+		textAttrMap.put(EmojiResourceTypes.LINE_COMMENT, new TextAttributesKey[]{LINE_COMMENT});
+		textAttrMap.put(EmojiResourceTypes.BLOCK_COMMENT, new TextAttributesKey[]{BLOCK_COMMENT});
 		textAttrMap.put(TokenType.BAD_CHARACTER, new TextAttributesKey[]{BAD_CHARACTER});
 	}
 

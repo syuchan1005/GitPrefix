@@ -4,10 +4,6 @@ import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @see org.jetbrains.yaml.YAMLCommenter
- * @see com.intellij.codeInsight.generation.CommentByLineCommentHandler#postInvoke
- */
 public class EmojiResourceCommenter implements Commenter {
     @NotNull
     @NonNls
@@ -20,14 +16,12 @@ public class EmojiResourceCommenter implements Commenter {
 
     @Override
     public String getBlockCommentPrefix() {
-        // N/A
-        return null;
+        return "/*";
     }
 
     @Override
     public String getBlockCommentSuffix() {
-        // N/A
-        return null;
+        return "*/";
     }
 
     @Override

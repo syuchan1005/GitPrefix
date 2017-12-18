@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Emoji Prefix</name>
-    <version>1.4.6</version>
+    <version>1.4.7</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -12,24 +12,16 @@
             <li>Write emojis(emoticons) you want to use</li>
             <li>After that, just commit</li>
         </ol>
-
-        <span style="font-size: 1.5rem">.emojirc sample</span><br/>
-        <span>
-                <span style="color:#000080">:bug:</span>     <span style="color:#008000">BugFix</span><br/>
-                <span style="color:#000080">:lock:</span>    <span style="color:#008000">SecurityFix</span> <span style="color:#808080"># Comment</span><br/>
-                <span style="color:#000080">:recycle:</span> <span style="color:#008000">Refactoring</span><br/>
-                <span style="color:#000080">:books:</span>   <span style="color:#008000">Documentation</span><br/>
-                <span style="color:#808080"># Comment</span><br/>
-        </span>
     ]]></description>
 
-    <change-notes>1.4.6: add ResourceFileIcon and Commenter.</change-notes>
+    <change-notes>1.4.7: change ResourceFileIcon and UI.</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <checkinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.vcs.EmojiCheckinHandlerFactory" />
+        <checkinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.commit.EmojiCheckinHandlerFactory" />
         <fileTypeFactory implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileTypeFactory" />
 
         <lang.parserDefinition language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceParserDefinition" />
@@ -41,4 +33,11 @@
         <lang.commenter language="EmojiPrefix Resource"
                         implementationClass="com.github.syuchan1005.emojiprefix.comments.EmojiResourceCommenter"/>
     </extensions>
+
+    <extensionPoints>
+        <extensionPoint name="EmojiPanelFactory" beanClass="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory" >
+            <with attribute="implementationClass"
+                  implements="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory"/>
+        </extensionPoint>
+    </extensionPoints>
 </idea-plugin>
