@@ -3,6 +3,9 @@ package com.github.syuchan1005.emojiprefix.commit;
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
 import com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory;
 import com.github.syuchan1005.emojiprefix.psi.EmojiResourceProperty;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
@@ -17,6 +20,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.ui.JBUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.AbstractButton;
@@ -39,8 +43,8 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		ArrayList<EmojiPanelFactory> emojiPanelFactories = new ArrayList<>();
 		for (EmojiPanelFactory factory : extensionPointName.getExtensions()) {
 			try {
-				Class clazz = Class.forName(factory.implementationClass);
-				emojiPanelFactories.add((EmojiPanelFactory) clazz.getConstructor().newInstance());
+				Class<EmojiPanelFactory> clazz = (Class<EmojiPanelFactory>) Class.forName(factory.implementationClass);
+				emojiPanelFactories.add(clazz.getConstructor().newInstance());
 			} catch (ReflectiveOperationException e) {
 				e.printStackTrace();
 			}
@@ -66,7 +70,6 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		emojiPanel.add(createEmojiButton(null, NO_EMOJI, true, buttonGroup));
 		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
-		JComponent component = (JComponent) commitMessage.getComponent(1);
 		JBScrollPane scrollPane = new JBScrollPane(emojiPanel);
 		scrollPane.setBorder(null);
 		Splitter commitSplitter = new Splitter();

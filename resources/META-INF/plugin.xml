@@ -23,6 +23,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <checkinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.commit.EmojiCheckinHandlerFactory" />
         <fileTypeFactory implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileTypeFactory" />
+        <editorNotificationProvider implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileNotificationProvider" />
 
         <lang.parserDefinition language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceParserDefinition" />
         <lang.syntaxHighlighterFactory language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.highlight.EmojiResourceSyntaxHighlighterFactory" />
