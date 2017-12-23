@@ -36,21 +36,9 @@ import javax.swing.UIManager;
  * Created by syuchan on 2017/05/29.
  */
 public class EmojiCheckinHandler extends CheckinHandler {
+	private static final ExtensionPointName<EmojiPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.emojiPanelFactory");
+
 	private static final String NO_EMOJI = "No Emoji";
-	private static EmojiPanelFactory[] factories;
-	static {
-		ExtensionPointName<EmojiPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.EmojiPanelFactory");
-		ArrayList<EmojiPanelFactory> emojiPanelFactories = new ArrayList<>();
-		for (EmojiPanelFactory factory : extensionPointName.getExtensions()) {
-			try {
-				Class<EmojiPanelFactory> clazz = (Class<EmojiPanelFactory>) Class.forName(factory.implementationClass);
-				emojiPanelFactories.add(clazz.getConstructor().newInstance());
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-		}
-		factories = emojiPanelFactories.toArray(new EmojiPanelFactory[0]);
-	}
 
 	private ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -76,7 +64,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 		commitSplitter.setFirstComponent(scrollPane);
 		commitSplitter.setSecondComponent((JComponent) commitMessage.getComponent(0));
 		commitMessage.add(commitSplitter, 0);
-		for (EmojiPanelFactory factory : factories) {
+		for (EmojiPanelFactory factory : extensionPointName.getExtensions()) {
 			factory.createPanel(commitMessage);
 		}
 		this.checkinProjectPanel = checkinProjectPanel;
@@ -84,7 +72,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 
 	@Override
 	public ReturnResult beforeCheckin() {
-		for (EmojiPanelFactory emojiPanelFactory : factories) {
+		for (EmojiPanelFactory emojiPanelFactory : extensionPointName.getExtensions()) {
 			if (emojiPanelFactory.beforeCheckin() == EmojiPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;
 			}

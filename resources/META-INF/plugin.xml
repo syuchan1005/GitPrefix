@@ -36,9 +36,6 @@
     </extensions>
 
     <extensionPoints>
-        <extensionPoint name="EmojiPanelFactory" beanClass="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory" >
-            <with attribute="implementationClass"
-                  implements="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory"/>
-        </extensionPoint>
+        <extensionPoint name="emojiPanelFactory" interface="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory" />
     </extensionPoints>
 </idea-plugin>
