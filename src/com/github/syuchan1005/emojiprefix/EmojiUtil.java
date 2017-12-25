@@ -5,19 +5,18 @@ import com.intellij.util.ResourceUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
 import javax.swing.Icon;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public class EmojiUtil {
-	@NotNull
-	private static Map<String, Icon> emojiMap;
+	private static Map<String, Icon> emojiMap = new HashMap<>(890);
 
 	static {
 		Consumer<String> putEmoji = emoji -> {
@@ -44,8 +43,6 @@ public class EmojiUtil {
 		}
 	}
 
-	@Contract(pure = true)
-	@NotNull
 	public static Map<String, Icon> getEmojiMap() {
 		return emojiMap;
 	}
