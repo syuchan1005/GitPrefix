@@ -55,9 +55,9 @@ class EmojiResourceLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\5\1\7\2\10\1\6\22\0\1\5\2\0\1\2\4\0\2\12\1\4\4\0\1\3\12\0\1\11\101"+
-    "\0\1\1\10\0\1\10\32\0\1\5\337\0\1\5\177\0\13\5\35\0\2\10\5\0\1\5\57\0\1\5"+
-    "\40\0");
+    "\11\10\1\12\1\6\3\7\22\10\1\11\2\10\1\3\4\10\2\13\1\5\4\10\1\4\12\10\1\1\101"+
+    "\10\1\2\10\10\1\7\32\10\1\0\337\10\1\0\177\10\13\0\35\10\2\7\5\10\1\0\57\10"+
+    "\1\0\40\10");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -65,12 +65,12 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\1\1\2\1\3\1\4\1\5\1\4\1\1\1\4"+
-    "\1\0\1\2\1\3\2\1\1\5\2\4\1\0\1\4"+
-    "\1\6\1\0\2\7";
+    "\1\0\1\1\1\2\2\3\1\4\2\3\1\5\1\0"+
+    "\1\1\1\2\1\3\1\6\1\0\1\4\1\3\1\0"+
+    "\1\7\1\6\1\3\1\0\2\10";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[22];
+    int [] result = new int[24];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -95,12 +95,12 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\13\0\26\0\41\0\54\0\67\0\102\0\115"+
-    "\0\130\0\143\0\156\0\156\0\171\0\171\0\204\0\217"+
-    "\0\232\0\245\0\217\0\260\0\41\0\171";
+    "\0\0\0\14\0\30\0\44\0\60\0\74\0\110\0\124"+
+    "\0\140\0\154\0\170\0\204\0\220\0\60\0\234\0\250"+
+    "\0\264\0\300\0\220\0\234\0\314\0\330\0\124\0\250";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[22];
+    int [] result = new int[24];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -123,18 +123,22 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\2\4\1\5\1\6\1\4\4\7\1\10\1\4\2\0"+
-    "\1\5\1\11\1\0\4\12\2\0\1\13\1\14\1\5"+
-    "\1\11\1\0\1\13\1\14\1\15\1\13\2\0\5\4"+
-    "\4\0\2\4\6\5\2\16\1\0\2\5\4\4\1\17"+
-    "\4\0\2\4\5\0\4\7\2\0\5\20\4\0\2\20"+
-    "\4\0\1\21\13\0\4\12\2\0\2\13\3\0\2\13"+
-    "\1\0\1\13\15\0\3\17\1\4\1\22\4\21\2\17"+
-    "\5\20\4\0\1\23\1\20\3\21\1\0\1\24\6\21"+
-    "\3\4\1\25\1\4\4\0\2\4\3\0\1\26\7\0";
+    "\1\0\1\4\1\5\1\6\1\7\1\10\1\11\1\0"+
+    "\1\10\2\0\1\10\3\0\1\6\1\12\4\0\2\13"+
+    "\1\0\1\14\2\0\1\6\1\12\2\0\4\14\2\0"+
+    "\5\15\2\0\1\15\2\0\1\15\1\0\1\5\1\16"+
+    "\3\5\2\0\1\5\1\17\1\0\1\5\6\6\1\20"+
+    "\1\0\4\6\1\0\4\10\1\21\2\0\1\10\2\0"+
+    "\1\10\1\0\5\10\2\0\1\10\2\0\1\10\6\0"+
+    "\1\11\12\0\1\22\17\0\2\13\1\0\1\14\6\0"+
+    "\4\14\2\0\1\23\4\15\2\0\1\15\2\0\1\15"+
+    "\1\0\1\17\1\24\3\17\2\0\2\17\1\0\1\17"+
+    "\14\0\1\22\3\21\1\10\1\25\2\22\1\21\2\22"+
+    "\1\21\4\22\1\0\1\26\6\22\1\0\3\10\1\27"+
+    "\1\10\2\0\1\10\2\0\1\10\4\0\1\30\7\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[187];
+    int [] result = new int[228];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -172,11 +176,11 @@ class EmojiResourceLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\10\1\1\0\3\1\2\11\2\1\1\0\2\1\1\0"+
-    "\1\1\1\11";
+    "\1\0\10\1\1\0\4\1\1\0\1\11\1\1\1\0"+
+    "\3\1\1\0\1\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[22];
+    int [] result = new int[24];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -490,40 +494,45 @@ class EmojiResourceLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
-            } 
-            // fall through
-          case 8: break;
-          case 2: 
             { yybegin(VALUE); return TokenType.WHITE_SPACE;
             } 
             // fall through
           case 9: break;
-          case 3: 
+          case 2: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE;
             } 
             // fall through
           case 10: break;
-          case 4: 
-            { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER;
+          case 3: 
+            { return TokenType.BAD_CHARACTER;
             } 
             // fall through
           case 11: break;
-          case 5: 
+          case 4: 
             { yybegin(YYINITIAL); return EmojiResourceTypes.LINE_COMMENT;
             } 
             // fall through
           case 12: break;
-          case 6: 
-            { yybegin(WAITING_VALUE); return EmojiResourceTypes.KEY;
+          case 5: 
+            { return TokenType.WHITE_SPACE;
             } 
             // fall through
           case 13: break;
-          case 7: 
-            { return EmojiResourceTypes.BLOCK_COMMENT;
+          case 6: 
+            { yybegin(WAITING_VALUE); return EmojiResourceTypes.TEXT_KEY;
             } 
             // fall through
           case 14: break;
+          case 7: 
+            { yybegin(WAITING_VALUE); return EmojiResourceTypes.EMOJI_KEY;
+            } 
+            // fall through
+          case 15: break;
+          case 8: 
+            { return EmojiResourceTypes.BLOCK_COMMENT;
+            } 
+            // fall through
+          case 16: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

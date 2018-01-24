@@ -37,6 +37,19 @@ public class EmojiResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EMOJI_KEY|TEXT_KEY
+  static boolean KEY(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "KEY")) return false;
+    if (!nextTokenIs(b, "", EMOJI_KEY, TEXT_KEY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EMOJI_KEY);
+    if (!r) r = consumeToken(b, TEXT_KEY);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // item_*
   static boolean emojiResourceFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "emojiResourceFile")) return false;
@@ -66,12 +79,12 @@ public class EmojiResourceParser implements PsiParser, LightPsiParser {
   // KEY VALUE?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, KEY)) return false;
+    if (!nextTokenIs(b, "<property>", EMOJI_KEY, TEXT_KEY)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, KEY);
+    Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
+    r = KEY(b, l + 1);
     r = r && property_1(b, l + 1);
-    exit_section_(b, m, PROPERTY, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

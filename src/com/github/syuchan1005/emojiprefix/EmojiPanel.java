@@ -34,7 +34,8 @@ public class EmojiPanel extends JBScrollPane {
 		int count = 0;
 		for (PsiElement psiElement : psiFile.getChildren()) {
 			if (!(psiElement instanceof EmojiResourceProperty)) continue;
-			emojiPanel.add(createEmojiButton(psiElement.getFirstChild().getText(), psiElement.getLastChild().getText(), false));
+			emojiPanel.add(createEmojiButton(psiElement.getFirstChild().getText(),
+					psiElement.getFirstChild() == psiElement.getLastChild() ? null : psiElement.getLastChild().getText(), false));
 			count++;
 		}
 		if (count == 0) return;
@@ -44,17 +45,21 @@ public class EmojiPanel extends JBScrollPane {
 		notExists = false;
 	}
 
-	private JRadioButton createEmojiButton(String emoji, String description, boolean selected) {
+	private JRadioButton createEmojiButton(String text, String description, boolean selected) {
 		JRadioButton radioButton = new JRadioButton("", selected);
 		buttonGroup.add(radioButton);
 		int space = UIManager.getIcon("RadioButton.icon").getIconWidth() + radioButton.getIconTextGap();
 		JLabel iconLabel;
-		if (emoji != null) {
-			iconLabel = new JLabel(description, EmojiUtil.getIcon(emoji.replace(":", "")), SwingConstants.CENTER);
+		if (text != null) {
+			if (text.startsWith(":")) {
+				iconLabel = new JLabel(description, EmojiUtil.getIcon(text.replace(":", "")), SwingConstants.CENTER);
+			} else {
+				iconLabel = new JLabel(text.substring(1, text.length() - 1) + (description == null ? "" : " | " + description));
+			}
 		} else {
 			iconLabel = new JLabel(description);
 		}
-		iconLabel.setToolTipText(emoji);
+		iconLabel.setToolTipText(text);
 		iconLabel.setBorder(JBUI.Borders.emptyLeft(space));
 		radioButton.add(iconLabel);
 		iconLabel.addMouseListener(new MouseAdapter() {

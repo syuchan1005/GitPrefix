@@ -1,6 +1,8 @@
 package com.github.syuchan1005.emojiprefix.completion;
 
 import com.github.syuchan1005.emojiprefix.EmojiUtil;
+import com.github.syuchan1005.emojiprefix.psi.EmojiResourceElementType;
+import com.github.syuchan1005.emojiprefix.psi.EmojiResourceTypes;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;

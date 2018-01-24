@@ -11,8 +11,9 @@ public interface EmojiResourceTypes {
   IElementType PROPERTY = new EmojiResourceElementType("PROPERTY");
 
   IElementType BLOCK_COMMENT = new EmojiResourceTokenType("BLOCK_COMMENT");
-  IElementType KEY = new EmojiResourceTokenType("KEY");
+  IElementType EMOJI_KEY = new EmojiResourceTokenType("EMOJI_KEY");
   IElementType LINE_COMMENT = new EmojiResourceTokenType("LINE_COMMENT");
+  IElementType TEXT_KEY = new EmojiResourceTokenType("TEXT_KEY");
   IElementType VALUE = new EmojiResourceTokenType("VALUE");
 
   class Factory {

@@ -26,7 +26,8 @@ public class EmojiResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 	private static Map<IElementType, TextAttributesKey[]> textAttrMap = new HashMap<>();
 	static {
-		textAttrMap.put(EmojiResourceTypes.KEY, new TextAttributesKey[]{KEY});
+		textAttrMap.put(EmojiResourceTypes.EMOJI_KEY, new TextAttributesKey[]{KEY});
+		textAttrMap.put(EmojiResourceTypes.TEXT_KEY, new TextAttributesKey[]{KEY});
 		textAttrMap.put(EmojiResourceTypes.VALUE, new TextAttributesKey[]{VALUE});
 		textAttrMap.put(EmojiResourceTypes.LINE_COMMENT, new TextAttributesKey[]{LINE_COMMENT});
 		textAttrMap.put(EmojiResourceTypes.BLOCK_COMMENT, new TextAttributesKey[]{BLOCK_COMMENT});
