@@ -14,7 +14,10 @@ This can make 'Emoji Prefix Commit' easy.
 :lock:    SecurityFix # Comment
 :recycle: Refactoring
 :books:   Documentation
-# Comment
+
+/* string prefix */
+|fix:| BugFix
+|doc:| Documentation
 ```
 
 ## License
