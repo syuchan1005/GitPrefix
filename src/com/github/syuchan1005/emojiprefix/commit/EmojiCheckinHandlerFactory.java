@@ -1,19 +1,23 @@
 package com.github.syuchan1005.emojiprefix.commit;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.changes.CommitContext;
+import com.intellij.openapi.vcs.checkin.BeforeCheckinDialogHandler;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
-import com.intellij.openapi.vcs.checkin.CheckinHandlerFactory;
+import git4idea.checkin.GitCheckinHandlerFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by syuchan on 2017/05/28.
  */
-public class EmojiCheckinHandlerFactory extends CheckinHandlerFactory {
+public class EmojiCheckinHandlerFactory extends GitCheckinHandlerFactory {
+	public static EmojiCheckinHandler handler;
 
 	@NotNull
 	@Override
-	public CheckinHandler createHandler(@NotNull CheckinProjectPanel checkinProjectPanel, @NotNull CommitContext commitContext) {
-		return new EmojiCheckinHandler(checkinProjectPanel);
+	protected CheckinHandler createVcsHandler(CheckinProjectPanel panel) {
+		handler = new EmojiCheckinHandler(panel);
+		return handler;
 	}
 }

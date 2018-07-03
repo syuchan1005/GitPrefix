@@ -18,14 +18,20 @@ import javax.swing.JLabel;
 public class EmojiCheckinHandler extends CheckinHandler {
 	private static final ExtensionPointName<EmojiPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.emojiPanelFactory");
 
-	private EmojiPanel emojiPanel;
-	private CheckinProjectPanel checkinProjectPanel;
+	public EmojiPanel emojiPanel;
+	public CheckinProjectPanel checkinProjectPanel;
 
 	public EmojiCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
 		emojiPanel = new EmojiPanel(checkinProjectPanel.getProject());
 		if (emojiPanel.notExists()) return;
-		Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
+		try {
+			Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
+			injectEmojiPanel(splitter);
+		} catch (Exception ignored) {}
+	}
+
+	public void injectEmojiPanel(Splitter splitter) {
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
 		Splitter commitSplitter = new Splitter();
 		commitSplitter.setFirstComponent(emojiPanel);
@@ -43,7 +49,7 @@ public class EmojiCheckinHandler extends CheckinHandler {
 			if (emojiPanelFactory.beforeCheckin() == EmojiPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;
 			}
-		}
+	}
 		Collections.list(emojiPanel.getButtonGroup().getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 			String emoji = ((JLabel) button.getComponent(0)).getToolTipText();
 			if (emoji != null) {

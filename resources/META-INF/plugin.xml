@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Emoji Prefix</name>
-    <version>1.4.7</version>
+    <version>1.4.8</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -14,14 +14,15 @@
         </ol>
     ]]></description>
 
-    <change-notes>1.4.7: change ResourceFileIcon and UI.</change-notes>
+    <change-notes>1.4.8: IntelliJ IDEA 2018.2 support (test EAP)</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <checkinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.commit.EmojiCheckinHandlerFactory" />
+        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.commit.EmojiCheckinHandlerFactory" />
+        <editChangelistSupport implementation="com.github.syuchan1005.emojiprefix.commit.EmojiEditChangelistSupport" />
         <fileTypeFactory implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileTypeFactory" />
         <editorNotificationProvider implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileNotificationProvider" />
 
