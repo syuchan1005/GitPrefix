@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.github.syuchan1005.gitprefix</id>
+    <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
     <version>1.5.0</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
