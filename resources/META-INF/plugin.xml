@@ -42,4 +42,17 @@
     <extensionPoints>
         <extensionPoint name="prefixPanelFactory" interface="com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory" />
     </extensionPoints>
+
+    <actions>
+        <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction"
+            text="GitPrefix" icon="GitPrefixIcons.FILE_ICON">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
+        </action>
+    </actions>
+
+    <project-components>
+        <component>
+            <implementation-class>com.github.syuchan1005.gitprefix.filetype.EmojiResourceRenameNotifier</implementation-class>
+        </component>
+    </project-components>
 </idea-plugin>
