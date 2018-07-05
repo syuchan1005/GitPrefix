@@ -65,6 +65,7 @@ public class EmojiResourceParserDefinition implements ParserDefinition {
 		return new EmojiResourceFile(fileViewProvider);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode astNode, ASTNode astNode1) {
 		return SpaceRequirements.MAY;

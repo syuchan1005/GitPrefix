@@ -31,16 +31,16 @@ BLOCK_COMMENT_END="*/"
 
 <YYINITIAL> {
 	{EMOJI_SIGN}\S+{EMOJI_SIGN} { yybegin(WAITING_VALUE); return EmojiResourceTypes.EMOJI_KEY; }
-	{TEXT_SIGN}(\S|[ ])*{TEXT_SIGN} { yybegin(WAITING_VALUE); return EmojiResourceTypes.TEXT_KEY; }
+	{TEXT_SIGN}(\S|[])+{TEXT_SIGN} { yybegin(WAITING_VALUE); return EmojiResourceTypes.TEXT_KEY; }
 
 	\n+ { return TokenType.WHITE_SPACE; }
 	\S+ { return TokenType.BAD_CHARACTER; }
 }
 
 <WAITING_VALUE> {
-	(\t|[ ])* { yybegin(VALUE); return TokenType.WHITE_SPACE; }
+	(\t|[ ])+ { yybegin(VALUE); return TokenType.WHITE_SPACE; }
 }
 
 <VALUE> {
-	[^:#\|\(\/\*\)\n]* { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE; }
+	[^:#\|\(\/\*\)\n]+ { yybegin(YYINITIAL); return EmojiResourceTypes.VALUE; }
 }
