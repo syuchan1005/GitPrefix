@@ -1,7 +1,6 @@
 .idea
 *.java~
-EmojiPrefix.*
-!*.iml
+*.jar
 
 out/
 lib/

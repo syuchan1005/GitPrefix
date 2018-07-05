@@ -1,6 +1,6 @@
 <idea-plugin>
-    <id>com.github.syuchan1005.emojiprefix</id>
-    <name>Emoji Prefix</name>
+    <id>com.github.syuchan1005.gitprefix</id>
+    <name>Git Prefix</name>
     <version>1.4.8</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
@@ -21,22 +21,25 @@
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.emojiprefix.commit.EmojiCheckinHandlerFactory" />
-        <editChangelistSupport implementation="com.github.syuchan1005.emojiprefix.commit.EmojiEditChangelistSupport" />
-        <fileTypeFactory implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileTypeFactory" />
-        <editorNotificationProvider implementation="com.github.syuchan1005.emojiprefix.filetype.EmojiResourceFileNotificationProvider" />
+        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.commit.PrefixCheckinHandlerFactory" />
+        <editChangelistSupport implementation="com.github.syuchan1005.gitprefix.commit.PrefixEditChangelistSupport" />
 
-        <lang.parserDefinition language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.psi.EmojiResourceParserDefinition" />
-        <lang.syntaxHighlighterFactory language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.highlight.EmojiResourceSyntaxHighlighterFactory" />
+        <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileTypeFactory" />
+        <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.EmojiResourceFileTypeFactory" />
 
-        <codeInsight.lineMarkerProvider language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.linemark.EmojiIconLineMarkerProvider" />
+        <lang.parserDefinition language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceParserDefinition" />
+        <lang.syntaxHighlighterFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
+        <colorSettingsPage implementation="com.github.syuchan1005.gitprefix.highlight.PrefixColorSettingsPage" />
 
-        <completion.contributor language="EmojiPrefix Resource" implementationClass="com.github.syuchan1005.emojiprefix.completion.EmojiResourceCompletionContributor" />
-        <lang.commenter language="EmojiPrefix Resource"
-                        implementationClass="com.github.syuchan1005.emojiprefix.comments.EmojiResourceCommenter"/>
+        <codeInsight.lineMarkerProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.linemark.PrefixIconLineMarkerProvider" />
+
+        <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.completion.PrefixResourceCompletionContributor" />
+        <lang.commenter language="GitPrefix Resource"
+                        implementationClass="com.github.syuchan1005.gitprefix.comments.PrefixResourceCommenter"/>
+        <lang.psiStructureViewFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
     </extensions>
 
     <extensionPoints>
-        <extensionPoint name="emojiPanelFactory" interface="com.github.syuchan1005.emojiprefix.extension.EmojiPanelFactory" />
+        <extensionPoint name="prefixPanelFactory" interface="com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory" />
     </extensionPoints>
 </idea-plugin>
