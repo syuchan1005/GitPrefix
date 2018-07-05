@@ -1,20 +1,30 @@
 <idea-plugin>
     <id>com.github.syuchan1005.gitprefix</id>
     <name>Git Prefix</name>
-    <version>1.4.8</version>
+    <version>1.5.0</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
         <span style="font-size: 1.7rem">Easy to 'Emoji Prefix Commit'</span><br/>
         <span style="font-size: 1.5rem">Getting Started (in 3 step)</span><br/>
         <ol>
-            <li>'.emojirc' create your project root.</li>
-            <li>Write emojis(emoticons) you want to use</li>
+            <li>'.gitprefix' create your project root.</li>
+            <li>Write prefix's you want to use</li>
             <li>After that, just commit</li>
         </ol>
+
+        .gitprefix file sample is Here!
+        https://github.com/syuchan1005/GitPrefix
     ]]></description>
 
-    <change-notes>1.4.8: IntelliJ IDEA 2018.2 support (test EAP)</change-notes>
+    <change-notes><![CDATA[
+        1.5.0: Big Update!
+        Rename plugin (Emoji Prefix => Git Prefix)
+        change resource File extension. (.emojirc => .gitprefix)
+        Add NewFile action
+        Add HighLight setting page
+        Support StructureView
+    ]]></change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
@@ -45,7 +55,7 @@
 
     <actions>
         <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction"
-            text="GitPrefix" icon="GitPrefixIcons.FILE_ICON">
+                text="GitPrefix" icon="GitPrefixIcons.FILE_ICON">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
     </actions>
