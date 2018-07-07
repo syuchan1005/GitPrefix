@@ -18,8 +18,8 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TextAttributesKey EMOJI_KEY = createTextAttributesKey("EMOJI_RESOURCE_EMOJI_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey TEXT_KEY = createTextAttributesKey("EMOJI_RESOURCE_TEXT_KEY", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey EMOJI_VALUE = createTextAttributesKey("EMOJI_RESOURCE_EMOJI_VALUE", DefaultLanguageHighlighterColors.STRING);
+	public static final TextAttributesKey TEXT_KEY = createTextAttributesKey("EMOJI_RESOURCE_TEXT_KEY", DefaultLanguageHighlighterColors.KEYWORD);
 	public static final TextAttributesKey TEXT_VALUE = createTextAttributesKey("EMOJI_RESOURCE_TEXT_VALUE", DefaultLanguageHighlighterColors.STRING);
 	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BLOCK_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);

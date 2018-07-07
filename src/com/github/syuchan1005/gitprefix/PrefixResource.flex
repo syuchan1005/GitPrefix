@@ -12,45 +12,50 @@ import com.intellij.lexer.FlexLexer;
 %function advance
 %type IElementType
 %{
-	int keyState = 0;
+	int textState = -1;
 %}
 
+/*
 EMOJI_SIGN=":"
 TEXT_SIGN="|"
-
 LINE_COMMENT_KEY="#"
 BLOCK_COMMENT_BEGIN="/*"
 BLOCK_COMMENT_END="*/"
+*/
 
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+Spacer = [ \t\f]
+WhiteSpace = {LineTerminator} | {Spacer}
 
-%state WAITING_VALUE WAITING_VALUE VALUE
+TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+EndOfLineComment = "#" {InputCharacter}* {LineTerminator}?
+
+StringCharacter = [^\r\n\:\|\\\#]
+
+%state STRING
 
 %%
-{LINE_COMMENT_KEY}(.*)\n? { yybegin(YYINITIAL); return PrefixResourceTypes.LINE_COMMENT; }
-{BLOCK_COMMENT_BEGIN}[^[*/]]*{BLOCK_COMMENT_END} { return PrefixResourceTypes.BLOCK_COMMENT; }
 
 <YYINITIAL> {
-	{EMOJI_SIGN}\S+{EMOJI_SIGN} {
-      	yybegin(WAITING_VALUE);
-      	keyState = 1;
-      	return PrefixResourceTypes.EMOJI_KEY;
+    {EndOfLineComment} { return PrefixResourceTypes.LINE_COMMENT; }
+    {TraditionalComment} { return PrefixResourceTypes.BLOCK_COMMENT; }
+    {WhiteSpace}+ { return PrefixResourceTypes.WHITE_SPACE; }
+
+    ":" { yybegin(STRING); }
+    "|" { yybegin(STRING); }
+
+    {Spacer}{StringCharacter}+ {
+      	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
       }
-	{TEXT_SIGN}(\S|[])+{TEXT_SIGN} {
-      	yybegin(WAITING_VALUE);
-      	keyState = 2;
-      	return PrefixResourceTypes.TEXT_KEY;
-      }
-
-	\n+ { return TokenType.WHITE_SPACE; }
-	\S+ { return TokenType.BAD_CHARACTER; }
 }
 
-<WAITING_VALUE> {
-	(\t|[ ])+ { yybegin(VALUE); return TokenType.WHITE_SPACE; }
+<STRING> {
+	{StringCharacter}+":" { yybegin(YYINITIAL); textState = 0; return PrefixResourceTypes.EMOJI_KEY; }
+    {StringCharacter}+"|" { yybegin(YYINITIAL); textState = 1; return PrefixResourceTypes.TEXT_KEY; }
+
+	{StringCharacter}+ { /* ignored */ }
+
+	{LineTerminator} { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
 }
 
-<VALUE> {
-	[^:#\|\(\/\*\)\n]+ {
-      	yybegin(YYINITIAL);
-      	return keyState == 1 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE; }
-}

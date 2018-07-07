@@ -1,11 +1,11 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
-        <span style="font-size: 1.7rem">Easy to 'Emoji Prefix Commit'</span><br/>
+        <span style="font-size: 1.7rem">Easy to 'Prefix Commit'</span><br/>
         <span style="font-size: 1.5rem">Getting Started (in 3 step)</span><br/>
         <ol>
             <li>'.gitprefix' create your project root.</li>
@@ -18,12 +18,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        1.5.0: Big Update!
-        Rename plugin (Emoji Prefix => Git Prefix)
-        change resource File extension. (.emojirc => .gitprefix)
-        Add NewFile action
-        Add HighLight setting page
-        Support StructureView
+        1.5.1: Optimize parser
     ]]></change-notes>
 
     <idea-version since-build="145.0"/>

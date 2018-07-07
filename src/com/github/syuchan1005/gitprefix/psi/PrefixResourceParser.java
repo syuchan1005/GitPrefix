@@ -37,35 +37,14 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // EMOJI_KEY|TEXT_KEY
-  static boolean KEY(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "KEY")) return false;
-    if (!nextTokenIs(b, "", EMOJI_KEY, TEXT_KEY)) return false;
-    boolean r;
-    r = consumeToken(b, EMOJI_KEY);
-    if (!r) r = consumeToken(b, TEXT_KEY);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // EMOJI_VALUE|TEXT_VALUE
-  static boolean VALUE(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "VALUE")) return false;
-    if (!nextTokenIs(b, "", EMOJI_VALUE, TEXT_VALUE)) return false;
-    boolean r;
-    r = consumeToken(b, EMOJI_VALUE);
-    if (!r) r = consumeToken(b, TEXT_VALUE);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // property|LINE_COMMENT|BLOCK_COMMENT
+  // property|LINE_COMMENT|BLOCK_COMMENT|WHITE_SPACE
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     r = property(b, l + 1);
     if (!r) r = consumeToken(b, LINE_COMMENT);
     if (!r) r = consumeToken(b, BLOCK_COMMENT);
+    if (!r) r = consumeToken(b, WHITE_SPACE);
     return r;
   }
 
@@ -82,23 +61,41 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // KEY VALUE?
+  // (EMOJI_KEY|TEXT_KEY) (TEXT_VALUE|EMOJI_VALUE)?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
     if (!nextTokenIs(b, "<property>", EMOJI_KEY, TEXT_KEY)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = KEY(b, l + 1);
+    r = property_0(b, l + 1);
     r = r && property_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // VALUE?
+  // EMOJI_KEY|TEXT_KEY
+  private static boolean property_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_0")) return false;
+    boolean r;
+    r = consumeToken(b, EMOJI_KEY);
+    if (!r) r = consumeToken(b, TEXT_KEY);
+    return r;
+  }
+
+  // (TEXT_VALUE|EMOJI_VALUE)?
   private static boolean property_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property_1")) return false;
-    VALUE(b, l + 1);
+    property_1_0(b, l + 1);
     return true;
+  }
+
+  // TEXT_VALUE|EMOJI_VALUE
+  private static boolean property_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_1_0")) return false;
+    boolean r;
+    r = consumeToken(b, TEXT_VALUE);
+    if (!r) r = consumeToken(b, EMOJI_VALUE);
+    return r;
   }
 
 }

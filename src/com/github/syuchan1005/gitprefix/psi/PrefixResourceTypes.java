@@ -16,6 +16,7 @@ public interface PrefixResourceTypes {
   IElementType LINE_COMMENT = new PrefixResourceTokenType("LINE_COMMENT");
   IElementType TEXT_KEY = new PrefixResourceTokenType("TEXT_KEY");
   IElementType TEXT_VALUE = new PrefixResourceTokenType("TEXT_VALUE");
+  IElementType WHITE_SPACE = new PrefixResourceTokenType("WHITE_SPACE");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

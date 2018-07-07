@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  * Created by syuchan on 2017/05/29.
  */
 public class PrefixCheckinHandler extends CheckinHandler {
-	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.gitprefix.prefixPanelFactory");
+	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
 	public PrefixPanel prefixPanel;
 	public CheckinProjectPanel checkinProjectPanel;

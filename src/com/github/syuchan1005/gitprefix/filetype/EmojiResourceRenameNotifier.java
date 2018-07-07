@@ -24,16 +24,13 @@ import javax.swing.BorderFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class EmojiResourceRenameNotifier extends AbstractProjectComponent {
-	private Project project;
-
 	protected EmojiResourceRenameNotifier(Project project) {
 		super(project);
-		this.project = project;
 	}
 
 	@Override
 	public void projectOpened() {
-		MessageBusConnection connection = project.getMessageBus().connect(project);
+		MessageBusConnection connection = myProject.getMessageBus().connect(myProject);
 		connection.subscribe(FileEditorManagerListener.FILE_EDITOR_MANAGER, new FileEditorManagerListener() {
 			@Override
 			public void fileOpened(@NotNull FileEditorManager manager, @NotNull VirtualFile file) {
@@ -45,7 +42,7 @@ public class EmojiResourceRenameNotifier extends AbstractProjectComponent {
 						@Override
 						public void actionPerformed(AnActionEvent anActionEvent) {
 							try {
-								file.rename(project, "." + PrefixResourceFileType.DEFAULT_EXTENSION);
+								file.rename(myProject, "." + PrefixResourceFileType.DEFAULT_EXTENSION);
 							} catch (IOException ignored) {}
 						}
 					});

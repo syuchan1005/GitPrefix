@@ -15,9 +15,8 @@
 
 prefixResourceFile ::= item_*
 
-private item_ ::= (property|LINE_COMMENT|BLOCK_COMMENT)
 
-private KEY ::= (EMOJI_KEY|TEXT_KEY)
-private VALUE ::= (EMOJI_VALUE|TEXT_VALUE)
+private item_ ::= (property|LINE_COMMENT|BLOCK_COMMENT|WHITE_SPACE)
 
-property ::= KEY VALUE?
+property ::= (EMOJI_KEY|TEXT_KEY) (TEXT_VALUE|EMOJI_VALUE)?
+

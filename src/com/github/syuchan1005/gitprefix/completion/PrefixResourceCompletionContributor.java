@@ -26,28 +26,20 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 				Document document = completionParameters.getEditor().getDocument();
 				int lineStart = document.getLineStartOffset(document.getLineNumber(completionParameters.getOffset()));
 				String lineText = document.getText(new TextRange(lineStart, completionParameters.getOffset()));
-				if (includeCount(lineText) == 1) {
+				if (lineText.charAt(0) == ':') {
 					for (Map.Entry<String, Icon> iconEntry : PrefixUtil.getEmojiMap().entrySet()) {
-						completionResultSet.addElement(LookupElementBuilder.create(iconEntry.getKey(), ":" + iconEntry.getKey() + ":")
+						completionResultSet.addElement(LookupElementBuilder.create(iconEntry.getKey(), iconEntry.getKey() + ":")
 								.withIcon(iconEntry.getValue())
 								.withInsertHandler((insertionContext, lookupElement) -> {
 									int startOffset = insertionContext.getStartOffset();
 									Document insertDocument = insertionContext.getDocument();
 									if (startOffset > 0 && insertDocument.getCharsSequence().charAt(startOffset - 1) == ':') {
-										insertDocument.deleteString(startOffset - 1, startOffset);
+										insertDocument.deleteString(startOffset, startOffset);
 									}
 								}));
 					}
 				}
 			}
 		});
-	}
-
-	private int includeCount(String str) {
-		int count = 0;
-		for (char x : str.toCharArray()) {
-			if (x == ':') count++;
-		}
-		return count;
 	}
 }
