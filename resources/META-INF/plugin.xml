@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -18,7 +18,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        1.5.1: Optimize parser
+        1.5.2: Fix write-access error
     ]]></change-notes>
 
     <idea-version since-build="145.0"/>
