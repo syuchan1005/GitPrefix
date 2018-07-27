@@ -14,12 +14,19 @@ public class PrefixEditChangelistSupport implements EditChangelistSupport  {
 	@Override
 	public void installSearch(EditorTextField editorTextField, EditorTextField editorTextField1) {
 		CommitChangeListDialog dialog = (CommitChangeListDialog) PrefixCheckinHandlerFactory.handler.checkinProjectPanel;
-		try {
-			Field mySplitter = dialog.getClass().getDeclaredField("mySplitter");
-			mySplitter.setAccessible(true);
-			Splitter splitter = (Splitter) mySplitter.get(dialog);
+		Splitter splitter = null;
+		if (dialog.getComponent() instanceof Splitter) {
+			splitter = (Splitter) dialog.getComponent();
+		} else {
+			try {
+				Field mySplitter = dialog.getClass().getDeclaredField("mySplitter");
+				mySplitter.setAccessible(true);
+				splitter = (Splitter) mySplitter.get(dialog);
+			} catch (ReflectiveOperationException ignored) { }
+		}
+		if (splitter != null) {
 			PrefixCheckinHandlerFactory.handler.injectPrefixPanel(splitter);
-		} catch (ReflectiveOperationException ignored) {}
+		}
 	}
 
 	@Override
