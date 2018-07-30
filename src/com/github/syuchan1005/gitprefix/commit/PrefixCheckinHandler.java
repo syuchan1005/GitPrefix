@@ -51,7 +51,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 			}
 	}
 		Collections.list(prefixPanel.getButtonGroup().getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
-			String prefix = ((JLabel) button.getComponent(0)).getToolTipText();
+			String prefix = button.getToolTipText();
 			if (prefix != null) {
 				checkinProjectPanel.setCommitMessage(prefix + " " + checkinProjectPanel.getCommitMessage());
 			}

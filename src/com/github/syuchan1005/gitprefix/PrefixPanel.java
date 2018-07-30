@@ -53,6 +53,7 @@ public class PrefixPanel extends JBScrollPane {
 		if (text != null && text.startsWith(":")) icon = PrefixUtil.getIcon(text.replace(":", ""));
 
 		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, icon, selected);
+		iconTextRadioButton.getRadioButton().setToolTipText(text);
 		buttonGroup.add(iconTextRadioButton.getRadioButton());
 		return iconTextRadioButton;
 	}
