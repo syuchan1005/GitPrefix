@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.3.1</version>
+    <version>1.5.3.2</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -16,7 +16,7 @@
         .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
-    <change-notes>Fix PreferredSize calculation</change-notes>
+    <change-notes>Fix can not commit</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
