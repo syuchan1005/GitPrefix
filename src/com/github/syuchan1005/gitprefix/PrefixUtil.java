@@ -16,8 +16,29 @@ import javax.swing.Icon;
 public class PrefixUtil {
 	private static Map<String, Icon> emojiMap = new HashMap<>(890);
 
-	private static Icon loadEmoji(String emoji) {
-		return IconLoader.findIcon("/emojis/" + emoji + ".png");
+	static {
+		Consumer<String> putEmoji = emoji -> {
+			emojiMap.put(emoji, IconLoader.getIcon("/emojis/" + emoji + ".png"));
+		};
+		File file = new File(ResourceUtil.getResource(PrefixUtil.class, "/emojis", "").getFile());
+		String path = file.getParentFile().getPath();
+		if (!path.endsWith(".jar!")) {
+			Arrays.stream(Objects.requireNonNull(file.list()))
+							.filter(name -> !name.endsWith("@2x.png"))
+							.map(name -> name.substring(0, name.length() - 4))
+							.forEach(putEmoji);
+		} else {
+			try {
+				new JarFile(path.substring(6, path.length() - 1)).stream()
+								.filter(entry -> !entry.isDirectory())
+								.map(JarEntry::getName)
+								.filter(entry -> entry.startsWith("emojis/") && !entry.endsWith("@2x.png"))
+								.map(name -> name.substring(7, name.length() - 4))
+								.forEach(putEmoji);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static Map<String, Icon> getEmojiMap() {
@@ -25,12 +46,6 @@ public class PrefixUtil {
 	}
 
 	public static Icon getIcon(String emoji) {
-		if (emojiMap.containsKey(emoji)) return emojiMap.get(emoji);
-		Icon icon = loadEmoji(emoji);
-		if (icon != null) {
-			emojiMap.put(emoji, icon);
-			return icon;
-		}
-		return null;
+		return emojiMap.get(emoji);
 	}
 }
