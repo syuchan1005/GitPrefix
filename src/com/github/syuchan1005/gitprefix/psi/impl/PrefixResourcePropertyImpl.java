@@ -13,7 +13,7 @@ import com.github.syuchan1005.gitprefix.psi.*;
 
 public class PrefixResourcePropertyImpl extends ASTWrapperPsiElement implements PrefixResourceProperty {
 
-  public PrefixResourcePropertyImpl(ASTNode node) {
+  public PrefixResourcePropertyImpl(@NotNull ASTNode node) {
     super(node);
   }
 

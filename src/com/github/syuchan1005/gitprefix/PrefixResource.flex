@@ -4,6 +4,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
 import com.intellij.lexer.FlexLexer;
 
+@SuppressWarnings("ALL")
 %%
 
 %class PrefixResourceLexer
@@ -34,7 +35,6 @@ EndOfLineComment = "#" {InputCharacter}* {LineTerminator}?
 StringCharacter = [^\r\n\:\|\\\#]
 
 %state STRING
-
 %%
 
 <YYINITIAL> {
@@ -42,20 +42,41 @@ StringCharacter = [^\r\n\:\|\\\#]
     {TraditionalComment} { return PrefixResourceTypes.BLOCK_COMMENT; }
     {WhiteSpace}+ { return PrefixResourceTypes.WHITE_SPACE; }
 
-    ":" { yybegin(STRING); }
-    "|" { yybegin(STRING); }
+    ":" { textState = 0; yybegin(STRING); }
+    "|" { textState = 1; yybegin(STRING); }
 
     {Spacer}{StringCharacter}+ {
-      	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
-      }
+      return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+    }
+
+    \/[^/]* { return PrefixResourceTypes.BLOCK_COMMENT; }
 }
 
 <STRING> {
-	{StringCharacter}+":" { yybegin(YYINITIAL); textState = 0; return PrefixResourceTypes.EMOJI_KEY; }
-    {StringCharacter}+"|" { yybegin(YYINITIAL); textState = 1; return PrefixResourceTypes.TEXT_KEY; }
+	{StringCharacter}*":" {
+      if (textState == 0) {
+      	yybegin(YYINITIAL);
+        return PrefixResourceTypes.EMOJI_KEY;
+      }
+      return TokenType.BAD_CHARACTER;
+    }
 
-	{StringCharacter}+ { /* ignored */ }
+    {StringCharacter}*"|" {
+      if (textState == 1) {
+      	yybegin(YYINITIAL);
+        return PrefixResourceTypes.TEXT_KEY;
+      }
+      return TokenType.BAD_CHARACTER;
+    }
 
-	{LineTerminator} { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
+	{StringCharacter}* {
+      if (textState == 0) return PrefixResourceTypes.EMOJI_FRAGMENT;
+      if (textState == 1) return PrefixResourceTypes.TEXT_FRAGMENT;
+      return TokenType.CODE_FRAGMENT;
+    }
+
+	{LineTerminator} {
+      	yybegin(YYINITIAL);
+    }
 }
 
