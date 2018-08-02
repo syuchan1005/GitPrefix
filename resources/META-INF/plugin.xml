@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.3.2</version>
+    <version>1.5.4</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -12,11 +12,13 @@
             <li>Write prefix's you want to use</li>
             <li>After that, just commit</li>
         </ol>
+        <img src="https://github.com/syuchan1005/GitPrefix/raw/master/screenshots/gitprefix.png" alt="gitprefix_file" />
+        <img src="https://github.com/syuchan1005/GitPrefix/raw/master/screenshots/emoji_window.png" alt="emoji_window" />
 
         .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
-    <change-notes>Fix can not commit</change-notes>
+    <change-notes>Fix file parsing</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>

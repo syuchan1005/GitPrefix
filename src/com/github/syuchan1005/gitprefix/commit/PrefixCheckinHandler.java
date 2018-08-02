@@ -49,7 +49,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 			if (prefixPanelFactory.beforeCheckin() == PrefixPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;
 			}
-	}
+		}
 		Collections.list(prefixPanel.getButtonGroup().getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
 			String prefix = button.getToolTipText();
 			if (prefix != null) {
