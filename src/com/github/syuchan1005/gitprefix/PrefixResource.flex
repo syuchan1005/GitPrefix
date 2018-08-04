@@ -42,11 +42,22 @@ StringCharacter = [^\r\n\:\|\\\#]
     {TraditionalComment} { return PrefixResourceTypes.BLOCK_COMMENT; }
     {WhiteSpace}+ { return PrefixResourceTypes.WHITE_SPACE; }
 
-    ":" { textState = 0; yybegin(STRING); }
-    "|" { textState = 1; yybegin(STRING); }
+	":" { return PrefixResourceTypes.EMOJI_FRAGMENT; }
+	"|" { return PrefixResourceTypes.TEXT_FRAGMENT; }
+
+    ":"{StringCharacter}+ {
+      	yypushback(yytext().length() - 1);
+      	textState = 0;
+      	yybegin(STRING);
+    }
+    "|"{StringCharacter}+ {
+      	yypushback(yytext().length() - 1);
+      	textState = 1;
+      	yybegin(STRING);
+    }
 
     {Spacer}{StringCharacter}+ {
-      return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+      	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
     }
 
     \/[^/]* { return PrefixResourceTypes.BLOCK_COMMENT; }
@@ -54,25 +65,25 @@ StringCharacter = [^\r\n\:\|\\\#]
 
 <STRING> {
 	{StringCharacter}*":" {
-      if (textState == 0) {
-      	yybegin(YYINITIAL);
-        return PrefixResourceTypes.EMOJI_KEY;
-      }
-      return TokenType.BAD_CHARACTER;
+      	if (textState == 0) {
+      		yybegin(YYINITIAL);
+        	return PrefixResourceTypes.EMOJI_KEY;
+      	}
+      	return TokenType.BAD_CHARACTER;
     }
 
     {StringCharacter}*"|" {
-      if (textState == 1) {
-      	yybegin(YYINITIAL);
-        return PrefixResourceTypes.TEXT_KEY;
-      }
-      return TokenType.BAD_CHARACTER;
+      	if (textState == 1) {
+      		yybegin(YYINITIAL);
+        	return PrefixResourceTypes.TEXT_KEY;
+      	}
+      	return TokenType.BAD_CHARACTER;
     }
 
-	{StringCharacter}* {
-      if (textState == 0) return PrefixResourceTypes.EMOJI_FRAGMENT;
-      if (textState == 1) return PrefixResourceTypes.TEXT_FRAGMENT;
-      return TokenType.CODE_FRAGMENT;
+	{StringCharacter}+ {
+      	if (textState == 0) return PrefixResourceTypes.EMOJI_FRAGMENT;
+      	if (textState == 1) return PrefixResourceTypes.TEXT_FRAGMENT;
+     	return TokenType.CODE_FRAGMENT;
     }
 
 	{LineTerminator} {

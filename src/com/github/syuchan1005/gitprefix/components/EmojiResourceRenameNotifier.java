@@ -1,5 +1,7 @@
-package com.github.syuchan1005.gitprefix.filetype;
+package com.github.syuchan1005.gitprefix.components;
 
+import com.github.syuchan1005.gitprefix.filetype.EmojiResourceFileType;
+import com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
