@@ -24,6 +24,7 @@ class PrefixResourceLexer implements FlexLexer {
   /** lexical states */
   public static final int YYINITIAL = 0;
   public static final int STRING = 2;
+  public static final int VALUE = 4;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -32,7 +33,7 @@ class PrefixResourceLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1, 1
+     0,  0,  1,  1,  2, 2
   };
 
   /** 
@@ -63,13 +64,12 @@ class PrefixResourceLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\2\2\1\3\1\4\1\5\1\6\1\7"+
-    "\2\10\1\11\1\12\1\13\3\3\2\4\1\14\1\15"+
-    "\2\3\1\1\2\3\1\0\1\3\1\1\1\3\1\0"+
-    "\1\3";
+    "\2\0\2\1\2\2\1\0\1\3\1\4\1\5\1\6"+
+    "\2\7\1\10\1\11\1\1\2\12\1\1\1\0\2\3"+
+    "\1\13\1\14\1\1\2\0\2\15\1\0\1\16";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[33];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -95,13 +95,12 @@ class PrefixResourceLexer implements FlexLexer {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\12\0\24\0\36\0\50\0\62\0\74\0\106"+
-    "\0\120\0\132\0\144\0\156\0\156\0\156\0\170\0\202"+
-    "\0\214\0\226\0\240\0\156\0\106\0\120\0\252\0\264"+
-    "\0\276\0\310\0\322\0\334\0\346\0\360\0\24\0\372"+
-    "\0\156";
+    "\0\120\0\132\0\144\0\156\0\170\0\170\0\170\0\202"+
+    "\0\214\0\170\0\226\0\240\0\252\0\170\0\120\0\132"+
+    "\0\264\0\276\0\310\0\322\0\170\0\334\0\170";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[33];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -124,24 +123,21 @@ class PrefixResourceLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\1\5\1\6\1\3\1\7\1\0\1\10"+
-    "\1\11\1\12\1\13\1\14\3\12\2\0\1\15\1\16"+
-    "\1\3\2\0\3\3\5\0\3\4\6\0\1\17\2\4"+
-    "\1\5\2\17\4\0\1\20\2\21\1\20\1\3\1\22"+
-    "\4\21\1\7\1\23\1\24\7\7\1\25\2\0\3\25"+
-    "\4\0\1\26\2\0\3\26\4\0\1\12\2\0\3\12"+
-    "\2\0\1\15\1\16\2\0\1\14\21\0\1\17\2\0"+
-    "\3\17\4\0\1\20\2\21\1\20\1\3\1\20\10\21"+
-    "\1\0\5\21\1\27\2\30\1\27\1\31\1\32\4\30"+
-    "\2\0\1\24\7\0\1\27\2\30\1\27\1\31\1\33"+
-    "\10\30\1\34\1\35\4\30\1\31\2\34\2\31\1\36"+
-    "\4\34\1\20\2\21\1\20\1\37\1\32\4\21\1\27"+
-    "\2\30\1\27\1\37\1\33\4\30\5\34\1\40\4\34"+
-    "\4\30\1\41\1\35\4\30\1\31\2\34\1\31\1\37"+
-    "\1\36\10\34\1\41\1\40\4\34";
+    "\1\4\2\5\1\6\1\7\1\4\1\10\1\0\1\11"+
+    "\1\12\1\13\1\14\1\15\3\13\2\0\1\16\1\17"+
+    "\1\20\1\21\1\22\1\23\2\20\4\0\1\4\2\0"+
+    "\1\4\1\0\1\4\5\0\3\5\6\0\1\4\2\5"+
+    "\1\6\1\0\1\4\11\0\1\24\4\0\1\10\1\25"+
+    "\1\26\7\10\1\27\2\0\3\27\4\0\1\30\2\0"+
+    "\3\30\4\0\1\13\2\0\3\13\2\0\1\16\1\17"+
+    "\2\0\1\15\21\0\1\20\2\0\3\20\6\0\1\22"+
+    "\7\0\1\31\1\21\1\22\3\31\4\0\5\32\1\33"+
+    "\4\32\2\0\1\26\7\0\1\31\1\34\1\35\3\31"+
+    "\4\0\5\32\1\36\4\32\4\0\1\37\1\33\6\0"+
+    "\1\35\7\0\4\32\1\37\1\36\4\32";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[260];
+    int [] result = new int[230];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -179,11 +175,12 @@ class PrefixResourceLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\11\1\3\11\5\1\1\11\7\1\1\0\3\1"+
-    "\1\0\1\11";
+    "\2\0\4\1\1\0\5\1\3\11\2\1\1\11\1\1"+
+    "\1\0\1\1\1\11\3\1\2\0\1\1\1\11\1\0"+
+    "\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[33];
+    int [] result = new int[31];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -490,81 +487,88 @@ class PrefixResourceLexer implements FlexLexer {
             { return PrefixResourceTypes.BAD_CHARACTER;
             } 
             // fall through
-          case 14: break;
+          case 15: break;
           case 2: 
             { return PrefixResourceTypes.WHITE_SPACE;
             } 
             // fall through
-          case 15: break;
-          case 3: 
-            { return PrefixResourceTypes.BLOCK_COMMENT;
-            } 
-            // fall through
           case 16: break;
-          case 4: 
+          case 3: 
             { return PrefixResourceTypes.LINE_COMMENT;
             } 
             // fall through
           case 17: break;
-          case 5: 
+          case 4: 
             { return PrefixResourceTypes.EMOJI_FRAGMENT;
             } 
             // fall through
           case 18: break;
-          case 6: 
+          case 5: 
             { return PrefixResourceTypes.TEXT_FRAGMENT;
             } 
             // fall through
           case 19: break;
-          case 7: 
+          case 6: 
             { if (textState == 0) return PrefixResourceTypes.EMOJI_FRAGMENT;
       	if (textState == 1) return PrefixResourceTypes.TEXT_FRAGMENT;
      	return TokenType.CODE_FRAGMENT;
             } 
             // fall through
           case 20: break;
-          case 8: 
+          case 7: 
             { yybegin(YYINITIAL);
             } 
             // fall through
           case 21: break;
-          case 9: 
+          case 8: 
             { if (textState == 0) {
-      		yybegin(YYINITIAL);
+      		yybegin(VALUE);
         	return PrefixResourceTypes.EMOJI_KEY;
       	}
-      	return TokenType.BAD_CHARACTER;
+      	return PrefixResourceTypes.BAD_CHARACTER;
             } 
             // fall through
           case 22: break;
-          case 10: 
+          case 9: 
             { if (textState == 1) {
-      		yybegin(YYINITIAL);
+      		yybegin(VALUE);
         	return PrefixResourceTypes.TEXT_KEY;
       	}
-      	return TokenType.BAD_CHARACTER;
+      	return PrefixResourceTypes.BAD_CHARACTER;
             } 
             // fall through
           case 23: break;
-          case 11: 
-            { return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+          case 10: 
+            { yybegin(YYINITIAL);
+    	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
             } 
             // fall through
           case 24: break;
-          case 12: 
+          case 11: 
             { yypushback(yytext().length() - 1);
       	textState = 0;
       	yybegin(STRING);
             } 
             // fall through
           case 25: break;
-          case 13: 
+          case 12: 
             { yypushback(yytext().length() - 1);
       	textState = 1;
       	yybegin(STRING);
             } 
             // fall through
           case 26: break;
+          case 13: 
+            { yybegin(YYINITIAL);
+        return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+            } 
+            // fall through
+          case 27: break;
+          case 14: 
+            { return PrefixResourceTypes.BLOCK_COMMENT;
+            } 
+            // fall through
+          case 28: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

@@ -10,7 +10,6 @@ import com.intellij.openapi.vcs.ui.CommitMessage;
 import java.util.Collections;
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -24,7 +23,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 	public PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
 		prefixPanel = new PrefixPanel(checkinProjectPanel.getProject());
-		if (prefixPanel.notExists()) return;
+		if (!prefixPanel.isExists()) return;
 		try {
 			Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 			injectPrefixPanel(splitter);
@@ -32,6 +31,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 	}
 
 	public void injectPrefixPanel(Splitter splitter) {
+		if (!prefixPanel.isExists()) return;
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
 		Splitter commitSplitter = new Splitter();
 		commitSplitter.setFirstComponent(prefixPanel);
@@ -44,7 +44,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 
 	@Override
 	public ReturnResult beforeCheckin() {
-		if (prefixPanel.notExists()) return ReturnResult.COMMIT;
+		if (!prefixPanel.isExists()) return ReturnResult.COMMIT;
 		for (PrefixPanelFactory prefixPanelFactory: extensionPointName.getExtensions()) {
 			if (prefixPanelFactory.beforeCheckin() == PrefixPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;

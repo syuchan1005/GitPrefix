@@ -64,7 +64,7 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (EMOJI_KEY|TEXT_KEY) (TEXT_VALUE|EMOJI_VALUE)?
+  // (EMOJI_KEY|TEXT_KEY)(TEXT_VALUE|EMOJI_VALUE)?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
     if (!nextTokenIs(b, "<property>", EMOJI_KEY, TEXT_KEY)) return false;

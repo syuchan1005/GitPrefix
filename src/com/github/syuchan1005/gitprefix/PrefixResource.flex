@@ -34,7 +34,7 @@ EndOfLineComment = "#" {InputCharacter}* {LineTerminator}?
 
 StringCharacter = [^\r\n\:\|\\\#]
 
-%state STRING
+%state STRING VALUE
 %%
 
 <YYINITIAL> {
@@ -56,30 +56,24 @@ StringCharacter = [^\r\n\:\|\\\#]
       	yybegin(STRING);
     }
 
-    {Spacer}+{StringCharacter}+ {
-      	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
-    }
-
-    \/[^/]* { return PrefixResourceTypes.BLOCK_COMMENT; }
-
-    {StringCharacter}+ { return PrefixResourceTypes.BAD_CHARACTER; }
+    [^\r\n\:\|\\\#\/]+ { return PrefixResourceTypes.BAD_CHARACTER; }
 }
 
 <STRING> {
 	{StringCharacter}*":" {
       	if (textState == 0) {
-      		yybegin(YYINITIAL);
+      		yybegin(VALUE);
         	return PrefixResourceTypes.EMOJI_KEY;
       	}
-      	return TokenType.BAD_CHARACTER;
+      	return PrefixResourceTypes.BAD_CHARACTER;
     }
 
     {StringCharacter}*"|" {
       	if (textState == 1) {
-      		yybegin(YYINITIAL);
+      		yybegin(VALUE);
         	return PrefixResourceTypes.TEXT_KEY;
       	}
-      	return TokenType.BAD_CHARACTER;
+      	return PrefixResourceTypes.BAD_CHARACTER;
     }
 
 	{StringCharacter}+ {
@@ -93,3 +87,18 @@ StringCharacter = [^\r\n\:\|\\\#]
     }
 }
 
+<VALUE> {
+	{Spacer}+{StringCharacter}+{LineTerminator} {
+      	yybegin(YYINITIAL);
+        return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+    }
+
+    {Spacer}*{LineTerminator} {
+    	yybegin(YYINITIAL);
+    	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
+    }
+
+    {Spacer}*{StringCharacter}* {
+      	return PrefixResourceTypes.BAD_CHARACTER;
+    }
+}

@@ -12,6 +12,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.stream.Stream;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -22,30 +24,32 @@ import javax.swing.SwingConstants;
 public class PrefixPanel extends JBScrollPane {
 	private static final String NO_PREFIX = "No Prefix";
 
-	private boolean notExists = true;
 	private ButtonGroup buttonGroup = new ButtonGroup();
+	private Project myProject;
 
 	public PrefixPanel(Project project) {
+		this.myProject = project;
 		JPanel prefixPanel = new JPanel();
 		prefixPanel.setLayout(new VerticalFlowLayout(0, 0, 0, true, false));
 		VirtualFile gitprefix = project.getBaseDir().findChild(".gitprefix");
 		if (gitprefix == null) return;
 		PsiFile psiFile = PsiManager.getInstance(project).findFile(gitprefix);
 		if (psiFile == null) return;
-		PsiElement[] children = psiFile.getChildren();
-		if (children.length == 0) return;
-		for (PsiElement psiElement : children) {
+		int count = 0;
+		for (PsiElement psiElement : psiFile.getChildren()) {
 			if (!(psiElement instanceof PrefixResourceProperty)) continue;
-			prefixPanel.add(createPrefixButton(
+			IconTextRadioButton prefixButton = createPrefixButton(
 							psiElement.getFirstChild().getText(),
 							psiElement.getFirstChild() == psiElement.getLastChild() ? null : psiElement.getLastChild().getText(),
 							false
-			));
+			);
+			prefixPanel.add(prefixButton);
+			count++;
 		}
+		if (count == 0) return;
 		prefixPanel.add(createPrefixButton(null, NO_PREFIX, true));
 		this.setViewportView(prefixPanel);
 		this.setBorder(null);
-		notExists = false;
 	}
 
 	private IconTextRadioButton createPrefixButton(String text, String description, boolean selected) {
@@ -58,8 +62,14 @@ public class PrefixPanel extends JBScrollPane {
 		return iconTextRadioButton;
 	}
 
-	public boolean notExists() {
-		return notExists;
+	public boolean isExists() {
+		VirtualFile gitprefix = myProject.getBaseDir().findChild(".gitprefix");
+		if (gitprefix == null) return false;
+		PsiFile psiFile = PsiManager.getInstance(myProject).findFile(gitprefix);
+		if (psiFile == null) return false;
+		Stream<PsiElement> properties = Arrays.stream(psiFile.getChildren())
+						.filter(psiElement -> psiElement instanceof PrefixResourceProperty);
+		return properties.count() != 0;
 	}
 
 	public ButtonGroup getButtonGroup() {
