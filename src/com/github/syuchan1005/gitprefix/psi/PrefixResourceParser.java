@@ -37,7 +37,7 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // property|LINE_COMMENT|BLOCK_COMMENT|EMOJI_FRAGMENT|TEXT_FRAGMENT|WHITE_SPACE
+  // property|LINE_COMMENT|BLOCK_COMMENT|EMOJI_FRAGMENT|TEXT_FRAGMENT|WHITE_SPACE|BAD_CHARACTER
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
@@ -47,6 +47,7 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, EMOJI_FRAGMENT);
     if (!r) r = consumeToken(b, TEXT_FRAGMENT);
     if (!r) r = consumeToken(b, WHITE_SPACE);
+    if (!r) r = consumeToken(b, BAD_CHARACTER);
     return r;
   }
 

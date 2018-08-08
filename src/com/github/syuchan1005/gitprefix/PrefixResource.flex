@@ -56,11 +56,13 @@ StringCharacter = [^\r\n\:\|\\\#]
       	yybegin(STRING);
     }
 
-    {Spacer}{StringCharacter}+ {
+    {Spacer}+{StringCharacter}+ {
       	return textState == 0 ? PrefixResourceTypes.EMOJI_VALUE : PrefixResourceTypes.TEXT_VALUE;
     }
 
     \/[^/]* { return PrefixResourceTypes.BLOCK_COMMENT; }
+
+    {StringCharacter}+ { return PrefixResourceTypes.BAD_CHARACTER; }
 }
 
 <STRING> {

@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
-import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +26,7 @@ public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 	private static Map<IElementType, TextAttributesKey[]> textAttrMap = new HashMap<>();
+
 	static {
 		textAttrMap.put(PrefixResourceTypes.EMOJI_KEY, new TextAttributesKey[]{EMOJI_KEY});
 		textAttrMap.put(PrefixResourceTypes.TEXT_KEY, new TextAttributesKey[]{TEXT_KEY});
@@ -34,7 +34,7 @@ public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 		textAttrMap.put(PrefixResourceTypes.TEXT_VALUE, new TextAttributesKey[]{TEXT_VALUE});
 		textAttrMap.put(PrefixResourceTypes.LINE_COMMENT, new TextAttributesKey[]{LINE_COMMENT});
 		textAttrMap.put(PrefixResourceTypes.BLOCK_COMMENT, new TextAttributesKey[]{BLOCK_COMMENT});
-		textAttrMap.put(TokenType.BAD_CHARACTER, new TextAttributesKey[]{BAD_CHARACTER});
+		textAttrMap.put(PrefixResourceTypes.BAD_CHARACTER, new TextAttributesKey[]{BAD_CHARACTER});
 	}
 
 	@NotNull

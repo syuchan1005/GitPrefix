@@ -10,6 +10,7 @@ public interface PrefixResourceTypes {
 
   IElementType PROPERTY = new PrefixResourceElementType("PROPERTY");
 
+  IElementType BAD_CHARACTER = new PrefixResourceTokenType("BAD_CHARACTER");
   IElementType BLOCK_COMMENT = new PrefixResourceTokenType("BLOCK_COMMENT");
   IElementType EMOJI_FRAGMENT = new PrefixResourceTokenType("EMOJI_FRAGMENT");
   IElementType EMOJI_KEY = new PrefixResourceTokenType("EMOJI_KEY");
