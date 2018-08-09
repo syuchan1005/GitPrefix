@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.4.1</version>
+    <version>1.5.4.2</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -18,7 +18,7 @@
         .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
-    <change-notes>Re:Fix file parsing</change-notes>
+    <change-notes>Fix icon loading</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
