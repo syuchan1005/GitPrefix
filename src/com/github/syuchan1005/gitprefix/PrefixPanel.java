@@ -1,13 +1,17 @@
 package com.github.syuchan1005.gitprefix;
 
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.VerticalFlowLayout;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,7 +35,7 @@ public class PrefixPanel extends JBScrollPane {
 		this.myProject = project;
 		JPanel prefixPanel = new JPanel();
 		prefixPanel.setLayout(new VerticalFlowLayout(0, 0, 0, true, false));
-		VirtualFile gitprefix = project.getBaseDir().findChild(".gitprefix");
+		VirtualFile gitprefix = PrefixPanel.getGitPrefixFile(myProject);
 		if (gitprefix == null) return;
 		PsiFile psiFile = PsiManager.getInstance(project).findFile(gitprefix);
 		if (psiFile == null) return;
@@ -63,7 +67,7 @@ public class PrefixPanel extends JBScrollPane {
 	}
 
 	public boolean isExists() {
-		VirtualFile gitprefix = myProject.getBaseDir().findChild(".gitprefix");
+		VirtualFile gitprefix = PrefixPanel.getGitPrefixFile(myProject);
 		if (gitprefix == null) return false;
 		PsiFile psiFile = PsiManager.getInstance(myProject).findFile(gitprefix);
 		if (psiFile == null) return false;
@@ -129,5 +133,16 @@ public class PrefixPanel extends JBScrollPane {
 		public void setSelected(boolean var1) {
 			this.radioButton.setSelected(var1);
 		}
+	}
+
+	@Nullable
+	public static VirtualFile getGitPrefixFile(Project project) {
+		GitPrefixData prefixData = ServiceManager.getService(project, GitPrefixData.class);
+		if (prefixData.getIsPathType().equals("DEFAULT")) {
+			return project.getBaseDir().findChild(".gitprefix");
+		} else if (prefixData.getIsPathType().equals("CUSTOM") && !prefixData.getGitPrefixPath().equals("")) {
+			return LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.getGitPrefixPath());
+		}
+		return null;
 	}
 }

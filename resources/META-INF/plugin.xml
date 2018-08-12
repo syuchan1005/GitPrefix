@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.4.2</version>
+    <version>1.5.4.3</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -18,7 +18,7 @@
         .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
-    <change-notes>Fix icon loading</change-notes>
+    <change-notes>Add Tools -> GitPrefix Menu</change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
@@ -43,6 +43,11 @@
         <lang.commenter language="GitPrefix Resource"
                         implementationClass="com.github.syuchan1005.gitprefix.comments.PrefixResourceCommenter"/>
         <lang.psiStructureViewFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
+
+        <!-- Setting -->
+        <projectService serviceImplementation="com.github.syuchan1005.gitprefix.GitPrefixData" />
+        <projectConfigurable groupId="tools" displayName="GitPrefix" id="perference.gitprefix.GitPrefixConfigurable"
+                                 instance="com.github.syuchan1005.gitprefix.setting.GitPrefixConfigurable" />
     </extensions>
 
     <extensionPoints>

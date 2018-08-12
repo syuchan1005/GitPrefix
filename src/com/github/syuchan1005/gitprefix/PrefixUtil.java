@@ -2,6 +2,8 @@ package com.github.syuchan1005.gitprefix;
 
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.util.ResourceUtil;
+import com.jgoodies.common.base.SystemUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,7 +15,6 @@ import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import javax.swing.Icon;
-import org.apache.commons.lang.SystemUtils;
 
 public class PrefixUtil {
 	private static Map<String, Icon> emojiMap = new HashMap<>(890);
