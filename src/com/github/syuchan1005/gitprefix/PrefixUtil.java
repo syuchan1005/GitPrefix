@@ -1,55 +1,27 @@
 package com.github.syuchan1005.gitprefix;
 
 import com.intellij.openapi.util.IconLoader;
-import com.intellij.util.ResourceUtil;
-import com.jgoodies.common.base.SystemUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import javax.swing.Icon;
 
 public class PrefixUtil {
-	private static Map<String, Icon> emojiMap = new HashMap<>(890);
+    private static String[] emojiNames = new String[] {"dog", "japanese_ogre", "hotsprings", "white_circle", "clock2", "clock10", "snowboarder", "small_blue_diamond", "fearful", "stuck_out_tongue_closed_eyes", "cn", "email", "left_right_arrow", "fast_forward", "horse", "calling", "arrows_clockwise", "mushroom", "headphones", "goberserk", "kissing_cat", "broken_heart", "pig2", "watch", "black_circle", "no_bicycles", "grimacing", "clock730", "tent", "warning", "dash", "rabbit", "seedling", "bow", "bowling", "sunflower", "pisces", "poodle", "tired_face", "hospital", "custard", "whale", "smoking", "triangular_ruler", "suspect", "fax", "triumph", "shit", "dvd", "low_brightness", "kissing_smiling_eyes", "hibiscus", "boat", "trophy", "hash", "twisted_rightwards_arrows", "open_hands", "clock11", "clock3", "ballot_box_with_check", "factory", "bomb", "mailbox_with_mail", "snowflake", "eight_spoked_asterisk", "large_orange_diamond", "kissing_closed_eyes", "bikini", "newspaper", "smirk_cat", "womans_hat", "clock1", "ideograph_advantage", "turtle", "mountain_cableway", "leopard", "beginner", "palm_tree", "on", "arrow_right", "fireworks", "monkey_face", "part_alternation_mark", "potable_water", "peach", "tongue", "blossom", "cake", "clock530", "battery", "honeybee", "arrow_down_small", "train", "yum", "clock1130", "closed_lock_with_key", "skull", "railway_car", "spaghetti", "scream", "coffee", "bell", "last_quarter_moon_with_face", "black_square_button", "libra", "dizzy", "performing_arts", "aries", "cl", "space_invader", "baby_chick", "plus1", "bar_chart", "bullettrain_front", "satellite", "point_right", "astonished", "rotating_light", "ox", "heartpulse", "hotel", "chestnut", "cold_sweat", "arrow_up", "clock12", "book", "sagittarius", "taxi", "radio", "no_pedestrians", "convenience_store", "tv", "sunrise_over_mountains", "arrows_counterclockwise", "orange_book", "joy", "clock4", "ok", "cocktail", "signal_strength", "black_medium_square", "green_heart", "pound", "m", "kissing_heart", "metal", "oncoming_taxi", "green_book", "cinema", "speech_balloon", "fist", "currency_exchange", "large_blue_circle", "yellow_heart", "feet", "small_red_triangle", "rice_scene", "bust_in_silhouette", "envelope", "page_facing_up", "waxing_crescent_moon", "seat", "three", "school", "u5272", "candy", "1234", "heart_eyes", "dog2", "person_with_blond_hair", "carousel_horse", "rose", "bicyclist", "ok_woman", "smiley", "rowboat", "green_apple", "ambulance", "muscle", "clock5", "izakaya_lantern", "clock130", "boar", "bread", "purple_heart", "us", "racehorse", "mega", "black_medium_small_square", "guardsman", "first_quarter_moon_with_face", "repeat_one", "jack_o_lantern", "nut_and_bolt", "bathtub", "fish_cake", "clock7", "mount_fuji", "sailboat", "ship", "telescope", "disappointed_relieved", "cry", "facepunch", "clock330", "collision", "grey_question", "clipboard", "clubs", "deciduous_tree", "game_die", "key", "corn", "elephant", "link", "euro", "arrow_left", "package", "dolphin", "tiger2", "chocolate_bar", "point_up_2", "sweat", "mailbox_with_no_mail", "fire", "closed_umbrella", "round_pushpin", "interrobang", "massage", "closed_book", "white_check_mark", "shell", "weary", "thumbsup", "bath", "white_medium_small_square", "o", "ab", "x", "rugby_football", "love_letter", "arrow_up_small", "droplet", "monorail", "two_women_holding_hands", "telephone_receiver", "lock", "alarm_clock", "question", "clock6", "boom", "up", "six_pointed_star", "camel", "sparkles", "smiley_cat", "rice_ball", "sweat_smile", "new_moon_with_face", "full_moon", "clock430", "mortar_board", "helicopter", "cow2", "sandal", "heavy_check_mark", "japanese_goblin", "black_joker", "school_satchel", "rat", "shipit", "trolleybus", "oncoming_automobile", "symbols", "construction_worker", "dango", "leo", "bike", "small_red_triangle_down", "grey_exclamation", "point_down", "loudspeaker", "nose", "octopus", "no_good", "bullettrain_side", "page_with_curl", "100", "mobile_phone_off", "disappointed", "minidisc", "swimmer", "mountain_bicyclist", "sparkler", "clock1030", "books", "mag", "koko", "microphone", "bangbang", "musical_keyboard", "sa", "briefcase", "crying_cat_face", "sparkle", "hourglass_flowing_sand", "tiger", "cookie", "restroom", "earth_africa", "shower", "clock1230", "pineapple", "kr", "surfer", "credit_card", "dragon", "fu", "bookmark_tabs", "chicken", "relaxed", "sheep", "u6708", "angel", "cactus", "shirt", "church", "simple_smile", "baby_bottle", "cat2", "ticket", "negative_squared_cross_mark", "u6709", "bird", "kissing_face", "handbag", "dizzy_face", "mailbox", "milky_way", "evergreen_tree", "heavy_exclamation_mark", "clock630", "family", "recycle", "cow", "red_circle", "confused", "no_bell", "two_men_holding_hands", "tangerine", "ru", "dollar", "six", "u7981", "copyright", "pensive", "two", "crystal_ball", "girl", "information_source", "vibration_mode", "bowtie", "umbrella", "blush", "clock230", "imp", "gun", "stuck_out_tongue", "hamburger", "sunrise", "aquarius", "metro", "notebook_with_decorative_cover", "volcano", "lipstick", "fried_shrimp", "blowfish", "radio_button", "vertical_traffic_light", "beer", "water_buffalo", "no_entry", "smirk", "gb", "tropical_drink", "tada", "arrow_heading_up", "do_not_litter", "ant", "repeat", "mahjong", "black_small_square", "fountain", "chart", "european_castle", "musical_score", "hear_no_evil", "atm", "hourglass", "floppy_disk", "cop", "four", "tomato", "scissors", "hatching_chick", "pouting_cat", "jp", "relieved", "sake", "spades", "house", "tennis", "sound", "meat_on_bone", "jeans", "gemini", "non-potable_water", "zero", "straight_ruler", "thumbsdown", "bee", "sweat_drops", "end", "raised_hand", "bulb", "busts_in_silhouette", "ghost", "flashlight", "confetti_ball", "hand", "abc", "curly_loop", "soccer", "fr", "shoe", "see_no_evil", "violin", "leftwards_arrow_with_hook", "high_heel", "love_hotel", "outbox_tray", "stew", "notes", "oden", "black_nib", "notebook", "wolf", "arrow_backward", "sweet_potato", "ribbon", "unamused", "watermelon", "circus_tent", "tanabata_tree", "raising_hand", "foggy", "heart", "open_file_folder", "waning_gibbous_moon", "es", "pray", "exclamation", "cherries", "hamster", "sleepy", "arrow_upper_right", "file_folder", "fries", "large_blue_diamond", "penguin", "e-mail", "hurtrealbad", "steam_locomotive", "lollipop", "angry", "walking", "capricorn", "rage1", "birthday", "flushed", "put_litter_in_its_place", "grapes", "finnadie", "eyeglasses", "mouse", "apple", "u6307", "horse_racing", "top", "ski", "black_square", "man", "inbox_tray", "womans_clothes", "eight", "parking", "ring", "video_game", "ramen", "pushpin", "squirrel", "cat", "id", "airplane", "octocat", "man_with_gua_pi_mao", "new_moon", "arrow_lower_left", "iphone", "kiss", "cancer", "princess", "rage3", "arrow_double_down", "anger", "wink", "point_left", "ear", "date", "open_mouth", "bookmark", "balloon", "stuck_out_tongue_winking_eye", "person_with_pouting_face", "rage2", "trident", "arrow_double_up", "santa", "hankey", "four_leaf_clover", "heart_decoration", "rocket", "fork_and_knife", "wave", "office", "diamond_shape_with_a_dot_inside", "sunny", "articulated_lorry", "diamonds", "alien", "arrow_forward", "+1", "memo", "feelsgood", "rewind", "tropical_fish", "train2", "smile_cat", "dragon_face", "rice", "innocent", "running_shirt_with_sash", "barber", "cloud", "ferris_wheel", "moneybag", "minibus", "pear", "couplekiss", "yen", "lips", "fire_engine", "bouquet", "hearts", "godmode", "five", "wind_chime", "globe_with_meridians", "heartbeat", "gift_heart", "frog", "lock_with_ink_pen", "ram", "haircut", "customs", "city_sunset", "doughnut", "heavy_division_sign", "waning_crescent_moon", "calendar", "aerial_tramway", "city_sunrise", "cool", "eight_pointed_black_star", "door", "melon", "christmas_tree", "one", "grin", "microscope", "heavy_multiplication_x", "video_camera", "fallen_leaf", "ok_hand", "curry", "arrow_right_hook", "honey_pot", "ice_cream", "registered", "name_badge", "zap", "triangular_flag_on_post", "car", "cupid", "heavy_plus_sign", "gift", "clapper", "mens", "zzz", "tulip", "statue_of_liberty", "baseball", "u5408", "poultry_leg", "de", "earth_americas", "blue_car", "new", "musical_note", "movie_camera", "bridge_at_night", "heavy_minus_sign", "pill", "confounded", "rooster", "u6e80", "older_man", "mans_shoe", "icecream", "phone", "football", "rage4", "tractor", "u55b6", "department_store", "light_rail", "man_with_turban", "whale2", "it", "basketball", "poop", "sparkling_heart", "speak_no_evil", "clock830", "waxing_gibbous_moon", "checkered_flag", "panda_face", "raised_hands", "snowman", "baggage_claim", "monkey", "bank", "no_mobile_phones", "information_desk_person", "couple_with_heart", "pencil", "o2", "worried", "congratulations", "computer", "b", "frowning", "scorpius", "unlock", "point_up", "ear_of_rice", "punch", "joy_cat", "dolls", "laughing", "woman", "secret", "sushi", "persevere", "blue_heart", "cherry_blossom", "sunglasses", "paw_prints", "virgo", "womens", "lemon", "revolving_hearts", "banana", "couple", "wheelchair", "red_car", "passport_control", "police_car", "post_office", "keycap_ten", "bug", "scream_cat", "pizza", "hushed", "first_quarter_moon", "seven", "-1", "uk", "hammer", "anchor", "sob", "wc", "star", "mag_right", "guitar", "art", "boot", "running", "tm", "shaved_ice", "construction", "clock8", "taurus", "eggplant", "telephone", "no_entry_sign", "soon", "wrench", "ophiuchus", "v", "cd", "a", "toilet", "wedding", "white_flower", "beers", "japanese_castle", "bento", "arrow_lower_right", "u7a7a", "accept", "strawberry", "beetle", "postbox", "eyes", "fishing_pole_and_fish", "egg", "flags", "gem", "herb", "crossed_flags", "postal_horn", "bus", "heavy_dollar_sign", "last_quarter_moon", "mute", "cyclone", "chart_with_downwards_trend", "mailbox_closed", "ocean", "leaves", "truck", "stars", "star2", "blue_book", "white_medium_square", "slot_machine", "clock9", "maple_leaf", "oncoming_police_car", "8ball", "trollface", "vs", "loop", "hocho", "kissing", "house_with_garden", "arrow_upper_left", "baby", "mountain_railway", "card_index", "speaker", "clap", "scroll", "moyai", "dress", "fuelpump", "camera", "neckbeard", "pig", "koala", "purse", "dromedary_camel", "white_square_button", "golf", "nail_care", "tophat", "underage", "pencil2", "crescent_moon", "white_large_square", "boy", "traffic_light", "trumpet", "flower_playing_cards", "u7121", "dart", "saxophone", "mask", "rabbit2", "sleeping", "rice_cracker", "necktie", "clock930", "abcd", "thought_balloon", "children_crossing", "two_hearts", "station", "arrow_down", "donut", "kimono", "crown", "european_post_office", "paperclip", "capital_abcd", "roller_coaster", "arrow_heading_down", "grinning", "ng", "vhs", "oncoming_bus", "tea", "full_moon_with_face", "syringe", "satisfied", "back", "white_small_square", "left_luggage", "nine", "sos", "no_mouth", "japan", "pager", "tshirt", "smiling_imp", "high_brightness", "earth_asia", "smile", "partly_sunny", "snake", "runner", "bear", "dancers", "no_smoking", "anguished", "sun_with_face", "dancer", "baby_symbol", "incoming_envelope", "chart_with_upwards_trend", "person_frowning", "mouse2", "pig_nose", "goat", "hatched_chick", "heart_eyes_cat", "expressionless", "rage", "fish", "free", "tokyo_tower", "tram", "speedboat", "electric_plug", "arrow_up_down", "snail", "small_orange_diamond", "neutral_face", "u7533", "suspension_railway", "ledger", "pouch", "crocodile", "bride_with_veil", "bamboo", "rainbow", "wavy_dash", "wine_glass", "money_with_wings", "busstop", "older_woman"};
 
-	static {
-		Consumer<String> putEmoji = emoji -> {
-			emojiMap.put(emoji, IconLoader.getIcon("/emojis/" + emoji + ".png"));
-		};
-		URL resource = ResourceUtil.getResource(PrefixUtil.class, "/emojis", "");
-		File file = new File(resource.getFile());
-		String path = file.getParentFile().getPath();
-		if (!path.endsWith(".jar!")) {
-			Arrays.stream(Objects.requireNonNull(file.list()))
-							.filter(name -> !name.endsWith("@2x.png"))
-							.map(name -> name.substring(0, name.length() - 4))
-							.forEach(putEmoji);
-		} else {
-			try {
-				new JarFile(path.substring(SystemUtils.IS_OS_WINDOWS ? 6 : 5, path.length() - 1)).stream()
-								.filter(entry -> !entry.isDirectory())
-								.map(JarEntry::getName)
-								.filter(entry -> entry.startsWith("emojis/") && !entry.endsWith("@2x.png"))
-								.map(name -> name.substring(7, name.length() - 4))
-								.forEach(putEmoji);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    private static Map<String, Icon> emojiMap = new HashMap<>(890);
 
-	public static Map<String, Icon> getEmojiMap() {
-		return emojiMap;
-	}
+    static {
+        for (String emoji : emojiNames) {
+            emojiMap.put(emoji, IconLoader.getIcon("/emojis/" + emoji + ".png"));
+        }
+    }
 
-	public static Icon getIcon(String emoji) {
-		return emojiMap.get(emoji);
-	}
+    public static Map<String, Icon> getEmojiMap() {
+        return emojiMap;
+    }
+
+    public static Icon getIcon(String emoji) {
+        return emojiMap.get(emoji);
+    }
 }
