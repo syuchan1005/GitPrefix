@@ -66,14 +66,14 @@ public class PrefixPanel extends JBScrollPane {
 		return iconTextRadioButton;
 	}
 
-	public boolean isExists() {
+	public boolean notExist() {
 		VirtualFile gitprefix = PrefixPanel.getGitPrefixFile(myProject);
-		if (gitprefix == null) return false;
+		if (gitprefix == null) return true;
 		PsiFile psiFile = PsiManager.getInstance(myProject).findFile(gitprefix);
-		if (psiFile == null) return false;
+		if (psiFile == null) return true;
 		Stream<PsiElement> properties = Arrays.stream(psiFile.getChildren())
 						.filter(psiElement -> psiElement instanceof PrefixResourceProperty);
-		return properties.count() != 0;
+		return properties.count() == 0;
 	}
 
 	public ButtonGroup getButtonGroup() {
@@ -84,7 +84,7 @@ public class PrefixPanel extends JBScrollPane {
 		private JRadioButton radioButton;
 		private JLabel label;
 
-		public IconTextRadioButton(String text, Icon icon, boolean selected) {
+		private IconTextRadioButton(String text, Icon icon, boolean selected) {
 			super(new FlowLayout(FlowLayout.LEADING, 5, 1));
 			this.radioButton = new JRadioButton("", selected);
 
@@ -93,11 +93,6 @@ public class PrefixPanel extends JBScrollPane {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					radioButton.setSelected(!radioButton.isSelected());
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					radioButton.requestFocus(true);
 				}
 			});
 
@@ -109,11 +104,11 @@ public class PrefixPanel extends JBScrollPane {
 			this.radioButton.addActionListener(var1);
 		}
 
-		public JRadioButton getRadioButton() {
+		private JRadioButton getRadioButton() {
 			return radioButton;
 		}
 
-		public JLabel getLabel() {
+		private JLabel getLabel() {
 			return label;
 		}
 
@@ -136,7 +131,7 @@ public class PrefixPanel extends JBScrollPane {
 	}
 
 	@Nullable
-	public static VirtualFile getGitPrefixFile(Project project) {
+	private static VirtualFile getGitPrefixFile(Project project) {
 		GitPrefixData prefixData = ServiceManager.getService(project, GitPrefixData.class);
 		if (prefixData.getIsPathType().equals("DEFAULT")) {
 			return project.getBaseDir().findChild(".gitprefix");

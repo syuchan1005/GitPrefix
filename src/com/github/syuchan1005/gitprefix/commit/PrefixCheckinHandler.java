@@ -17,21 +17,21 @@ import javax.swing.JComponent;
 public class PrefixCheckinHandler extends CheckinHandler {
 	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
-	public PrefixPanel prefixPanel;
-	public CheckinProjectPanel checkinProjectPanel;
+	private PrefixPanel prefixPanel;
+	private CheckinProjectPanel checkinProjectPanel;
 
-	public PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
+	private PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
 		prefixPanel = new PrefixPanel(checkinProjectPanel.getProject());
-		if (!prefixPanel.isExists()) return;
+		if (prefixPanel.notExist()) return;
 		try {
 			Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 			injectPrefixPanel(splitter);
 		} catch (Exception ignored) {}
 	}
 
-	public void injectPrefixPanel(Splitter splitter) {
-		if (!prefixPanel.isExists()) return;
+	private void injectPrefixPanel(Splitter splitter) {
+		if (prefixPanel.notExist()) return;
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
 		Splitter commitSplitter = new Splitter();
 		commitSplitter.setFirstComponent(prefixPanel);
@@ -44,7 +44,7 @@ public class PrefixCheckinHandler extends CheckinHandler {
 
 	@Override
 	public ReturnResult beforeCheckin() {
-		if (!prefixPanel.isExists()) return ReturnResult.COMMIT;
+		if (prefixPanel.notExist()) return ReturnResult.COMMIT;
 		for (PrefixPanelFactory prefixPanelFactory: extensionPointName.getExtensions()) {
 			if (prefixPanelFactory.beforeCheckin() == PrefixPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;
