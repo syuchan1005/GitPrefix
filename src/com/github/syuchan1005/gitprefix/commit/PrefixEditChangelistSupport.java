@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class PrefixEditChangelistSupport implements EditChangelistSupport  {
 	@Override
 	public void installSearch(EditorTextField editorTextField, EditorTextField editorTextField1) {
-		CommitChangeListDialog dialog = (CommitChangeListDialog) PrefixCheckinHandlerFactory.handler.checkinProjectPanel;
+		CommitChangeListDialog dialog = (CommitChangeListDialog) PrefixCheckinHandlerFactory.getHandler().getCheckinProjectPanel();
 		Splitter splitter = null;
 		if (dialog.getComponent() instanceof Splitter) {
 			splitter = (Splitter) dialog.getComponent();
@@ -25,7 +25,7 @@ public class PrefixEditChangelistSupport implements EditChangelistSupport  {
 			} catch (ReflectiveOperationException ignored) { }
 		}
 		if (splitter != null) {
-			PrefixCheckinHandlerFactory.handler.injectPrefixPanel(splitter);
+			PrefixCheckinHandlerFactory.getHandler().injectPrefixPanel(splitter);
 		}
 	}
 

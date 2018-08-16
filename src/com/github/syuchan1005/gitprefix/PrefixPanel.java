@@ -12,18 +12,11 @@ import com.intellij.psi.PsiManager;
 import com.intellij.ui.components.JBScrollPane;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.stream.Stream;
-import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 
 public class PrefixPanel extends JBScrollPane {
 	private static final String NO_PREFIX = "No Prefix";
@@ -35,12 +28,9 @@ public class PrefixPanel extends JBScrollPane {
 		this.myProject = project;
 		JPanel prefixPanel = new JPanel();
 		prefixPanel.setLayout(new VerticalFlowLayout(0, 0, 0, true, false));
-		VirtualFile gitprefix = PrefixPanel.getGitPrefixFile(myProject);
-		if (gitprefix == null) return;
-		PsiFile psiFile = PsiManager.getInstance(project).findFile(gitprefix);
-		if (psiFile == null) return;
-		int count = 0;
-		for (PsiElement psiElement : psiFile.getChildren()) {
+		PsiElement[] children = PrefixPanel.getGitPrefixFilePsiElements(myProject);
+		if (children == null) return;
+		for (PsiElement psiElement : children) {
 			if (!(psiElement instanceof PrefixResourceProperty)) continue;
 			IconTextRadioButton prefixButton = createPrefixButton(
 							psiElement.getFirstChild().getText(),
@@ -48,9 +38,7 @@ public class PrefixPanel extends JBScrollPane {
 							false
 			);
 			prefixPanel.add(prefixButton);
-			count++;
 		}
-		if (count == 0) return;
 		prefixPanel.add(createPrefixButton(null, NO_PREFIX, true));
 		this.setViewportView(prefixPanel);
 		this.setBorder(null);
@@ -67,13 +55,7 @@ public class PrefixPanel extends JBScrollPane {
 	}
 
 	public boolean notExist() {
-		VirtualFile gitprefix = PrefixPanel.getGitPrefixFile(myProject);
-		if (gitprefix == null) return true;
-		PsiFile psiFile = PsiManager.getInstance(myProject).findFile(gitprefix);
-		if (psiFile == null) return true;
-		Stream<PsiElement> properties = Arrays.stream(psiFile.getChildren())
-						.filter(psiElement -> psiElement instanceof PrefixResourceProperty);
-		return properties.count() == 0;
+		return PrefixPanel.getGitPrefixFilePsiElements(myProject) == null;
 	}
 
 	public ButtonGroup getButtonGroup() {
@@ -131,13 +113,21 @@ public class PrefixPanel extends JBScrollPane {
 	}
 
 	@Nullable
-	private static VirtualFile getGitPrefixFile(Project project) {
+	public static PsiElement[] getGitPrefixFilePsiElements(Project project) {
 		GitPrefixData prefixData = ServiceManager.getService(project, GitPrefixData.class);
+		VirtualFile virtualFile;
 		if (prefixData.getIsPathType().equals("DEFAULT")) {
-			return project.getBaseDir().findChild(".gitprefix");
+			virtualFile = project.getBaseDir().findChild(".gitprefix");
 		} else if (prefixData.getIsPathType().equals("CUSTOM") && !prefixData.getGitPrefixPath().equals("")) {
-			return LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.getGitPrefixPath());
+			virtualFile = LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.getGitPrefixPath());
+		} else {
+			return null;
 		}
-		return null;
+		if (virtualFile == null) return null;
+		PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+		if (psiFile == null) return null;
+		PsiElement[] children = psiFile.getChildren();
+		if (children.length == 0) return null;
+		return children;
 	}
 }
