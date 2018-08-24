@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.commit;
+package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.vcs.changes.LocalChangeList;

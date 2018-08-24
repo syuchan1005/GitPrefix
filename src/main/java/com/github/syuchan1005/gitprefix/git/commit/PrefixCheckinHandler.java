@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.commit;
+package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.github.syuchan1005.gitprefix.PrefixPanel;
 import com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory;

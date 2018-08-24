@@ -1,0 +1,29 @@
+plugins {
+    id "org.jetbrains.intellij" version "0.3.7"
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+
+version '1.5.4.4' // Plugin version
+
+intellij {
+    pluginName 'Git Prefix'
+
+    // https://www.jetbrains.com/intellij-repository/releases
+    version 'LATEST-EAP-SNAPSHOT'
+
+    // plugin dependencies
+    plugins = ['git4idea']
+}
+
+group 'org.jetbrains'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.javassist:javassist:3.23.1-GA'
+}

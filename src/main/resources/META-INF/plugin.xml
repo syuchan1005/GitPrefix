@@ -5,7 +5,7 @@
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
-        <span style="font-size: 1.7rem">Easy to 'Prefix Commit'</span><br/>
+        <span style="font-size: 1.7rem">Easy to 'Emoji(or Text) Prefix Commit'</span><br/>
         <span style="font-size: 1.5rem">Getting Started (in 3 step)</span><br/>
         <ol>
             <li>'.gitprefix' create your project root.</li>
@@ -26,8 +26,8 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Commit -->
-        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.commit.PrefixCheckinHandlerFactory" />
-        <editChangelistSupport implementation="com.github.syuchan1005.gitprefix.commit.PrefixEditChangelistSupport" />
+        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
+        <editChangelistSupport implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixEditChangelistSupport" />
 
         <!-- File -->
         <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileTypeFactory" />

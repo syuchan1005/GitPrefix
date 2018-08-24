@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.commit;
+package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
