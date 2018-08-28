@@ -44,6 +44,8 @@
                         implementationClass="com.github.syuchan1005.gitprefix.comments.PrefixResourceCommenter"/>
         <lang.psiStructureViewFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
 
+        <fileEditorProvider implementation="com.github.syuchan1005.gitprefix.editor.GitPrefixEditorProvider" />
+
         <!-- Setting -->
         <projectService serviceImplementation="com.github.syuchan1005.gitprefix.GitPrefixData" />
         <projectConfigurable groupId="tools" displayName="GitPrefix" id="perference.gitprefix.GitPrefixConfigurable"
@@ -67,4 +69,10 @@
             <!--<implementation-class>com.github.syuchan1005.gitprefix.components.GitPrefixUpdateNotifier</implementation-class>-->
         </component>
     </project-components>
+
+    <application-components>
+        <component>
+            <implementation-class>com.github.syuchan1005.gitprefix.git.GitTagDialogInjector</implementation-class>
+        </component>
+    </application-components>
 </idea-plugin>

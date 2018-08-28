@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import javax.swing.JPanel;
 import org.jetbrains.annotations.Nullable;
 
-public class PrefixEditChangelistSupport implements EditChangelistSupport  {
+public class PrefixEditChangelistSupport implements EditChangelistSupport {
 	@Override
 	public void installSearch(EditorTextField editorTextField, EditorTextField editorTextField1) {
 		if (PrefixCheckinHandlerFactory.getHandler() == null) return;
@@ -23,7 +23,8 @@ public class PrefixEditChangelistSupport implements EditChangelistSupport  {
 				Field mySplitter = dialog.getClass().getDeclaredField("mySplitter");
 				mySplitter.setAccessible(true);
 				splitter = (Splitter) mySplitter.get(dialog);
-			} catch (ReflectiveOperationException ignored) { }
+			} catch (ReflectiveOperationException ignored) {
+			}
 		}
 		if (splitter != null) {
 			PrefixCheckinHandlerFactory.getHandler().injectPrefixPanel(splitter);
@@ -36,5 +37,6 @@ public class PrefixEditChangelistSupport implements EditChangelistSupport  {
 	}
 
 	@Override
-	public void changelistCreated(LocalChangeList localChangeList) {}
+	public void changelistCreated(LocalChangeList localChangeList) {
+	}
 }

@@ -1,6 +1,6 @@
 package com.github.syuchan1005.gitprefix.linemark;
 
-import com.github.syuchan1005.gitprefix.PrefixUtil;
+import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
@@ -19,7 +19,7 @@ public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider 
 			LeafPsiElement leafPsiElement = (LeafPsiElement) element;
 			if (leafPsiElement.getElementType() != PrefixResourceTypes.EMOJI_KEY) return;
 			String emoji = leafPsiElement.getText().trim();
-			Icon icon = PrefixUtil.getIcon(emoji.substring(1, emoji.length() - 1));
+			Icon icon = EmojiUtil.getIcon(emoji.substring(1, emoji.length() - 1));
 			if (icon != null) {
 				NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon).setTarget(element);
 				result.add(builder.createLineMarkerInfo(element));

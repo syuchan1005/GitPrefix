@@ -1,19 +1,18 @@
 package com.github.syuchan1005.gitprefix.git.commit;
 
-import com.github.syuchan1005.gitprefix.PrefixPanel;
 import com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory;
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.CommitMessage;
 import com.intellij.psi.PsiElement;
-
-import javax.swing.*;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
+import javax.swing.AbstractButton;
+import javax.swing.JComponent;
 
 /**
  * Created by syuchan on 2017/05/29.
@@ -21,8 +20,8 @@ import java.util.Enumeration;
 public class PrefixCheckinHandler extends CheckinHandler {
 	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
-    private PrefixPanel prefixPanel;
-    private CheckinProjectPanel checkinProjectPanel;
+	private PrefixPanel prefixPanel;
+	private CheckinProjectPanel checkinProjectPanel;
 
 	public PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
@@ -31,14 +30,15 @@ public class PrefixCheckinHandler extends CheckinHandler {
 		try {
 			Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
 			injectPrefixPanel(splitter);
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {
+		}
 	}
 
-    public CheckinProjectPanel getCheckinProjectPanel() {
-        return checkinProjectPanel;
-    }
+	public CheckinProjectPanel getCheckinProjectPanel() {
+		return checkinProjectPanel;
+	}
 
-    public void injectPrefixPanel(Splitter splitter) {
+	public void injectPrefixPanel(Splitter splitter) {
 		PsiElement[] psiElements = PrefixPanel.getGitPrefixFilePsiElements(checkinProjectPanel.getProject());
 		if (psiElements == null) return;
 		String[] keys = Arrays.stream(psiElements)
@@ -59,17 +59,17 @@ public class PrefixCheckinHandler extends CheckinHandler {
 		String comment = commitMessage.getComment();
 		for (String key : keys) {
 			if (comment.startsWith(key)) {
-                Enumeration<AbstractButton> elements = prefixPanel.getButtonGroup().getElements();
-                while (elements.hasMoreElements()) {
-                    AbstractButton button = elements.nextElement();
-                    if (button.getToolTipText().equals(key)) {
-                        button.setSelected(true);
-                        String raw = comment.substring(key.length());
-                        commitMessage.setCommitMessage(raw.length() > 0 && raw.charAt(0) == ' ' ? raw.substring(1) : raw);
-                        break;
-                    }
-                }
-                break;
+				Enumeration<AbstractButton> elements = prefixPanel.getButtonGroup().getElements();
+				while (elements.hasMoreElements()) {
+					AbstractButton button = elements.nextElement();
+					if (button.getToolTipText().equals(key)) {
+						button.setSelected(true);
+						String raw = comment.substring(key.length());
+						commitMessage.setCommitMessage(raw.length() > 0 && raw.charAt(0) == ' ' ? raw.substring(1) : raw);
+						break;
+					}
+				}
+				break;
 			}
 		}
 
@@ -81,17 +81,15 @@ public class PrefixCheckinHandler extends CheckinHandler {
 	@Override
 	public ReturnResult beforeCheckin() {
 		if (prefixPanel.notExist()) return ReturnResult.COMMIT;
-		for (PrefixPanelFactory prefixPanelFactory: extensionPointName.getExtensions()) {
+		for (PrefixPanelFactory prefixPanelFactory : extensionPointName.getExtensions()) {
 			if (prefixPanelFactory.beforeCheckin() == PrefixPanelFactory.ReturnResult.CANCEL) {
 				return ReturnResult.CANCEL;
 			}
 		}
-		Collections.list(prefixPanel.getButtonGroup().getElements()).stream().filter(AbstractButton::isSelected).findFirst().ifPresent(button -> {
-			String prefix = button.getToolTipText();
-			if (prefix != null) {
-				checkinProjectPanel.setCommitMessage(prefix + " " + checkinProjectPanel.getCommitMessage());
-			}
-		});
+		String prefix = prefixPanel.getSelectedToolTipText();
+		if (prefix != null) {
+			checkinProjectPanel.setCommitMessage(prefix + " " + checkinProjectPanel.getCommitMessage());
+		}
 		return ReturnResult.COMMIT;
 	}
 }

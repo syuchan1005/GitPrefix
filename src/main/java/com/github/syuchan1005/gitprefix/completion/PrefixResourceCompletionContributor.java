@@ -1,6 +1,6 @@
 package com.github.syuchan1005.gitprefix.completion;
 
-import com.github.syuchan1005.gitprefix.PrefixUtil;
+import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
@@ -11,13 +11,9 @@ import com.intellij.codeInsight.completion.InsertHandler;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
-import java.util.Map;
-import java.util.Objects;
-import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 
 public class PrefixResourceCompletionContributor extends CompletionContributor {
@@ -36,10 +32,10 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 						}
 					};
 
-					PrefixUtil.getEmojiMap().forEach((key, value) -> {
+					EmojiUtil.getEmojiMap().forEach((key, value) -> {
 						completionResultSet.addElement(
-										LookupElementBuilder.create(key, key + ":")
-														.withIcon(value).withInsertHandler(insertHandler)
+								LookupElementBuilder.create(key, key + ":")
+										.withIcon(value.getIcon()).withInsertHandler(insertHandler)
 						);
 					});
 				}

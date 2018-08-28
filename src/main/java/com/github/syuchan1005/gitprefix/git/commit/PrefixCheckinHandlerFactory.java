@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 public class PrefixCheckinHandlerFactory extends GitCheckinHandlerFactory {
 	private static PrefixCheckinHandler handler;
 
+	public static PrefixCheckinHandler getHandler() {
+		return handler;
+	}
+
 	@NotNull
 	@Override
 	protected CheckinHandler createVcsHandler(CheckinProjectPanel panel) {
 		handler = new PrefixCheckinHandler(panel);
-		return handler;
-	}
-
-	public static PrefixCheckinHandler getHandler() {
 		return handler;
 	}
 }

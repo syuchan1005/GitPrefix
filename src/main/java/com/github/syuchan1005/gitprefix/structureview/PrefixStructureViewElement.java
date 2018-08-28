@@ -1,6 +1,6 @@
 package com.github.syuchan1005.gitprefix.structureview;
 
-import com.github.syuchan1005.gitprefix.PrefixUtil;
+import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.psi.impl.PrefixResourcePropertyImpl;
@@ -11,9 +11,7 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
 import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.psi.NavigatablePsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
-import icons.GitPrefixIcons;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
@@ -61,7 +59,7 @@ public class PrefixStructureViewElement implements StructureViewTreeElement, Sor
 			String text = property.getFirstChild().getText();
 			Icon icon = null;
 			if (text.charAt(0) == ':' && text.charAt(text.length() - 1) == ':') {
-				icon = PrefixUtil.getIcon(text.substring(1, text.length() - 1));
+				icon = EmojiUtil.getIcon(text.substring(1, text.length() - 1));
 			}
 			return new PresentationData(text, property.getLastChild().getText(), icon == null ? AllIcons.Nodes.Field : icon, null);
 		}

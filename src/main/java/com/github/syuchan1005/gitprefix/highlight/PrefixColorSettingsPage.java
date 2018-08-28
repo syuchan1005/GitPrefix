@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class PrefixColorSettingsPage implements ColorSettingsPage {
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-					new AttributesDescriptor("EmojiKey", PrefixResourceSyntaxHighlighter.EMOJI_KEY),
-					new AttributesDescriptor("TextKey", PrefixResourceSyntaxHighlighter.TEXT_KEY),
-					new AttributesDescriptor("EmojiValue", PrefixResourceSyntaxHighlighter.EMOJI_VALUE),
-					new AttributesDescriptor("TextValue", PrefixResourceSyntaxHighlighter.TEXT_VALUE),
-					new AttributesDescriptor("LineComment", PrefixResourceSyntaxHighlighter.LINE_COMMENT),
-					new AttributesDescriptor("BlockComment", PrefixResourceSyntaxHighlighter.BLOCK_COMMENT),
+			new AttributesDescriptor("EmojiKey", PrefixResourceSyntaxHighlighter.EMOJI_KEY),
+			new AttributesDescriptor("TextKey", PrefixResourceSyntaxHighlighter.TEXT_KEY),
+			new AttributesDescriptor("EmojiValue", PrefixResourceSyntaxHighlighter.EMOJI_VALUE),
+			new AttributesDescriptor("TextValue", PrefixResourceSyntaxHighlighter.TEXT_VALUE),
+			new AttributesDescriptor("LineComment", PrefixResourceSyntaxHighlighter.LINE_COMMENT),
+			new AttributesDescriptor("BlockComment", PrefixResourceSyntaxHighlighter.BLOCK_COMMENT),
 	};
 
 	@Nullable
@@ -37,11 +37,11 @@ public class PrefixColorSettingsPage implements ColorSettingsPage {
 	@Override
 	public String getDemoText() {
 		return ":tada: Release!!\n\n" +
-						"|[Update]| Update Docs\n\n" +
-						"# Line Comment Block\n\n" +
-						"/*\n" +
-						"Block Comment Block\n" +
-						"*/";
+				"|[Update]| Update Docs\n\n" +
+				"# Line Comment Block\n\n" +
+				"/*\n" +
+				"Block Comment Block\n" +
+				"*/";
 	}
 
 	@Nullable

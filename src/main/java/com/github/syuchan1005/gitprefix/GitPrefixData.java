@@ -1,15 +1,32 @@
 package com.github.syuchan1005.gitprefix;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@State(name = "GitPrefixData", storages = { @Storage(StoragePathMacros.WORKSPACE_FILE) })
+@State(name = "GitPrefixData", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
 public class GitPrefixData implements PersistentStateComponent<GitPrefixData> {
-	private String isPathType = "DEFAULT";
-	private String gitPrefixPath = "";
+	public String isPathType = "DEFAULT";
+	public String gitPrefixPath = "";
+
+	public GitPrefixData() {
+	}
+
+	public GitPrefixData(String isPathType, String gitPrefixPath) {
+		this.isPathType = isPathType;
+		this.gitPrefixPath = gitPrefixPath;
+	}
+
+	@Nullable
+	public static GitPrefixData getInstance(Project project) {
+		return ServiceManager.getService(project, GitPrefixData.class);
+	}
 
 	@Nullable
 	@Override
@@ -20,26 +37,5 @@ public class GitPrefixData implements PersistentStateComponent<GitPrefixData> {
 	@Override
 	public void loadState(@NotNull GitPrefixData state) {
 		XmlSerializerUtil.copyBean(state, this);
-	}
-
-	@Nullable
-	public static GitPrefixData getInstance(Project project) {
-		return ServiceManager.getService(project, GitPrefixData.class);
-	}
-
-	public String getIsPathType() {
-		return isPathType;
-	}
-
-	public String getGitPrefixPath() {
-		return gitPrefixPath;
-	}
-
-	public void setIsPathType(String isPathType) {
-		this.isPathType = isPathType;
-	}
-
-	public void setGitPrefixPath(String gitPrefixPath) {
-		this.gitPrefixPath = gitPrefixPath;
 	}
 }
