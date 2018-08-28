@@ -100,8 +100,8 @@ public class {config.get("class", "name")} {{
         return {config.get("class", "mapName")};
     }}
 
-    public static Icon getIcon(String emoji) {{
-        return {config.get("class", "mapName")}.get(emoji).getIcon();
+    public static EmojiData getEmojiData(String emoji) {{
+        return {config.get("class", "mapName")}.get(emoji);
     }}
 }}
     ''')

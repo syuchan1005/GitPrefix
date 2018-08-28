@@ -306,14 +306,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			/*
-			g.ClassCastException: com.github.syuchan1005.gitprefix.ui.TextAndPreviewEditor$DoublingEventListenerDelegate cannot be cast to com.intellij.openapi.fileEditor.FileEditor
-	at com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl$MyEditorPropertyChangeListener.propertyChange(FileEditorManagerImpl.java:1750)
-	at com.github.syuchan1005.gitprefix.ui.TextAndPreviewEditor$DoublingEventListenerDelegate.propertyChange(TextAndPreviewEditor.java:309)
-	at java.beans.PropertyChangeSupport.fire(PropertyChangeSupport.java:335)
-	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:327)
-	at java.beans.PropertyChangeSupport.firePropertyChange(PropertyChangeSupport.java:263)
-			 */
 			myDelegate.propertyChange(new PropertyChangeEvent(evt, evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
 		}
 	}

@@ -19,9 +19,9 @@ public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider 
 			LeafPsiElement leafPsiElement = (LeafPsiElement) element;
 			if (leafPsiElement.getElementType() != PrefixResourceTypes.EMOJI_KEY) return;
 			String emoji = leafPsiElement.getText().trim();
-			Icon icon = EmojiUtil.getIcon(emoji.substring(1, emoji.length() - 1));
-			if (icon != null) {
-				NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(icon).setTarget(element);
+			EmojiUtil.EmojiData emojiData = EmojiUtil.getEmojiData(emoji.substring(1, emoji.length() - 1));
+			if (emojiData != null) {
+				NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(emojiData.getIcon()).setTarget(element);
 				result.add(builder.createLineMarkerInfo(element));
 			}
 		}

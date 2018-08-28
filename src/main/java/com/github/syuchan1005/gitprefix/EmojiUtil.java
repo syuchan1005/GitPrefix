@@ -916,8 +916,8 @@ public class EmojiUtil {
         return emojiMap;
     }
 
-    public static Icon getIcon(String emoji) {
-        return emojiMap.get(emoji).getIcon();
+    public static EmojiData getEmojiData(String emoji) {
+        return emojiMap.get(emoji);
     }
 }
     

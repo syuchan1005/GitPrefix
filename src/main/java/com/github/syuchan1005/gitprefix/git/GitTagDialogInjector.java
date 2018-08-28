@@ -1,5 +1,6 @@
 package com.github.syuchan1005.gitprefix.git;
 
+import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Splitter;
@@ -34,6 +35,11 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 		String toolTipText = prefixPanel.getSelectedToolTipText();
 		if (toolTipText != null) {
 			JTextArea textArea = (JTextArea) scrollPane.getComponent(0).getComponentAt(0, 0);
+			if (toolTipText.charAt(0) == ':' && toolTipText.charAt(toolTipText.length() - 1) == ':') {
+				String emoji = toolTipText.substring(1, toolTipText.length() - 2);
+				EmojiUtil.EmojiData emojiData = EmojiUtil.getEmojiData(emoji);
+				if (emojiData != null) toolTipText = emojiData.getCode();
+			}
 			textArea.setText(toolTipText + " " + textArea.getText());
 		}
 		addPanel = false;

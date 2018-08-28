@@ -89,9 +89,9 @@ public class PrefixPanel extends JBScrollPane {
 	}
 
 	private IconTextRadioButton createPrefixButton(String text, String description, boolean selected) {
-		Icon icon = null;
-		if (text != null && text.startsWith(":")) icon = EmojiUtil.getIcon(text.replace(":", ""));
-		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, icon, selected);
+		EmojiUtil.EmojiData emojiData = null;
+		if (text != null && text.startsWith(":")) emojiData = EmojiUtil.getEmojiData(text.replace(":", ""));
+		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, emojiData != null ? emojiData.getIcon(): null, selected);
 		iconTextRadioButton.getRadioButton().setToolTipText(text);
 		buttonGroup.add(iconTextRadioButton.getRadioButton());
 		return iconTextRadioButton;

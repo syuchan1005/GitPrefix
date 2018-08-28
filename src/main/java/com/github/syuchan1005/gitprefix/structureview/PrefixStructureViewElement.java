@@ -57,11 +57,11 @@ public class PrefixStructureViewElement implements StructureViewTreeElement, Sor
 		if (element instanceof PrefixResourceProperty) {
 			PrefixResourceProperty property = (PrefixResourceProperty) this.element;
 			String text = property.getFirstChild().getText();
-			Icon icon = null;
+			EmojiUtil.EmojiData emojiData = null;
 			if (text.charAt(0) == ':' && text.charAt(text.length() - 1) == ':') {
-				icon = EmojiUtil.getIcon(text.substring(1, text.length() - 1));
+				emojiData = EmojiUtil.getEmojiData(text.substring(1, text.length() - 1));
 			}
-			return new PresentationData(text, property.getLastChild().getText(), icon == null ? AllIcons.Nodes.Field : icon, null);
+			return new PresentationData(text, property.getLastChild().getText(), emojiData == null ? AllIcons.Nodes.Field : emojiData.getIcon(), null);
 		}
 		return element.getPresentation() != null ? element.getPresentation() : new PresentationData();
 	}
@@ -70,13 +70,13 @@ public class PrefixStructureViewElement implements StructureViewTreeElement, Sor
 	public TreeElement[] getChildren() {
 		if (element instanceof PrefixResourceFile) {
 			PrefixResourceProperty[] properties = PsiTreeUtil.getChildrenOfType(element, PrefixResourceProperty.class);
+			if (properties == null) return EMPTY_ARRAY;
 			List<TreeElement> treeElements = new ArrayList<>(properties.length);
 			for (PrefixResourceProperty property : properties) {
 				treeElements.add(new PrefixStructureViewElement((PrefixResourcePropertyImpl) property));
 			}
 			return treeElements.toArray(new TreeElement[treeElements.size()]);
-		} else {
-			return EMPTY_ARRAY;
 		}
+		return EMPTY_ARRAY;
 	}
 }
