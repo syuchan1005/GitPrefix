@@ -9,6 +9,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.components.AbstractProjectComponent;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -49,6 +50,12 @@ public class EmojiResourceRenameNotifier extends AbstractProjectComponent {
 					Notifications.Bus.notify(notification);
 				}
 			}
+
+			@Override
+			public void fileClosed(@NotNull FileEditorManager source, @NotNull VirtualFile file) { }
+
+			@Override
+			public void selectionChanged(@NotNull FileEditorManagerEvent event) { }
 		});
 	}
 }

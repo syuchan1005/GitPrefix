@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>Git Prefix</name>
-    <version>1.5.4.4</version>
+    <version>1.5.5</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -18,7 +18,20 @@
         .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
-    <change-notes>Fix icon loading</change-notes>
+    <change-notes><![CDATA[
+        <i>Implemented enhancements:</i>
+        <ul>
+            <li>Add GitPrefix File Editor</li>
+            <li>Add PrefixPanel in GitTag(VCS/Git/Tag...)</li>
+            <li>Add PrefixPanel(ComboBox) in GitTag(VCS/Git/Merge Changes...)</li>
+            <li>Change .emojirc file icon</li>
+        </ul>
+
+        <i>Fixed bugs:</i>
+        <ul>
+            <li>Commit handler is null</li>
+        </ul>
+    ]]></change-notes>
 
     <idea-version since-build="145.0"/>
     <depends>com.intellij.modules.lang</depends>
@@ -66,7 +79,6 @@
     <project-components>
         <component>
             <implementation-class>com.github.syuchan1005.gitprefix.components.EmojiResourceRenameNotifier</implementation-class>
-            <!--<implementation-class>com.github.syuchan1005.gitprefix.components.GitPrefixUpdateNotifier</implementation-class>-->
         </component>
     </project-components>
 

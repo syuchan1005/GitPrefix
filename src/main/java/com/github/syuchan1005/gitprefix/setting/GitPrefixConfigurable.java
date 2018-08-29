@@ -53,4 +53,19 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 		this.prefixData.isPathType = gui.getDefaultRadioButton().isSelected() ? "DEFAULT" : "CUSTOM";
 		this.prefixData.gitPrefixPath = gui.getPathField().getText();
 	}
+
+	@Nullable
+	@Override
+	public String getHelpTopic() {
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Runnable enableSearch(String option) {
+		return null;
+	}
+
+	@Override
+	public void reset() { }
 }
