@@ -1,8 +1,13 @@
-.idea
+.idea/
+.gradle/
 *.java~
 *.jar
 
 out/
 lib/
 
-EmojiUpdate.ini
+*.ini
+!*.template.ini
+*.iml
+
+**/resources/emojis/
