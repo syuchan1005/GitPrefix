@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.git;
+package com.github.syuchan1005.gitprefix.git.injector;
 
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
 import com.intellij.openapi.project.Project;
@@ -6,31 +6,36 @@ import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import git4idea.merge.GitMergeDialog;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.jetbrains.annotations.NotNull;
 
 public class GitMergeDialogInjector extends AbstractGitDialogInjector {
-	private static JTextField textField;
-	private static ComboBox comboBox;
-	private static boolean addPanel = false;
+	private JTextField textField;
+	private ComboBox comboBox;
+	private boolean addPanel = false;
 
-	public static void beforeShow(GitMergeDialog dialog) throws Exception {
-		Project project = GitInjectorUtil.getProject(dialog);
-		PrefixPanel prefixPanel = new PrefixPanel(project);
+	public GitMergeDialogInjector(@NotNull GitInjectorManager.InjectorType type, @NotNull Project project) {
+		super(type, project);
+	}
+
+	@Override
+	public void beforeShow(Object dialog) throws Exception {
+		super.beforeShow(dialog);
+		PrefixPanel prefixPanel = new PrefixPanel(myProject);
 		if (prefixPanel.notExist()) return;
-		JPanel panel = GitInjectorUtil.getPanel(dialog);
-		textField = (JTextField) panel.getComponent(9);
-		GridConstraints constraintsForComponent = ((GridLayoutManager) panel.getLayout()).getConstraintsForComponent(textField);
+		textField = (JTextField) myCenterPanel.getComponent(9);
+		GridConstraints constraintsForComponent = ((GridLayoutManager) myCenterPanel.getLayout()).getConstraintsForComponent(textField);
 		Splitter splitter = new Splitter();
 		comboBox = prefixPanel.toComboBox();
 		splitter.setFirstComponent(comboBox);
 		splitter.setSecondComponent(textField);
-		panel.add(splitter, constraintsForComponent, 9);
+		myCenterPanel.add(splitter, constraintsForComponent, 9);
 		addPanel = true;
 	}
 
-	public static void afterShow(GitMergeDialog dialog) {
+	@Override
+	public void afterShow(Object dialog) throws Exception {
+		super.afterShow(dialog);
 		if (!addPanel) return;
 		PrefixPanel.IconTextRadioButton selectedItem = (PrefixPanel.IconTextRadioButton) comboBox.getSelectedItem();
 		if (selectedItem == null) return;
@@ -39,10 +44,5 @@ public class GitMergeDialogInjector extends AbstractGitDialogInjector {
 			textField.setText(toolTipText + " " + textField.getText());
 		}
 		addPanel = false;
-	}
-
-	@Override
-	public String getInjectClassName() {
-		return "git4idea.merge.GitMergeDialog";
 	}
 }

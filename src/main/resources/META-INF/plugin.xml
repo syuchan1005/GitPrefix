@@ -72,8 +72,7 @@
 
     <application-components>
         <component>
-            <implementation-class>com.github.syuchan1005.gitprefix.git.GitTagDialogInjector</implementation-class>
-            <implementation-class>com.github.syuchan1005.gitprefix.git.GitMergeDialogInjector</implementation-class>
+            <implementation-class>com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager</implementation-class>
         </component>
     </application-components>
 </idea-plugin>

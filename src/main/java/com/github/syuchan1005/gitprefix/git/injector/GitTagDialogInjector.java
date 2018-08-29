@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.git;
+package com.github.syuchan1005.gitprefix.git.injector;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
@@ -10,27 +10,34 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import git4idea.ui.GitTagDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import org.jetbrains.annotations.NotNull;
 
 public class GitTagDialogInjector extends AbstractGitDialogInjector {
-	private static JBScrollPane scrollPane;
-	private static PrefixPanel prefixPanel;
-	private static boolean addPanel = false;
+	private JBScrollPane scrollPane;
+	private PrefixPanel prefixPanel;
+	private boolean addPanel = false;
 
-	public static void beforeShow(GitTagDialog dialog) throws Exception {
-		Project project = GitInjectorUtil.getProject(dialog);
-		prefixPanel = new PrefixPanel(project);
+	public GitTagDialogInjector(@NotNull GitInjectorManager.InjectorType type, @NotNull Project project) {
+		super(type, project);
+	}
+
+	@Override
+	public void beforeShow(Object dialog) throws Exception {
+		super.beforeShow(dialog);
+		prefixPanel = new PrefixPanel(myProject);
 		if (prefixPanel.notExist()) return;
-		JPanel panel = GitInjectorUtil.getPanel(dialog);
-		scrollPane = (JBScrollPane) panel.getComponent(9);
-		GridConstraints constraintsForComponent = ((GridLayoutManager) panel.getLayout()).getConstraintsForComponent(scrollPane);
+		scrollPane = (JBScrollPane) myCenterPanel.getComponent(7);
+		GridConstraints constraintsForComponent = ((GridLayoutManager) myCenterPanel.getLayout()).getConstraintsForComponent(scrollPane);
 		Splitter splitter = new Splitter();
 		splitter.setFirstComponent(prefixPanel);
 		splitter.setSecondComponent(scrollPane);
-		panel.add(splitter, constraintsForComponent, 7);
+		myCenterPanel.add(splitter, constraintsForComponent, 7);
 		addPanel = true;
 	}
 
-	public static void afterShow(GitTagDialog dialog) {
+	@Override
+	public void afterShow(Object dialog) throws Exception {
+		super.afterShow(dialog);
 		if (!addPanel) return;
 		String toolTipText = prefixPanel.getSelectedToolTipText();
 		if (toolTipText != null) {
@@ -43,10 +50,5 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 			textArea.setText(toolTipText + " " + textArea.getText());
 		}
 		addPanel = false;
-	}
-
-	@Override
-	public String getInjectClassName() {
-		return "git4idea.ui.GitTagDialog";
 	}
 }
