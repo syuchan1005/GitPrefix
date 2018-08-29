@@ -15,6 +15,12 @@ intellij {
     plugins = ['git4idea']
 }
 
+patchPluginXml {
+    version '1.5.5'
+    sinceBuild '145.0'
+    untilBuild ''
+}
+
 group 'org.jetbrains'
 
 compileJava {
