@@ -36,7 +36,7 @@ public class EmojiResourceFileType extends LanguageFileType {
 	@Nullable
 	@Override
 	public Icon getIcon() {
-		return GitPrefixIcons.FILE_ICON;
+		return GitPrefixIcons.FILE_ICON_OLD;
 	}
 }
 
