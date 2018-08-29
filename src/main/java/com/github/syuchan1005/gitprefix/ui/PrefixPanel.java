@@ -4,13 +4,16 @@ import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.GitPrefixData;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.components.JBScrollPane;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,9 +23,11 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PrefixPanel extends JBScrollPane {
@@ -49,6 +54,17 @@ public class PrefixPanel extends JBScrollPane {
 		prefixPanel.add(createPrefixButton(null, NO_PREFIX, true));
 		this.setViewportView(prefixPanel);
 		this.setBorder(null);
+	}
+
+	public ComboBox toComboBox() {
+		ComboBox<JPanel> comboBox = new ComboBox<>();
+		JPanel prefixPanel = (JPanel) this.getViewport().getView();
+		for (Component component : prefixPanel.getComponents()) {
+			comboBox.addItem((JPanel) component);
+		}
+		comboBox.setRenderer(new PrefixComboBoxRenderer());
+		comboBox.setSelectedIndex(comboBox.getItemCount() - 1);
+		return comboBox;
 	}
 
 	@Nullable
@@ -91,7 +107,7 @@ public class PrefixPanel extends JBScrollPane {
 	private IconTextRadioButton createPrefixButton(String text, String description, boolean selected) {
 		EmojiUtil.EmojiData emojiData = null;
 		if (text != null && text.startsWith(":")) emojiData = EmojiUtil.getEmojiData(text.replace(":", ""));
-		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, emojiData != null ? emojiData.getIcon(): null, selected);
+		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, emojiData != null ? emojiData.getIcon() : null, selected);
 		iconTextRadioButton.getRadioButton().setToolTipText(text);
 		buttonGroup.add(iconTextRadioButton.getRadioButton());
 		return iconTextRadioButton;
@@ -114,7 +130,7 @@ public class PrefixPanel extends JBScrollPane {
 		return null;
 	}
 
-	class IconTextRadioButton extends JPanel {
+	public static class IconTextRadioButton extends JPanel {
 		private JRadioButton radioButton;
 		private JLabel label;
 
@@ -138,11 +154,11 @@ public class PrefixPanel extends JBScrollPane {
 			this.radioButton.addActionListener(var1);
 		}
 
-		private JRadioButton getRadioButton() {
+		public JRadioButton getRadioButton() {
 			return radioButton;
 		}
 
-		private JLabel getLabel() {
+		public JLabel getLabel() {
 			return label;
 		}
 
@@ -161,6 +177,29 @@ public class PrefixPanel extends JBScrollPane {
 
 		public void setSelected(boolean var1) {
 			this.radioButton.setSelected(var1);
+		}
+	}
+
+	static class PrefixComboBoxRenderer extends ColoredListCellRenderer<JPanel> {
+		@Override
+		public Component getListCellRendererComponent(JList list, JPanel value, int index, boolean isSelected, boolean cellHasFocus) {
+			IconTextRadioButton button = (IconTextRadioButton) value;
+			JLabel label = button.getLabel();
+			label.setHorizontalAlignment(SwingConstants.LEFT);
+
+			if (isSelected) {
+				label.setBackground(list.getSelectionBackground());
+				label.setForeground(list.getSelectionForeground());
+			} else {
+				label.setBackground(list.getBackground());
+				label.setForeground(list.getForeground());
+			}
+
+			return label;
+		}
+
+		@Override
+		protected void customizeCellRenderer(@NotNull JList<? extends JPanel> list, JPanel value, int index, boolean selected, boolean hasFocus) {
 		}
 	}
 }

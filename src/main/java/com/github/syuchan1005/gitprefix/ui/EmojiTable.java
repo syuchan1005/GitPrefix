@@ -41,11 +41,12 @@ public class EmojiTable extends JBTable {
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, ss);
 				JBLabel copiedLabel = editor.getCopiedLabel();
 				copiedLabel.setVisible(true);
-				Color foreground = copiedLabel.getForeground();
 				debouncer.debounce(Void.class, () -> copiedLabel.setVisible(false), 1500, TimeUnit.MILLISECONDS);
 			}
 		});
+
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		this.setRowSelectionAllowed(false);
 
 		TableRowSorter<? extends TableModel> sorter = new TableRowSorter<>(this.dataModel);
 		this.setRowSorter(sorter);

@@ -21,7 +21,7 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 		prefixPanel = new PrefixPanel(project);
 		if (prefixPanel.notExist()) return;
 		JPanel panel = GitInjectorUtil.getPanel(dialog);
-		scrollPane = (JBScrollPane) panel.getComponent(7);
+		scrollPane = (JBScrollPane) panel.getComponent(9);
 		GridConstraints constraintsForComponent = ((GridLayoutManager) panel.getLayout()).getConstraintsForComponent(scrollPane);
 		Splitter splitter = new Splitter();
 		splitter.setFirstComponent(prefixPanel);
