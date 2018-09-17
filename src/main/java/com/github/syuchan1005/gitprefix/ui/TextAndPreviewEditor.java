@@ -57,7 +57,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	public TextAndPreviewEditor(@NotNull TextEditor editor, @NotNull FileEditor preview) {
-		this(editor, preview, "TextEditorWithPreview");
+		this(editor, preview, "TextAndPreviewEditor");
 	}
 
 	@Nullable
@@ -142,8 +142,8 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	private void adjustEditorsVisibility() {
-		myEditor.getComponent().setVisible(myLayout == Layout.SHOW_EDITOR || myLayout == Layout.SHOW_EDITOR_AND_PREVIEW);
-		myPreview.getComponent().setVisible(/* myLayout == Layout.SHOW_PREVIEW || */myLayout == Layout.SHOW_EDITOR_AND_PREVIEW);
+		myEditor.getComponent().setVisible(true);
+		myPreview.getComponent().setVisible(myLayout == Layout.SHOW_EDITOR_AND_PREVIEW);
 	}
 
 	private void invalidateLayout() {
@@ -159,7 +159,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 	@NotNull
 	protected String getSplitterProportionKey() {
-		return "TextEditorWithPreview.SplitterProportionKey";
+		return "TextAndPreviewEditor.SplitterProportionKey";
 	}
 
 	@Nullable
@@ -169,8 +169,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 			case SHOW_EDITOR_AND_PREVIEW:
 			case SHOW_EDITOR:
 				return myEditor.getPreferredFocusedComponent();
-            /*case SHOW_PREVIEW:
-                return myPreview.getPreferredFocusedComponent();*/
 			default:
 				throw new IllegalStateException(myLayout.myName);
 		}
@@ -208,6 +206,40 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		if (delegate != null) {
 			myEditor.removePropertyChangeListener(delegate);
 			myPreview.removePropertyChangeListener(delegate);
+		}
+	}
+
+	static class MyFileEditorState implements FileEditorState {
+		private final Layout mySplitLayout;
+		private final FileEditorState myFirstState;
+		private final FileEditorState mySecondState;
+
+		public MyFileEditorState(Layout layout, FileEditorState firstState, FileEditorState secondState) {
+			mySplitLayout = layout;
+			myFirstState = firstState;
+			mySecondState = secondState;
+		}
+
+		@Nullable
+		public Layout getSplitLayout() {
+			return mySplitLayout;
+		}
+
+		@Nullable
+		public FileEditorState getFirstState() {
+			return myFirstState;
+		}
+
+		@Nullable
+		public FileEditorState getSecondState() {
+			return mySecondState;
+		}
+
+		@Override
+		public boolean canBeMergedWith(FileEditorState otherState, FileEditorStateLevel level) {
+			return otherState instanceof MyFileEditorState
+					&& (myFirstState == null || myFirstState.canBeMergedWith(((MyFileEditorState) otherState).myFirstState, level))
+					&& (mySecondState == null || mySecondState.canBeMergedWith(((MyFileEditorState) otherState).mySecondState, level));
 		}
 	}
 
@@ -262,40 +294,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		}
 	}
 
-	static class MyFileEditorState implements FileEditorState {
-		private final Layout mySplitLayout;
-		private final FileEditorState myFirstState;
-		private final FileEditorState mySecondState;
-
-		public MyFileEditorState(Layout layout, FileEditorState firstState, FileEditorState secondState) {
-			mySplitLayout = layout;
-			myFirstState = firstState;
-			mySecondState = secondState;
-		}
-
-		@Nullable
-		public Layout getSplitLayout() {
-			return mySplitLayout;
-		}
-
-		@Nullable
-		public FileEditorState getFirstState() {
-			return myFirstState;
-		}
-
-		@Nullable
-		public FileEditorState getSecondState() {
-			return mySecondState;
-		}
-
-		@Override
-		public boolean canBeMergedWith(FileEditorState otherState, FileEditorStateLevel level) {
-			return otherState instanceof MyFileEditorState
-					&& (myFirstState == null || myFirstState.canBeMergedWith(((MyFileEditorState) otherState).myFirstState, level))
-					&& (mySecondState == null || mySecondState.canBeMergedWith(((MyFileEditorState) otherState).mySecondState, level));
-		}
-	}
-
 	private class DoublingEventListenerDelegate implements PropertyChangeListener {
 		@NotNull
 		private final PropertyChangeListener myDelegate;
@@ -306,7 +304,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			myDelegate.propertyChange(new PropertyChangeEvent(evt, evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
+			myDelegate.propertyChange(new PropertyChangeEvent(TextAndPreviewEditor.this, evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
 		}
 	}
 
@@ -377,7 +375,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 					new ChangeViewModeAction(Layout.SHOW_EDITOR_AND_PREVIEW)/*,
                     new ChangeViewModeAction(Layout.SHOW_PREVIEW) */
 			);
-			myRightToolbar = ActionManager.getInstance().createActionToolbar("TextEditorWithPreview", group, true);
+			myRightToolbar = ActionManager.getInstance().createActionToolbar("TextAndPreviewEditor", group, true);
 			myRightToolbar.setTargetComponent(targetComponentForActions);
 			add(myRightToolbar.getComponent(), BorderLayout.EAST);
 

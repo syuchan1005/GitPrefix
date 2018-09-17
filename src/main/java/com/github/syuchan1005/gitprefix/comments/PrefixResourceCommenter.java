@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class PrefixResourceCommenter implements Commenter {
 	@NotNull
 	@NonNls
-	private static final String LINE_COMMENT_PREFIX = "#";
+	private static final String LINE_COMMENT_PREFIX = "//";
 
 	@Override
 	public String getLineCommentPrefix() {

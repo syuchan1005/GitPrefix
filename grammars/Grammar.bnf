@@ -1,0 +1,36 @@
+{
+	parserClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceParser"
+
+	extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+	psiClassPrefix="PrefixResource"
+	psiImplClassSuffix="Impl"
+	psiPackage="com.github.syuchan1005.gitprefix.psi"
+	psiImplPackage="com.github.syuchan1005.gitprefix.psi.impl"
+
+	elementTypeHolderClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes"
+	elementTypeClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceElementType"
+	tokenTypeClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceTokenType"
+
+	tokens = [
+		line_comment="regexp://.*"
+		dep_line_comment="regexp:#.*"
+        block_comment="regexp:/\*(.|\n|[^*][^/])*?\*/"
+
+        value='regexp:[^\s:|#/][^\n#/]*'
+        emoji_key="regexp::([^:\n]|.)*?:"
+        text_key="regexp:\|([^|\n]|.)*?\|"
+	]
+
+	mixin("property")="com.github.syuchan1005.gitprefix.psi.mixin.PrefixResourcePropertyMixin"
+}
+
+root ::= root_item*
+
+private root_item ::= !<<eof>> property {pin=1 recoverWhile=property_recover}
+private property_recover ::= !(key)
+
+property ::= key value? {
+	methods=[getKey getEmoji getIcon getValueText]
+}
+private key ::= emoji_key | text_key

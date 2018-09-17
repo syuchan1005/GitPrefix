@@ -56,12 +56,7 @@ public class PrefixStructureViewElement implements StructureViewTreeElement, Sor
 	public ItemPresentation getPresentation() {
 		if (element instanceof PrefixResourceProperty) {
 			PrefixResourceProperty property = (PrefixResourceProperty) this.element;
-			String text = property.getFirstChild().getText();
-			EmojiUtil.EmojiData emojiData = null;
-			if (text.charAt(0) == ':' && text.charAt(text.length() - 1) == ':') {
-				emojiData = EmojiUtil.getEmojiData(text.substring(1, text.length() - 1));
-			}
-			return new PresentationData(text, property.getLastChild().getText(), emojiData == null ? AllIcons.Nodes.Field : emojiData.getIcon(), null);
+			return new PresentationData(property.getKey(), property.getValueText(), property.getIcon(), null);
 		}
 		return element.getPresentation() != null ? element.getPresentation() : new PresentationData();
 	}

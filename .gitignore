@@ -5,6 +5,7 @@
 
 out/
 lib/
+build/
 
 *.ini
 !*.template.ini
