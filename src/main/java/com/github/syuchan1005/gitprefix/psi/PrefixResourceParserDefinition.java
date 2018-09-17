@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class PrefixResourceParserDefinition implements ParserDefinition {
 	public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
 	public static final TokenSet COMMENTS = TokenSet.create(PrefixResourceTypes.LINE_COMMENT, PrefixResourceTypes.BLOCK_COMMENT);
+	public static final TokenSet LITERALS = TokenSet.create(PrefixResourceTypes.VALUE);
 
 	public static final IFileElementType FILE = new IFileElementType(PrefixResourceLanguage.INSTANCE);
 
@@ -51,7 +52,7 @@ public class PrefixResourceParserDefinition implements ParserDefinition {
 	@NotNull
 	@Override
 	public TokenSet getStringLiteralElements() {
-		return TokenSet.EMPTY;
+		return LITERALS;
 	}
 
 	@NotNull
@@ -63,5 +64,10 @@ public class PrefixResourceParserDefinition implements ParserDefinition {
 	@Override
 	public PsiFile createFile(FileViewProvider fileViewProvider) {
 		return new PrefixResourceFile(fileViewProvider);
+	}
+
+	@Override
+	public SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
+		return SpaceRequirements.MAY;
 	}
 }

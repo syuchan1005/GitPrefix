@@ -17,7 +17,7 @@ intellij {
 
 patchPluginXml {
     version null
-    sinceBuild '145.0'
+    sinceBuild '173.0'
     untilBuild null
 }
 

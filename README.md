@@ -8,6 +8,8 @@ This can make 'Prefix Commit' easy.
 2. Write prefix's you want to use.
 3. Commit!
 
+> .gitprefix file location can change in [File->Settings->Tools->GitPrefix]
+
 ## .gitprefix sample
 ```
 :bug:     BugFix
