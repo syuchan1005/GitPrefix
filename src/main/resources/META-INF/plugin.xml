@@ -1,34 +1,37 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
+    <version>1.5.5</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
-        <span style="font-size: 1.7rem">Easy to 'Emoji(or Text) Prefix Commit'</span><br/>
-        <span style="font-size: 1.5rem">Getting Started (in 3 step)</span><br/>
+        <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
+        <br/>
+        <h2>Getting Started</span><br/>
         <ol>
-            <li>'.gitprefix' create your project root.</li>
+            <li>Create GitPrefix File in your project root.</li>
             <li>Write prefix's you want to use</li>
-            <li>After that, just commit</li>
+            <li>Commit!</li>
         </ol>
-        <img src="https://github.com/syuchan1005/GitPrefix/raw/master/screenshots/gitprefix.png" alt="gitprefix_file" />
-        <img src="https://github.com/syuchan1005/GitPrefix/raw/master/screenshots/emoji_window.png" alt="emoji_window" />
-
-        .gitprefix file sample is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
+        <br/>
+        <br/>
+        .gitprefix file sample and detailed explanation is <a href="https://github.com/syuchan1005/GitPrefix">Here</a>!
     ]]></description>
 
     <change-notes><![CDATA[
         <i>Implemented enhancements:</i>
         <ul>
-            <li>Add GitPrefix File Editor</li>
-            <li>Add PrefixPanel in GitTag(VCS/Git/Tag...)</li>
-            <li>Add PrefixPanel(ComboBox) in GitTag(VCS/Git/Merge Changes...)</li>
-            <li>Change .emojirc file icon</li>
+            <li>Create new Parser and Lexer</li>
+        </ul>
+
+        <i>Implementation Changes:</i>
+        <ul>
+            <li>Deprecated line comment starting with '#', Instead '//'</li>
         </ul>
 
         <i>Fixed bugs:</i>
         <ul>
-            <li>Commit handler is null</li>
+            <li>OutOfMemory</li>
         </ul>
     ]]></change-notes>
 

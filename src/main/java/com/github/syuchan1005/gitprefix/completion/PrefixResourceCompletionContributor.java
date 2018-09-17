@@ -13,6 +13,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.editor.Document;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.TokenType;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +24,8 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 			protected void addCompletions(@NotNull CompletionParameters completionParameters,
 										  ProcessingContext processingContext,
 										  @NotNull CompletionResultSet completionResultSet) {
-				if (completionParameters.getPosition().getNode().getElementType() == PrefixResourceTypes.EMOJI_FRAGMENT) {
+				if (completionParameters.getPosition().getNode().getElementType() == TokenType.BAD_CHARACTER &&
+					completionParameters.getPosition().getText().startsWith(":")) {
 					InsertHandler<LookupElement> insertHandler = (insertionContext, lookupElement) -> {
 						int startOffset = insertionContext.getStartOffset();
 						Document insertDocument = insertionContext.getDocument();

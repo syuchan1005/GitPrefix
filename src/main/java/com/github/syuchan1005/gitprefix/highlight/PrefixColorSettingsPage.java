@@ -15,8 +15,7 @@ public class PrefixColorSettingsPage implements ColorSettingsPage {
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
 			new AttributesDescriptor("EmojiKey", PrefixResourceSyntaxHighlighter.EMOJI_KEY),
 			new AttributesDescriptor("TextKey", PrefixResourceSyntaxHighlighter.TEXT_KEY),
-			new AttributesDescriptor("EmojiValue", PrefixResourceSyntaxHighlighter.EMOJI_VALUE),
-			new AttributesDescriptor("TextValue", PrefixResourceSyntaxHighlighter.TEXT_VALUE),
+			new AttributesDescriptor("Value", PrefixResourceSyntaxHighlighter.VALUE),
 			new AttributesDescriptor("LineComment", PrefixResourceSyntaxHighlighter.LINE_COMMENT),
 			new AttributesDescriptor("BlockComment", PrefixResourceSyntaxHighlighter.BLOCK_COMMENT),
 	};
@@ -38,9 +37,9 @@ public class PrefixColorSettingsPage implements ColorSettingsPage {
 	public String getDemoText() {
 		return ":tada: Release!!\n\n" +
 				"|[Update]| Update Docs\n\n" +
-				"# Line Comment Block\n\n" +
+				"// Line Comment\n\n" +
 				"/*\n" +
-				"Block Comment Block\n" +
+				"Block Comment\n" +
 				"*/";
 	}
 

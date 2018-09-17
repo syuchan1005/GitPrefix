@@ -16,7 +16,7 @@ public class GitPrefixParsingTest extends ParsingTestCase {
 
 	@Override
 	protected String getTestDataPath() {
-		return "testData";
+		return "src/test/resources";
 	}
 
 	@Override

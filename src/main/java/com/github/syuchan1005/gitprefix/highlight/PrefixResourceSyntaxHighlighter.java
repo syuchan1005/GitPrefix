@@ -17,12 +17,10 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 
 public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 	public static final TextAttributesKey EMOJI_KEY = createTextAttributesKey("EMOJI_RESOURCE_EMOJI_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey EMOJI_VALUE = createTextAttributesKey("EMOJI_RESOURCE_EMOJI_VALUE", DefaultLanguageHighlighterColors.STRING);
 	public static final TextAttributesKey TEXT_KEY = createTextAttributesKey("EMOJI_RESOURCE_TEXT_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-	public static final TextAttributesKey TEXT_VALUE = createTextAttributesKey("EMOJI_RESOURCE_TEXT_VALUE", DefaultLanguageHighlighterColors.STRING);
+	public static final TextAttributesKey VALUE = createTextAttributesKey("EMOJI_RESOURCE_TEXT_VALUE", DefaultLanguageHighlighterColors.STRING);
 	public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	public static final TextAttributesKey BLOCK_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
-	private static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("EMOJI_RESOURCE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
 	private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 	private static Map<IElementType, TextAttributesKey[]> textAttrMap = new HashMap<>();
@@ -30,11 +28,9 @@ public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 	static {
 		textAttrMap.put(PrefixResourceTypes.EMOJI_KEY, new TextAttributesKey[]{EMOJI_KEY});
 		textAttrMap.put(PrefixResourceTypes.TEXT_KEY, new TextAttributesKey[]{TEXT_KEY});
-		textAttrMap.put(PrefixResourceTypes.EMOJI_VALUE, new TextAttributesKey[]{EMOJI_VALUE});
-		textAttrMap.put(PrefixResourceTypes.TEXT_VALUE, new TextAttributesKey[]{TEXT_VALUE});
 		textAttrMap.put(PrefixResourceTypes.LINE_COMMENT, new TextAttributesKey[]{LINE_COMMENT});
 		textAttrMap.put(PrefixResourceTypes.BLOCK_COMMENT, new TextAttributesKey[]{BLOCK_COMMENT});
-		textAttrMap.put(PrefixResourceTypes.BAD_CHARACTER, new TextAttributesKey[]{BAD_CHARACTER});
+		textAttrMap.put(PrefixResourceTypes.VALUE, new TextAttributesKey[]{VALUE});
 	}
 
 	@NotNull
