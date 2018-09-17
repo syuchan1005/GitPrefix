@@ -16,9 +16,9 @@ intellij {
 }
 
 patchPluginXml {
-    version '1.5.5'
+    version null
     sinceBuild '145.0'
-    untilBuild ''
+    untilBuild null
 }
 
 group 'org.jetbrains'

@@ -11,4 +11,4 @@ build/
 !*.template.ini
 *.iml
 
-**/resources/emojis/
+**/resources/emojis/*.png

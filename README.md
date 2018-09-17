@@ -3,15 +3,15 @@ This can make 'Prefix Commit' easy.
 
 [IntelliJ Plugin Page](https://plugins.jetbrains.com/plugin/9725-emojiprefix)
 
-## Getting Started (in 3 step)
-1. '.gitprefix' create your project root.
-2. Write prefix's you want to use
-3.After that, just commit
+## Getting Started
+1. Create GitPrefix File in your project root.
+2. Write prefix's you want to use.
+3. Commit!
 
-### .gitprefix sample
+## .gitprefix sample
 ```
-:bug:     BugFix 
-:lock:    SecurityFix # Comment
+:bug:     BugFix
+:lock:    SecurityFix // Comment
 :recycle: Refactoring
 :books:   Documentation
 
@@ -20,5 +20,8 @@ This can make 'Prefix Commit' easy.
 |doc:| Documentation
 ```
 
-## License
-MIT
+## UI
+||
+|:--:|
+|![Editor](screenshot/file.png)|
+|![CommitMessage](screenshot/commit.png)|
