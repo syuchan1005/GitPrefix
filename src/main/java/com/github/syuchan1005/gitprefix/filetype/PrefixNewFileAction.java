@@ -1,5 +1,6 @@
 package com.github.syuchan1005.gitprefix.filetype;
 
+import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.ide.IdeView;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -12,6 +13,10 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 
 public class PrefixNewFileAction extends AnAction {
+	public PrefixNewFileAction() {
+		super("GitPrefix", null, GitPrefixIcons.FILE_ICON);
+	}
+
 	@Override
 	public void actionPerformed(AnActionEvent e) {
 		Project project = e.getProject();

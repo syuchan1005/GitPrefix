@@ -5,7 +5,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import icons.GitPrefixIcons;
+import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import java.util.Map;
 import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;

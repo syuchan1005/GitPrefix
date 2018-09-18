@@ -9,6 +9,7 @@ import java.util.Map;
 import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.LoaderClassPath;
+import org.jetbrains.annotations.NotNull;
 
 public class GitInjectorManager implements ApplicationComponent {
 	@Override
@@ -26,6 +27,15 @@ public class GitInjectorManager implements ApplicationComponent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void disposeComponent() { }
+
+	@NotNull
+	@Override
+	public String getComponentName() {
+		return "GitInjectorManager";
 	}
 
 	public enum InjectorType {

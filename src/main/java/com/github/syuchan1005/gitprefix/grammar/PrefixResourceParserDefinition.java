@@ -68,8 +68,9 @@ public class PrefixResourceParserDefinition implements ParserDefinition {
 		return new PrefixResourceFile(fileViewProvider);
 	}
 
+	@SuppressWarnings("deprecation") // support 172.0
 	@Override
-	public SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
+	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
 		return SpaceRequirements.MAY;
 	}
 }

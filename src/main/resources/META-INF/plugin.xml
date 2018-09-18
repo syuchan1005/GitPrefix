@@ -72,8 +72,7 @@
     </extensionPoints>
 
     <actions>
-        <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction"
-                text="GitPrefix" icon="GitPrefixIcons.FILE_ICON">
+        <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
     </actions>

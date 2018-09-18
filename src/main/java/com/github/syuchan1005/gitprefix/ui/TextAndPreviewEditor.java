@@ -1,7 +1,7 @@
 package com.github.syuchan1005.gitprefix.ui;
 
+import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewBuilder;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;
@@ -264,9 +264,9 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	}
 
 	public enum Layout {
-		SHOW_EDITOR("Editor only", AllIcons.General.LayoutEditorOnly),
+		SHOW_EDITOR("Editor only", GitPrefixIcons.LAYOUT_EDITOR_ONLY),
 		// SHOW_PREVIEW("Preview only", AllIcons.General.LayoutPreviewOnly),
-		SHOW_EDITOR_AND_PREVIEW("Editor and Preview", AllIcons.General.LayoutEditorPreview);
+		SHOW_EDITOR_AND_PREVIEW("Editor and Preview", GitPrefixIcons.LAYOUT_EDITOR_PREVIEW);
 
 		private final String myName;
 		private final Icon myIcon;
