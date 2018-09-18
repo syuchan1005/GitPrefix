@@ -62,7 +62,7 @@ if __name__ == "__main__":
             emojiStr += f'        {config.get("class", "mapName")}' \
                         f'.put("{k}", new EmojiData({v or "null"}, IconLoader.getIcon("/emojis/{k}.png")));\n'
         with open(f'./src/main/java/{config.get("class", "package").replace(".", "/")}/{config.get("class", "name")}.java',
-                  mode='w') as f:
+                  mode='w', newline='\n') as f:
             f.write(f'''package {config.get("class", "package")};
 
 import java.util.HashMap;
