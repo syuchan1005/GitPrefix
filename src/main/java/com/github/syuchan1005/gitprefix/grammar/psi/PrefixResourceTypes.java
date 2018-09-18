@@ -1,10 +1,12 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.syuchan1005.gitprefix.psi;
+package com.github.syuchan1005.gitprefix.grammar.psi;
 
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import com.github.syuchan1005.gitprefix.psi.impl.*;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementType;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceTokenType;
+import com.github.syuchan1005.gitprefix.grammar.psi.impl.*;
 
 public interface PrefixResourceTypes {
 

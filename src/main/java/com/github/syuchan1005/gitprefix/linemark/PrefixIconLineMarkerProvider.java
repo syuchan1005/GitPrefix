@@ -1,11 +1,10 @@
 package com.github.syuchan1005.gitprefix.linemark;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
-import com.intellij.icons.AllIcons;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import java.util.Collection;

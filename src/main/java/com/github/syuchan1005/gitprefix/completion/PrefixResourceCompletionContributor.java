@@ -1,7 +1,7 @@
 package com.github.syuchan1005.gitprefix.completion;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.completion.CompletionContributor;
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;

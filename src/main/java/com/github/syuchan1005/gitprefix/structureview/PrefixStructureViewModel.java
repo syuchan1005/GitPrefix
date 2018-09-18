@@ -1,6 +1,6 @@
 package com.github.syuchan1005.gitprefix.structureview;
 
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceFile;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.intellij.ide.structureView.StructureViewModel;
 import com.intellij.ide.structureView.StructureViewModelBase;
 import com.intellij.ide.structureView.StructureViewTreeElement;

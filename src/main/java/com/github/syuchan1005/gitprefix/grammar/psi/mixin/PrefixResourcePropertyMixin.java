@@ -1,11 +1,10 @@
-package com.github.syuchan1005.gitprefix.psi.mixin;
+package com.github.syuchan1005.gitprefix.grammar.psi.mixin;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.icons.AllIcons;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
 import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,7 +32,6 @@ public abstract class PrefixResourcePropertyMixin extends ASTWrapperPsiElement i
 	}
 
 	@NotNull
-	@Override
 	public Icon getIcon() {
 		EmojiUtil.EmojiData emoji = getEmoji();
 		return emoji != null ? emoji.getIcon() : AllIcons.Nodes.Field;

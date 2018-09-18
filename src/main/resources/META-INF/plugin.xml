@@ -48,7 +48,7 @@
         <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileTypeFactory" />
         <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.EmojiResourceFileTypeFactory" />
 
-        <lang.parserDefinition language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceParserDefinition" />
+        <lang.parserDefinition language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceParserDefinition" />
         <lang.syntaxHighlighterFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
         <colorSettingsPage implementation="com.github.syuchan1005.gitprefix.highlight.PrefixColorSettingsPage" />
 

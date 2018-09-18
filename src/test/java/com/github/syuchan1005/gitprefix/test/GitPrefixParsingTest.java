@@ -1,9 +1,7 @@
 package com.github.syuchan1005.gitprefix.test;
 
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceParserDefinition;
-import com.intellij.lang.ParserDefinition;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceParserDefinition;
 import com.intellij.testFramework.ParsingTestCase;
-import org.jetbrains.annotations.NotNull;
 
 public class GitPrefixParsingTest extends ParsingTestCase {
 	public GitPrefixParsingTest() {

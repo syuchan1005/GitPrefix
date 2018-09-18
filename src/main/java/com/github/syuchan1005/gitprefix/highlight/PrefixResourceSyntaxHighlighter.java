@@ -1,10 +1,9 @@
 package com.github.syuchan1005.gitprefix.highlight;
 
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceLexerAdapter;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceLexerAdapter;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
-import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;

@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.psi;
+package com.github.syuchan1005.gitprefix.grammar;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType;
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;

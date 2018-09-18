@@ -1,7 +1,7 @@
 package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.ui.Splitter;

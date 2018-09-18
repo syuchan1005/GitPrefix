@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.syuchan1005.gitprefix.psi;
+package com.github.syuchan1005.gitprefix.grammar.psi;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes.*;
+import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;

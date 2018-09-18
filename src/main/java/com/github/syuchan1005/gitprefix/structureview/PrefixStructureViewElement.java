@@ -1,10 +1,8 @@
 package com.github.syuchan1005.gitprefix.structureview;
 
-import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceFile;
-import com.github.syuchan1005.gitprefix.psi.PrefixResourceProperty;
-import com.github.syuchan1005.gitprefix.psi.impl.PrefixResourcePropertyImpl;
-import com.intellij.icons.AllIcons;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.grammar.psi.impl.PrefixResourcePropertyImpl;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.structureView.StructureViewTreeElement;
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement;
@@ -14,7 +12,6 @@ import com.intellij.psi.NavigatablePsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 
 public class PrefixStructureViewElement implements StructureViewTreeElement, SortableTreeElement {

@@ -1,16 +1,16 @@
 {
-	parserClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceParser"
+	parserClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceParser"
 
 	extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
 	psiClassPrefix="PrefixResource"
 	psiImplClassSuffix="Impl"
-	psiPackage="com.github.syuchan1005.gitprefix.psi"
-	psiImplPackage="com.github.syuchan1005.gitprefix.psi.impl"
+	psiPackage="com.github.syuchan1005.gitprefix.grammar.psi"
+	psiImplPackage="com.github.syuchan1005.gitprefix.grammar.psi.impl"
 
-	elementTypeHolderClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceTypes"
-	elementTypeClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceElementType"
-	tokenTypeClass="com.github.syuchan1005.gitprefix.psi.PrefixResourceTokenType"
+	elementTypeHolderClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes"
+	elementTypeClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementType"
+	tokenTypeClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceTokenType"
 
 	tokens = [
 		line_comment="regexp://.*"
@@ -22,7 +22,7 @@
         text_key="regexp:\|([^|\n]|.)*?\|"
 	]
 
-	mixin("property")="com.github.syuchan1005.gitprefix.psi.mixin.PrefixResourcePropertyMixin"
+	mixin("property")="com.github.syuchan1005.gitprefix.grammar.psi.mixin.PrefixResourcePropertyMixin"
 }
 
 root ::= root_item*
