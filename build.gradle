@@ -2,15 +2,29 @@ plugins {
     id "org.jetbrains.intellij" version "0.3.7"
 }
 
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.javassist:javassist:3.23.1-GA'
+}
+
 apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
 
 intellij {
     pluginName 'GitPrefix'
 
     // https://www.jetbrains.com/intellij-repository/releases
     version 'LATEST-EAP-SNAPSHOT'
+    type 'IU'
+
 
     plugins = ['git4idea']
 }
@@ -19,18 +33,4 @@ patchPluginXml {
     version null
     sinceBuild '162.0'
     untilBuild null
-}
-
-group 'org.jetbrains'
-
-compileJava {
-    options.encoding = 'UTF-8'
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.javassist:javassist:3.23.1-GA'
 }

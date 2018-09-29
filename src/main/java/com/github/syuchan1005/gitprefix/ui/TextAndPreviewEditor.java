@@ -2,6 +2,7 @@ package com.github.syuchan1005.gitprefix.ui;
 
 import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
+import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewBuilder;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;

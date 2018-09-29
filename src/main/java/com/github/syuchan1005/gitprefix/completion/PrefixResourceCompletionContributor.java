@@ -28,9 +28,8 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 					completionParameters.getPosition().getText().startsWith(":")) {
 					InsertHandler<LookupElement> insertHandler = (insertionContext, lookupElement) -> {
 						int startOffset = insertionContext.getStartOffset();
-						Document insertDocument = insertionContext.getDocument();
 						if (startOffset > 0) {
-							insertDocument.deleteString(startOffset, startOffset);
+							insertionContext.getDocument().deleteString(startOffset, startOffset);
 						}
 					};
 
