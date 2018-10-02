@@ -52,16 +52,16 @@
         <lang.syntaxHighlighterFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
         <colorSettingsPage implementation="com.github.syuchan1005.gitprefix.highlight.PrefixColorSettingsPage" />
 
-        <codeInsight.lineMarkerProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.linemark.PrefixIconLineMarkerProvider" />
+        <codeInsight.lineMarkerProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixIconLineMarkerProvider" />
 
         <annotator language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBlockExprAnnotator" />
         <lang.findUsagesProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFindUsagesProvider" />
         <lang.foldingBuilder language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
         <lang.braceMatcher language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
 
-        <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.completion.PrefixResourceCompletionContributor" />
+        <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCompletionContributor" />
         <lang.commenter language="GitPrefix Resource"
-                        implementationClass="com.github.syuchan1005.gitprefix.comments.PrefixResourceCommenter"/>
+                        implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCommenter"/>
         <lang.psiStructureViewFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
 
         <fileEditorProvider implementation="com.github.syuchan1005.gitprefix.editor.GitPrefixEditorProvider" />

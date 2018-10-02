@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.comments;
+package com.github.syuchan1005.gitprefix.editor;
 
 import com.intellij.lang.Commenter;
 

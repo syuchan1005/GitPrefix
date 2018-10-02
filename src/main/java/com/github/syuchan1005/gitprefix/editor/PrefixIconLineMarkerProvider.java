@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.linemark;
+package com.github.syuchan1005.gitprefix.editor;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
