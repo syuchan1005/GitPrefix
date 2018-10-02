@@ -9,4 +9,14 @@ public interface GitPrefixIcons {
 	Icon FILE_ICON_OLD = IconLoader.getIcon("/icons/fileIcon_old.svg");
 	Icon LAYOUT_EDITOR_ONLY = IconLoader.getIcon("/icons/layoutEditorOnly.svg");
 	Icon LAYOUT_EDITOR_PREVIEW = IconLoader.getIcon("/icons/layoutEditorPreview.svg");
+
+	interface STRUCTURE {
+		Icon BRACE = IconLoader.getIcon("/icons/structureBrace.svg");
+		Icon TEXT_PREFIX = IconLoader.getIcon("/icons/structureTextPrefix.svg");
+
+		interface BLOCK {
+			Icon EXPAND = IconLoader.getIcon("/icons/structureExpandBlock.svg");
+			Icon INNER = IconLoader.getIcon("/icons/structureInnerBlock.svg");
+		}
+	}
 }
