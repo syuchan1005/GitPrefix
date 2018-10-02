@@ -29,7 +29,6 @@ This can make 'Prefix Commit' easy.
 |![CommitMessage](screenshot/commit.png)|
 
 ## Tasks
-- [ ] Formatter
 - [ ] Show Structured GitPrefix File
 - [ ] MultiLine
 - [ ] Template

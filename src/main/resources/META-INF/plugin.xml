@@ -57,6 +57,7 @@
         <annotator language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBlockExprAnnotator" />
         <lang.findUsagesProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFindUsagesProvider" />
         <lang.foldingBuilder language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
+        <lang.formatter language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.formatter.PrefixResourceFormattingModelBuilder" />
         <lang.braceMatcher language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
 
         <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCompletionContributor" />
