@@ -54,9 +54,10 @@
 
         <codeInsight.lineMarkerProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.linemark.PrefixIconLineMarkerProvider" />
 
-        <lang.braceMatcher language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
-        <lang.foldingBuilder language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
         <annotator language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBlockExprAnnotator" />
+        <lang.findUsagesProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFindUsagesProvider" />
+        <lang.foldingBuilder language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
+        <lang.braceMatcher language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
 
         <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.completion.PrefixResourceCompletionContributor" />
         <lang.commenter language="GitPrefix Resource"
