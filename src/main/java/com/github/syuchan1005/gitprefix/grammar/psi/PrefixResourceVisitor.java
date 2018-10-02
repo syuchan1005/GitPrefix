@@ -7,6 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public class PrefixResourceVisitor extends PsiElementVisitor {
 
+  public void visitBlockExpr(@NotNull PrefixResourceBlockExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamedBlock(@NotNull PrefixResourceNamedBlock o) {
+    visitPsiElement(o);
+  }
+
   public void visitProperty(@NotNull PrefixResourceProperty o) {
     visitPsiElement(o);
   }

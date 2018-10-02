@@ -1,5 +1,6 @@
 plugins {
     id "org.jetbrains.intellij" version "0.3.7"
+    id "org.jetbrains.grammarkit" version "2018.2"
 }
 
 repositories {
@@ -33,4 +34,21 @@ patchPluginXml {
     version null
     sinceBuild '162.0'
     untilBuild null
+}
+
+
+apply plugin: 'org.jetbrains.grammarkit'
+import org.jetbrains.grammarkit.tasks.*
+
+task generateLexer(group:'grammar', type: GenerateLexer) {
+    source = 'grammars/Grammar.flex'
+    targetDir = '/src/main/java/com/github/syuchan1005/gitprefix/grammar/psi'
+    targetClass = 'PrefixResourceLexer'
+}
+
+task generateParser(group:'grammar', type: GenerateParser) {
+    source = 'grammars/Grammar.bnf'
+    targetRoot = 'src/main/java'
+    pathToParser = '/com/github/syuchan1005/gitprefix/grammar/psi/PrefixResourceParser.java'
+    pathToPsiRoot = '/com/github/syuchan1005/gitprefix/grammar/psi'
 }

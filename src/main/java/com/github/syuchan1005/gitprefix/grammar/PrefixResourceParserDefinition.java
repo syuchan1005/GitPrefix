@@ -16,10 +16,13 @@ import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
+
+import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
+
 public class PrefixResourceParserDefinition implements ParserDefinition {
 	public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-	public static final TokenSet COMMENTS = TokenSet.create(PrefixResourceTypes.LINE_COMMENT, PrefixResourceTypes.BLOCK_COMMENT);
-	public static final TokenSet LITERALS = TokenSet.create(PrefixResourceTypes.VALUE);
+	public static final TokenSet COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT);
+	public static final TokenSet LITERALS = TokenSet.create(VALUE);
 
 	public static final IFileElementType FILE = new IFileElementType(PrefixResourceLanguage.INSTANCE);
 
@@ -60,7 +63,7 @@ public class PrefixResourceParserDefinition implements ParserDefinition {
 	@NotNull
 	@Override
 	public PsiElement createElement(ASTNode astNode) {
-		return PrefixResourceTypes.Factory.createElement(astNode);
+		return Factory.createElement(astNode);
 	}
 
 	@Override

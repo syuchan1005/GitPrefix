@@ -23,7 +23,13 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == PROPERTY) {
+    if (t == BLOCK_EXPR) {
+      r = block_expr(b, 0);
+    }
+    else if (t == NAMED_BLOCK) {
+      r = named_block(b, 0);
+    }
+    else if (t == PROPERTY) {
       r = property(b, 0);
     }
     else {
@@ -37,7 +43,44 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // emoji_key | text_key
+  // expand_block_expr | inner_block_expr
+  public static boolean block_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "block_expr")) return false;
+    if (!nextTokenIs(b, "<block expr>", EXPAND_BLOCK, INNER_BLOCK)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, BLOCK_EXPR, "<block expr>");
+    r = expand_block_expr(b, l + 1);
+    if (!r) r = inner_block_expr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // EXPAND_BLOCK BLOCK_NAME
+  static boolean expand_block_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "expand_block_expr")) return false;
+    if (!nextTokenIs(b, EXPAND_BLOCK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, EXPAND_BLOCK, BLOCK_NAME);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // INNER_BLOCK BLOCK_NAME
+  static boolean inner_block_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "inner_block_expr")) return false;
+    if (!nextTokenIs(b, INNER_BLOCK)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, INNER_BLOCK, BLOCK_NAME);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // EMOJI_KEY | TEXT_KEY
   static boolean key(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "key")) return false;
     if (!nextTokenIs(b, "", EMOJI_KEY, TEXT_KEY)) return false;
@@ -48,7 +91,42 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // key value?
+  // BLOCK_NAME LEFT_BRACE (property|named_block|block_expr)* RIGHT_BRACE
+  public static boolean named_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "named_block")) return false;
+    if (!nextTokenIs(b, BLOCK_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, BLOCK_NAME, LEFT_BRACE);
+    r = r && named_block_2(b, l + 1);
+    r = r && consumeToken(b, RIGHT_BRACE);
+    exit_section_(b, m, NAMED_BLOCK, r);
+    return r;
+  }
+
+  // (property|named_block|block_expr)*
+  private static boolean named_block_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "named_block_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!named_block_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "named_block_2", c)) break;
+    }
+    return true;
+  }
+
+  // property|named_block|block_expr
+  private static boolean named_block_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "named_block_2_0")) return false;
+    boolean r;
+    r = property(b, l + 1);
+    if (!r) r = named_block(b, l + 1);
+    if (!r) r = block_expr(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // key VALUE?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
     if (!nextTokenIs(b, "<property>", EMOJI_KEY, TEXT_KEY)) return false;
@@ -60,32 +138,11 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // value?
+  // VALUE?
   private static boolean property_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property_1")) return false;
     consumeToken(b, VALUE);
     return true;
-  }
-
-  /* ********************************************************** */
-  // !(key)
-  static boolean property_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property_recover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !property_recover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // (key)
-  private static boolean property_recover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "property_recover_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = key(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -101,15 +158,15 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !<<eof>> property
+  // !<<eof>> (property|named_block)
   static boolean root_item(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "root_item")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = root_item_0(b, l + 1);
     p = r; // pin = 1
-    r = r && property(b, l + 1);
-    exit_section_(b, l, m, r, p, property_recover_parser_);
+    r = r && root_item_1(b, l + 1);
+    exit_section_(b, l, m, r, p, root_recover_parser_);
     return r || p;
   }
 
@@ -123,9 +180,38 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  final static Parser property_recover_parser_ = new Parser() {
+  // property|named_block
+  private static boolean root_item_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "root_item_1")) return false;
+    boolean r;
+    r = property(b, l + 1);
+    if (!r) r = named_block(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(key|named_block)
+  static boolean root_recover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "root_recover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !root_recover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // key|named_block
+  private static boolean root_recover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "root_recover_0")) return false;
+    boolean r;
+    r = key(b, l + 1);
+    if (!r) r = named_block(b, l + 1);
+    return r;
+  }
+
+  final static Parser root_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
-      return property_recover(b, l + 1);
+      return root_recover(b, l + 1);
     }
   };
 }

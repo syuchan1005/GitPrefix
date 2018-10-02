@@ -8,19 +8,18 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
-import com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourcePropertyMixin;
+import com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin;
 import com.github.syuchan1005.gitprefix.grammar.psi.*;
-import com.github.syuchan1005.gitprefix.EmojiUtil.EmojiData;
-import javax.swing.Icon;
+import com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin.BlockExprType;
 
-public class PrefixResourcePropertyImpl extends PrefixResourcePropertyMixin implements PrefixResourceProperty {
+public class PrefixResourceBlockExprImpl extends PrefixResourceBlockExprMixin implements PrefixResourceBlockExpr {
 
-  public PrefixResourcePropertyImpl(@NotNull ASTNode node) {
+  public PrefixResourceBlockExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PrefixResourceVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitBlockExpr(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -29,21 +28,9 @@ public class PrefixResourcePropertyImpl extends PrefixResourcePropertyMixin impl
   }
 
   @Override
-  @Nullable
-  public PsiElement getEmojiKey() {
-    return findChildByType(EMOJI_KEY);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getTextKey() {
-    return findChildByType(TEXT_KEY);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getValue() {
-    return findChildByType(VALUE);
+  @NotNull
+  public PsiElement getBlockName() {
+    return findNotNullChildByType(BLOCK_NAME);
   }
 
 }

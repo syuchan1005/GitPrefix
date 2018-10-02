@@ -3,16 +3,15 @@ package com.github.syuchan1005.gitprefix.grammar.psi;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
+
+import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
 
 %%
 
 %{
-  public PrefixResourceLexer() {
-    this((java.io.Reader)null);
-  }
+  public PrefixResourceLexer() { this(null); }
 %}
 
 %public
@@ -21,46 +20,62 @@ import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*
 %function advance
 %type IElementType
 %unicode
+%ignorecase
 
 // EOL=\R
 WHITE_SPACE=\s+
 
 LINE_COMMENT="//".*
-DEP_LINE_COMMENT=#.*
 // BLOCK_COMMENT="/"\*(.|\n)*\*"/"
 
-VALUE=[^\s:|#/][^\n#/]*
+BLOCK_NAME=[^\s:|/{}.>][^\s:|/{}]*
+LEFT_BRACE="{"
+RIGHT_BRACE="}"
+EXPAND_BLOCK="..."
+INNER_BLOCK=">"
+
+// VALUE=[^\s:|#/][^\n#/]*
 // EMOJI_KEY=:([^:\n]|.)*?:
 // TEXT_KEY=\|([^|\n]|.)*?\|
 
-%state BLOCK
-%state EMOJI TEXT
+%state BLOCK_CMNT
+%state EMOJI TEXT VAL
 %%
 <YYINITIAL> {
   {LINE_COMMENT} { return LINE_COMMENT; }
-  {DEP_LINE_COMMENT} { return LINE_COMMENT; }
-  {VALUE} { return VALUE; }
 
-  "/*" { yybegin(BLOCK); }
-  ":" { yybegin(EMOJI); }
-  "|" { yybegin(TEXT); }
+  {BLOCK_NAME} { return BLOCK_NAME; }
+  {LEFT_BRACE} { return LEFT_BRACE; }
+  {RIGHT_BRACE} { return RIGHT_BRACE; }
+  {EXPAND_BLOCK} { return EXPAND_BLOCK; }
+  {INNER_BLOCK} { return INNER_BLOCK; }
 
-  {WHITE_SPACE}           { return WHITE_SPACE; }
+  "/*" { yybegin(BLOCK_CMNT); }
+  ":"  { yybegin(EMOJI); }
+  "|"  { yybegin(TEXT); }
+
+  {WHITE_SPACE} { return WHITE_SPACE; }
 
   <EMOJI> {
-  	[^:\n] {}
-    ":" { yybegin(YYINITIAL); return EMOJI_KEY; }
+    [^:\n] {}
+    ":" { yybegin(VAL); return EMOJI_KEY; }
   }
 
   <TEXT> {
     [^|\n] {}
-    "|" { yybegin(YYINITIAL); return TEXT_KEY; }
+    "|" { yybegin(VAL); return TEXT_KEY; }
   }
 
-  <BLOCK> {
+  <BLOCK_CMNT> {
     [^]   {}
     "*/" { yybegin(YYINITIAL); return BLOCK_COMMENT; }
   }
+}
+
+<VAL> {
+  {WHITE_SPACE} { return WHITE_SPACE; }
+
+  [^\s:|/{}][^\n/{}]* { yybegin(YYINITIAL); return VALUE; }
 }
 
 [^] { return BAD_CHARACTER; }
