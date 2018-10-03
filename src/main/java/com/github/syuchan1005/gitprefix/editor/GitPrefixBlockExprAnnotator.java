@@ -3,6 +3,7 @@ package com.github.syuchan1005.gitprefix.editor;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock;
+import com.github.syuchan1005.gitprefix.quickfix.CreateNamedBlockQuickFix;
 import com.github.syuchan1005.gitprefix.util.PrefixPsiUtil;
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -35,7 +36,8 @@ public class GitPrefixBlockExprAnnotator implements Annotator {
 				infoAnnotation.setTextAttributes(DefaultLanguageHighlighterColors.LINE_COMMENT);
 			}
 		} else {
-			holder.createErrorAnnotation(((PrefixResourceBlockExpr) element).getBlockName(), "Unresolved block name");
+			holder.createErrorAnnotation(((PrefixResourceBlockExpr) element).getBlockName(), "Unresolved block name")
+				.registerFix(new CreateNamedBlockQuickFix(blockName));
 		}
 	}
 }
