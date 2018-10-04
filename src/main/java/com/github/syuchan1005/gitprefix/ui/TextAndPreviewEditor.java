@@ -2,7 +2,6 @@ package com.github.syuchan1005.gitprefix.ui;
 
 import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.structureView.StructureViewBuilder;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.Disposable;
@@ -12,9 +11,12 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
+import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorLocation;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.FileEditorState;
 import com.intellij.openapi.fileEditor.FileEditorStateLevel;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -42,23 +44,22 @@ import org.jetbrains.annotations.Nullable;
 
 public class TextAndPreviewEditor extends UserDataHolderBase implements FileEditor {
 	protected final TextEditor myEditor;
-	protected final FileEditor myPreview;
+	protected final FileEditor myEmojiList;
+	protected final TextEditor myStructuredFileEditor;
 
 	@NotNull
 	private final MyListenersMultimap myListenersGenerator = new MyListenersMultimap();
 	private final String myName;
 	private Layout myLayout;
 	private JComponent myComponent;
+	private JBSplitter mySplitter;
 	private SplitEditorToolbar myToolbarWrapper;
 
-	public TextAndPreviewEditor(@NotNull TextEditor editor, @NotNull FileEditor preview, @NotNull String editorName) {
+	public TextAndPreviewEditor(@NotNull TextEditor editor, @NotNull FileEditor emojiList, @NotNull TextEditor structuredFileEditor) {
 		myEditor = editor;
-		myPreview = preview;
-		myName = editorName;
-	}
-
-	public TextAndPreviewEditor(@NotNull TextEditor editor, @NotNull FileEditor preview) {
-		this(editor, preview, "TextAndPreviewEditor");
+		myEmojiList = emojiList;
+		myStructuredFileEditor = structuredFileEditor;
+		myName = "TextAndPreviewEditor";
 	}
 
 	@Nullable
@@ -82,45 +83,47 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	@Override
 	public void dispose() {
 		Disposer.dispose(myEditor);
-		Disposer.dispose(myPreview);
+		Disposer.dispose(myEmojiList);
+		Disposer.dispose(myStructuredFileEditor);
 	}
 
 	@Override
 	public void selectNotify() {
 		myEditor.selectNotify();
-		myPreview.selectNotify();
+		myEmojiList.selectNotify();
+		myStructuredFileEditor.selectNotify();
 	}
 
 	@Override
 	public void deselectNotify() {
 		myEditor.deselectNotify();
-		myPreview.deselectNotify();
+		myEmojiList.deselectNotify();
+		myStructuredFileEditor.deselectNotify();
 	}
 
 	@NotNull
 	@Override
 	public JComponent getComponent() {
 		if (myComponent == null) {
-			final JBSplitter splitter = new JBSplitter(false, 0.5f, 0.15f, 0.85f);
-			splitter.setSplitterProportionKey(getSplitterProportionKey());
-			splitter.setFirstComponent(myEditor.getComponent());
-			splitter.setSecondComponent(myPreview.getComponent());
+			mySplitter = new JBSplitter(false, 0.5f, 0.15f, 0.85f);
+			mySplitter.setSplitterProportionKey(getSplitterProportionKey());
+			mySplitter.setFirstComponent(myEditor.getComponent());
+			mySplitter.setSecondComponent(myEmojiList.getComponent());
 
-
-			myToolbarWrapper = new SplitEditorToolbar(splitter);
+			myToolbarWrapper = new SplitEditorToolbar(mySplitter);
 			myToolbarWrapper.addGutterToTrack(((EditorGutterComponentEx) (myEditor).getEditor().getGutter()));
 
-			if (myPreview instanceof TextEditor) {
-				myToolbarWrapper.addGutterToTrack(((EditorGutterComponentEx) ((TextEditor) myPreview).getEditor().getGutter()));
+			if (myEmojiList instanceof TextEditor) {
+				myToolbarWrapper.addGutterToTrack(((EditorGutterComponentEx) ((TextEditor) myEmojiList).getEditor().getGutter()));
 			}
 
 			if (myLayout == null) {
 				String lastUsed = PropertiesComponent.getInstance().getValue(getLayoutPropertyName());
-				myLayout = Layout.fromName(lastUsed, Layout.SHOW_EDITOR_AND_PREVIEW);
+				myLayout = Layout.fromName(lastUsed, Layout.SHOW_EDITOR_AND_EMOJILIST);
 			}
 			adjustEditorsVisibility();
 
-			myComponent = JBUI.Panels.simplePanel(splitter).addToTop(myToolbarWrapper);
+			myComponent = JBUI.Panels.simplePanel(mySplitter).addToTop(myToolbarWrapper);
 		}
 		return myComponent;
 	}
@@ -133,7 +136,11 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 				myEditor.setState(compositeState.getFirstState());
 			}
 			if (compositeState.getSecondState() != null) {
-				myPreview.setState(compositeState.getSecondState());
+				if (myLayout == Layout.SHOW_EDITOR_AND_EMOJILIST) {
+					myEmojiList.setState(compositeState.getSecondState());
+				} else if (myLayout == Layout.SHOW_EDITOR_AND_STRUCTURED) {
+					myStructuredFileEditor.setState(compositeState.getSecondState());
+				}
 			}
 			if (compositeState.getSplitLayout() != null) {
 				myLayout = compositeState.getSplitLayout();
@@ -144,7 +151,15 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 	private void adjustEditorsVisibility() {
 		myEditor.getComponent().setVisible(true);
-		myPreview.getComponent().setVisible(myLayout == Layout.SHOW_EDITOR_AND_PREVIEW);
+		myEmojiList.getComponent().setVisible(false);
+		myStructuredFileEditor.getComponent().setVisible(false);
+		if (myLayout == Layout.SHOW_EDITOR_AND_EMOJILIST) {
+			mySplitter.setSecondComponent(myEmojiList.getComponent());
+			myEmojiList.getComponent().setVisible(true);
+		} else if (myLayout == Layout.SHOW_EDITOR_AND_STRUCTURED) {
+			mySplitter.setSecondComponent(myStructuredFileEditor.getComponent());
+			myStructuredFileEditor.getComponent().setVisible(true);
+		}
 	}
 
 	private void invalidateLayout() {
@@ -167,7 +182,8 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	@Override
 	public JComponent getPreferredFocusedComponent() {
 		switch (myLayout) {
-			case SHOW_EDITOR_AND_PREVIEW:
+			case SHOW_EDITOR_AND_STRUCTURED:
+			case SHOW_EDITOR_AND_EMOJILIST:
 			case SHOW_EDITOR:
 				return myEditor.getPreferredFocusedComponent();
 			default:
@@ -184,29 +200,34 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	@NotNull
 	@Override
 	public FileEditorState getState(@NotNull FileEditorStateLevel level) {
-		return new MyFileEditorState(myLayout, myEditor.getState(level), myPreview.getState(level));
+		return new MyFileEditorState(myLayout, myEditor.getState(level),
+				myLayout == Layout.SHOW_EDITOR_AND_EMOJILIST ? myEmojiList.getState(level) : myStructuredFileEditor.getState(level));
 	}
 
 
 	@Override
 	public void addPropertyChangeListener(@NotNull PropertyChangeListener listener) {
 		myEditor.addPropertyChangeListener(listener);
-		myPreview.addPropertyChangeListener(listener);
+		myEmojiList.addPropertyChangeListener(listener);
+		myStructuredFileEditor.addPropertyChangeListener(listener);
 
 		final DoublingEventListenerDelegate delegate = myListenersGenerator.addListenerAndGetDelegate(listener);
 		myEditor.addPropertyChangeListener(delegate);
-		myPreview.addPropertyChangeListener(delegate);
+		myEmojiList.addPropertyChangeListener(delegate);
+		myStructuredFileEditor.addPropertyChangeListener(delegate);
 	}
 
 	@Override
 	public void removePropertyChangeListener(@NotNull PropertyChangeListener listener) {
 		myEditor.removePropertyChangeListener(listener);
-		myPreview.removePropertyChangeListener(listener);
+		myEmojiList.removePropertyChangeListener(listener);
+		myStructuredFileEditor.removePropertyChangeListener(listener);
 
 		final DoublingEventListenerDelegate delegate = myListenersGenerator.removeListenerAndGetDelegate(listener);
 		if (delegate != null) {
 			myEditor.removePropertyChangeListener(delegate);
-			myPreview.removePropertyChangeListener(delegate);
+			myEmojiList.removePropertyChangeListener(delegate);
+			myStructuredFileEditor.removePropertyChangeListener(delegate);
 		}
 	}
 
@@ -246,12 +267,12 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 	@Override
 	public boolean isModified() {
-		return myEditor.isModified() || myPreview.isModified();
+		return myEditor.isModified() || myEmojiList.isModified() || myStructuredFileEditor.isModified();
 	}
 
 	@Override
 	public boolean isValid() {
-		return myEditor.isValid() && myPreview.isValid();
+		return myEditor.isValid() && myEmojiList.isValid() && myStructuredFileEditor.isValid();
 	}
 
 	@Nullable
@@ -266,8 +287,8 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 	public enum Layout {
 		SHOW_EDITOR("Editor only", GitPrefixIcons.LAYOUT_EDITOR_ONLY),
-		// SHOW_PREVIEW("Preview only", AllIcons.General.LayoutPreviewOnly),
-		SHOW_EDITOR_AND_PREVIEW("Editor and Preview", GitPrefixIcons.LAYOUT_EDITOR_PREVIEW);
+		SHOW_EDITOR_AND_EMOJILIST("Editor and EmojiList", GitPrefixIcons.LAYOUT_EDITOR_EMOJILIST),
+		SHOW_EDITOR_AND_STRUCTURED("Editor and StructuredFile", GitPrefixIcons.LAYOUT_EDITOR_STRUCTURED);
 
 		private final String myName;
 		private final Icon myIcon;
@@ -373,8 +394,8 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 
 			ActionGroup group = new DefaultActionGroup(
 					new ChangeViewModeAction(Layout.SHOW_EDITOR),
-					new ChangeViewModeAction(Layout.SHOW_EDITOR_AND_PREVIEW)/*,
-                    new ChangeViewModeAction(Layout.SHOW_PREVIEW) */
+					new ChangeViewModeAction(Layout.SHOW_EDITOR_AND_EMOJILIST),
+					new ChangeViewModeAction(Layout.SHOW_EDITOR_AND_STRUCTURED)
 			);
 			myRightToolbar = ActionManager.getInstance().createActionToolbar("TextAndPreviewEditor", group, true);
 			myRightToolbar.setTargetComponent(targetComponentForActions);
@@ -435,7 +456,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		public void setSelected(AnActionEvent e, boolean state) {
 			if (state) {
 				myLayout = myActionLayout;
-				PropertiesComponent.getInstance().setValue(getLayoutPropertyName(), myLayout.myName, Layout.SHOW_EDITOR_AND_PREVIEW.myName);
+				PropertiesComponent.getInstance().setValue(getLayoutPropertyName(), myLayout.myName, myActionLayout.myName);
 				adjustEditorsVisibility();
 			}
 		}

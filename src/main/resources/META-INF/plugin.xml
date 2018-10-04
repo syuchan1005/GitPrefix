@@ -71,6 +71,8 @@
         <projectService serviceImplementation="com.github.syuchan1005.gitprefix.GitPrefixData" />
         <projectConfigurable groupId="tools" displayName="GitPrefix" id="perference.gitprefix.GitPrefixConfigurable"
                                  instance="com.github.syuchan1005.gitprefix.setting.GitPrefixConfigurable" />
+        <!--<codeStyleSettingsProvider implementation="com.github.syuchan1005.gitprefix.codestyle.PrefixResourceCodeStyleSettingsProvider" />
+        <langCodeStyleSettingsProvider implementation="com.github.syuchan1005.gitprefix.codestyle.PrefixResourceLanguageCodeStyleSettingsProvider" />-->
     </extensions>
 
     <extensionPoints>

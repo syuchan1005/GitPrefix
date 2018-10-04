@@ -41,7 +41,10 @@ public class PrefixResourceFormattingModelBuilder implements FormattingModelBuil
 				.around(EXPAND_BLOCK).spaces(0) // ... name -> ...name
 				.around(BLOCK_NAME).spaces(1).before(LEFT_BRACE).none() // name{ -> name {
 				.around(TokenSet.create(EMOJI_KEY, TEXT_KEY)) // :aa:t -> :aa: t (keep now spaces)
-					.parentDependentLFSpacing(1, Integer.MAX_VALUE, true, 0);
+					.parentDependentLFSpacing(1, Integer.MAX_VALUE, true, 0)
+				.around(NAMED_BLOCK).blankLines(1)
+				.around(PROPERTY).lineBreakOrForceSpace(true, false)
+				.around(LEFT_BRACE).lineBreakOrForceSpace(true, false);
 	}
 
 	@Nullable

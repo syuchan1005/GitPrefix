@@ -34,7 +34,7 @@ RIGHT_BRACE="}"
 EXPAND_BLOCK="..."
 INNER_BLOCK=">"
 
-// VALUE=[^\s:|#/][^\n#/]*
+VALUE=[^\s:|/{}][^\n/{}]*
 // EMOJI_KEY=:([^:\n]|.)*?:
 // TEXT_KEY=\|([^|\n]|.)*?\|
 
@@ -75,7 +75,7 @@ INNER_BLOCK=">"
 <VAL> {
   {WHITE_SPACE} { return WHITE_SPACE; }
 
-  [^\s:|/{}][^\n/{}]* { yybegin(YYINITIAL); return VALUE; }
+  {VALUE} { yybegin(YYINITIAL); return VALUE; }
 }
 
 [^] { return BAD_CHARACTER; }

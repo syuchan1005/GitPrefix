@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFileFactory;
 
 public class PrefixResourceElementFactory {
-	public static PrefixResourceFile createFile(Project project, String text) {
+	public static PrefixResourceFile createFile(Project project, CharSequence text) {
 		return (PrefixResourceFile) PsiFileFactory.getInstance(project)
 				.createFileFromText("dummy.gitprefix", PrefixResourceFileType.INSTANCE, text);
 	}

@@ -20,6 +20,7 @@ public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider 
 			RelatedItemLineMarkerInfo<PsiElement> lineMarkerInfo = null;
 			if (leafPsiElement.getElementType() == PrefixResourceTypes.EMOJI_KEY) {
 				String emoji = leafPsiElement.getText().trim();
+				if (emoji.length() < 1) return;
 				EmojiUtil.EmojiData emojiData = EmojiUtil.getEmojiData(emoji.substring(1, emoji.length() - 1));
 				if (emojiData != null) {
 					NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(emojiData.getIcon()).setTarget(element);

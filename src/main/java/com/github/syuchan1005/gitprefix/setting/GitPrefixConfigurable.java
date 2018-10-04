@@ -3,7 +3,6 @@ package com.github.syuchan1005.gitprefix.setting;
 import com.github.syuchan1005.gitprefix.GitPrefixData;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
-import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +13,7 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 	private GitPrefixConfigurableGUI gui = null;
 	private GitPrefixData prefixData = null;
 
-	public GitPrefixConfigurable(@Nonnull Project project) {
+	public GitPrefixConfigurable(Project project) {
 		this.myProject = project;
 		this.prefixData = GitPrefixData.getInstance(myProject);
 	}
