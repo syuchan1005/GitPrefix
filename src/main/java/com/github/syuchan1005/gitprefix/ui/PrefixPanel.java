@@ -2,6 +2,7 @@ package com.github.syuchan1005.gitprefix.ui;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.GitPrefixData;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
@@ -39,7 +40,7 @@ public class PrefixPanel extends JBScrollPane {
 	public PrefixPanel(Project project) {
 		this.myProject = project;
 		JPanel prefixPanel = new JPanel();
-		prefixPanel.setLayout(new VerticalFlowLayout(0, 0, 0, true, false));
+		prefixPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0, true, false));
 		PsiElement[] children = PrefixPanel.getGitPrefixFilePsiElements(myProject);
 		if (children == null) return;
 		for (PsiElement psiElement : children) {
@@ -69,48 +70,11 @@ public class PrefixPanel extends JBScrollPane {
 
 	@Nullable
 	public static PsiElement[] getGitPrefixFilePsiElements(Project project) {
-		GitPrefixData prefixData = toData(ServiceManager.getService(project, GitPrefixData.class));
-		VirtualFile virtualFile;
-		if (prefixData.isPathType.equals("DEFAULT")) {
-			virtualFile = project.getBaseDir().findChild(".gitprefix");
-		} else if (prefixData.isPathType.equals("CUSTOM") && !prefixData.gitPrefixPath.equals("")) {
-			virtualFile = LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.gitPrefixPath);
-		} else {
-			return null;
-		}
-		if (virtualFile == null) return null;
-		PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
-		if (psiFile == null) return null;
-		PsiElement[] children = psiFile.getChildren();
+		PrefixResourceFile prefixFile = PrefixResourceFile.getFromSetting(project);
+		if (prefixFile == null) return null;
+		PsiElement[] children = prefixFile.getChildren();
 		if (children.length == 0) return null;
 		return children;
-	}
-
-	/**
-	 * ClassLoaderA->GitPrefixData cast to ClassLoaderB->GitPrefixData
-	 *
-	 * @param object {@link com.github.syuchan1005.gitprefix.GitPrefixData}
-	 * @return {@link com.github.syuchan1005.gitprefix.GitPrefixData}
-	 */
-	private static GitPrefixData toData(Object object) {
-		Class<?> clazz = object.getClass();
-		try {
-			String isPathType = (String) clazz.getField("isPathType").get(object);
-			String gitPrefixPath = (String) clazz.getField("gitPrefixPath").get(object);
-			return new GitPrefixData(isPathType, gitPrefixPath);
-		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
-			return new GitPrefixData();
-		}
-	}
-
-	private IconTextRadioButton createPrefixButton(String text, String description, boolean selected) {
-		EmojiUtil.EmojiData emojiData = null;
-		if (text != null && text.startsWith(":")) emojiData = EmojiUtil.getEmojiData(text.replace(":", ""));
-		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, emojiData != null ? emojiData.getIcon() : null, selected);
-		iconTextRadioButton.getRadioButton().setToolTipText(text);
-		buttonGroup.add(iconTextRadioButton.getRadioButton());
-		return iconTextRadioButton;
 	}
 
 	public boolean notExist() {
@@ -128,6 +92,15 @@ public class PrefixPanel extends JBScrollPane {
 			if (abstractButton.isSelected()) return abstractButton.getToolTipText();
 		}
 		return null;
+	}
+
+	private IconTextRadioButton createPrefixButton(String text, String description, boolean selected) {
+		EmojiUtil.EmojiData emojiData = null;
+		if (text != null && text.startsWith(":")) emojiData = EmojiUtil.getEmojiData(text.replace(":", ""));
+		IconTextRadioButton iconTextRadioButton = new IconTextRadioButton(description, emojiData != null ? emojiData.getIcon() : null, selected);
+		iconTextRadioButton.getRadioButton().setToolTipText(text);
+		buttonGroup.add(iconTextRadioButton.getRadioButton());
+		return iconTextRadioButton;
 	}
 
 	public static class IconTextRadioButton extends JPanel {
@@ -180,7 +153,7 @@ public class PrefixPanel extends JBScrollPane {
 		}
 	}
 
-	static class PrefixComboBoxRenderer extends ColoredListCellRenderer<JPanel> {
+	public static class PrefixComboBoxRenderer extends ColoredListCellRenderer<JPanel> {
 		@Override
 		public Component getListCellRendererComponent(JList list, JPanel value, int index, boolean isSelected, boolean cellHasFocus) {
 			IconTextRadioButton button = (IconTextRadioButton) value;

@@ -38,4 +38,22 @@ public class GitPrefixData implements PersistentStateComponent<GitPrefixData> {
 	public void loadState(@NotNull GitPrefixData state) {
 		XmlSerializerUtil.copyBean(state, this);
 	}
+
+	/**
+	 * ClassLoaderA->GitPrefixData cast to ClassLoaderB->GitPrefixData
+	 *
+	 * @param object {@link com.github.syuchan1005.gitprefix.GitPrefixData}
+	 * @return {@link com.github.syuchan1005.gitprefix.GitPrefixData}
+	 */
+	public static GitPrefixData convertClassLoader(Object object) {
+		Class<?> clazz = object.getClass();
+		try {
+			String isPathType = (String) clazz.getField("isPathType").get(object);
+			String gitPrefixPath = (String) clazz.getField("gitPrefixPath").get(object);
+			return new GitPrefixData(isPathType, gitPrefixPath);
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
+			return new GitPrefixData();
+		}
+	}
 }

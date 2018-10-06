@@ -1,22 +1,21 @@
 package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
 import com.intellij.openapi.extensions.ExtensionPointName;
+import com.intellij.openapi.ui.JBPopupMenu;
 import com.intellij.openapi.ui.Splitter;
+import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.CommitMessage;
-import com.intellij.psi.PsiElement;
-import java.util.Arrays;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.JComponent;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
-/**
- * Created by syuchan on 2017/05/29.
- */
 public class PrefixCheckinHandler extends CheckinHandler {
 	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
@@ -39,39 +38,31 @@ public class PrefixCheckinHandler extends CheckinHandler {
 	}
 
 	public void injectPrefixPanel(Splitter splitter) {
-		PsiElement[] psiElements = PrefixPanel.getGitPrefixFilePsiElements(checkinProjectPanel.getProject());
-		if (psiElements == null) return;
-		String[] keys = Arrays.stream(psiElements)
-				.filter(e -> e instanceof PrefixResourceProperty)
-				.map(p -> p.getFirstChild().getText())
-				.sorted((s1, s2) -> {
-					int sub = s2.length() - s1.length();
-					if (sub != 0) return sub;
-					return s1.compareTo(s2);
-				}).toArray(String[]::new);
+		PrefixResourceFile prefixFile = PrefixResourceFile.getFromSetting(checkinProjectPanel.getProject());
+		if (prefixFile == null) return;
 
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
-		Splitter commitSplitter = new Splitter();
-		commitSplitter.setFirstComponent(prefixPanel);
-		commitSplitter.setSecondComponent((JComponent) commitMessage.getComponent(0));
-		commitMessage.add(commitSplitter, 0);
+		JPanel panel = new JPanel();
+		panel.setLayout(new VerticalFlowLayout(true, true));
+		JButton test = new JButton("Select Prefix");
+		panel.add(test);
+		Component commitTextField = commitMessage.getComponent(0);
+		panel.add(commitTextField);
+		commitMessage.add(panel, 0);
+
+		JBPopupMenu popupMenu = PrefixResourceFile.BlockType.COMMIT.createPopupMenu(prefixFile);
+		if (popupMenu == null) return;
+		test.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 
 		String comment = commitMessage.getComment();
-		for (String key : keys) {
-			if (comment.startsWith(key)) {
-				Enumeration<AbstractButton> elements = prefixPanel.getButtonGroup().getElements();
-				while (elements.hasMoreElements()) {
-					AbstractButton button = elements.nextElement();
-					if (button.getToolTipText().equals(key)) {
-						button.setSelected(true);
-						String raw = comment.substring(key.length());
-						commitMessage.setCommitMessage(raw.length() > 0 && raw.charAt(0) == ' ' ? raw.substring(1) : raw);
-						break;
-					}
-				}
-				break;
-			}
-		}
+		String key = PrefixResourceFile.BlockType.COMMIT.containsKey(comment);
+		if (key != null) comment = comment.substring(key.length()).trim();
+		commitMessage.setCommitMessage(comment);
 
 		for (PrefixPanelFactory factory : extensionPointName.getExtensions()) {
 			factory.createPanel(commitMessage);

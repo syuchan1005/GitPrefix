@@ -7,8 +7,8 @@ import javax.swing.Icon;
 import com.intellij.openapi.util.IconLoader;
 
 public class EmojiUtil {
-    private static Map<String, EmojiData> emojiMap = new HashMap<>(883, 1F); // true length = 882 
-    
+    private static Map<String, EmojiData> emojiMap = new HashMap<>(883, 1F); // true length = 882
+
     static {
         emojiMap.put("+1", new EmojiData("👍", IconLoader.getIcon("/emojis/+1.png")));
         emojiMap.put("-1", new EmojiData("👎", IconLoader.getIcon("/emojis/-1.png")));
@@ -897,27 +897,30 @@ public class EmojiUtil {
     public static class EmojiData {
         private String code;
         private Icon icon;
-        
+
         private EmojiData(String code, Icon icon) {
             this.code = code;
             this.icon = icon;
         }
-        
+
         public String getCode() {
             return this.code;
         }
-        
+
         public Icon getIcon() {
             return this.icon;
         }
     }
-    
+
     public static Map<String, EmojiData> getEmojiMap() {
         return emojiMap;
     }
 
+    /**
+     * Get EmojiDAta
+     * @param emoji ex.) tada, art, +1.....
+     */
     public static EmojiData getEmojiData(String emoji) {
         return emojiMap.get(emoji);
     }
 }
-    
