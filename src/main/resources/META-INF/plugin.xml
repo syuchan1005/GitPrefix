@@ -42,7 +42,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Commit -->
         <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
-        <editChangelistSupport implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixEditChangelistSupport" />
+        <editChangelistSupport    implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandler" />
 
         <!-- File -->
         <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileTypeFactory" />

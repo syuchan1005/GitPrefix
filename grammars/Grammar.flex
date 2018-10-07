@@ -73,8 +73,8 @@ VALUE=[^\s:|/{}][^\n/{}]*
 }
 
 <VAL> {
-  {WHITE_SPACE} { return WHITE_SPACE; }
-
+  \n 		{ yybegin(YYINITIAL); return WHITE_SPACE; }
+  [ \t] 	{ return WHITE_SPACE; }
   {VALUE} { yybegin(YYINITIAL); return VALUE; }
 }
 

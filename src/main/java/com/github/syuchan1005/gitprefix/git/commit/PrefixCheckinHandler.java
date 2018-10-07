@@ -2,25 +2,35 @@ package com.github.syuchan1005.gitprefix.git.commit;
 
 import com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
+import com.github.syuchan1005.gitprefix.ui.PrefixButton;
 import com.github.syuchan1005.gitprefix.ui.PrefixPanel;
+import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
 import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.openapi.ui.JBPopupMenu;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
+import com.intellij.openapi.vcs.changes.LocalChangeList;
+import com.intellij.openapi.vcs.changes.ui.EditChangelistSupport;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.CommitMessage;
+import com.intellij.tasks.impl.TaskManagerImpl;
+import com.intellij.ui.EditorTextField;
+import com.intellij.util.Consumer;
 import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JButton;
+import java.lang.reflect.Field;
 import javax.swing.JPanel;
+import org.jetbrains.annotations.Nullable;
 
-public class PrefixCheckinHandler extends CheckinHandler {
+public class PrefixCheckinHandler extends CheckinHandler implements EditChangelistSupport {
 	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
 	private PrefixPanel prefixPanel;
 	private CheckinProjectPanel checkinProjectPanel;
+
+	public PrefixCheckinHandler(Project project, TaskManagerImpl taskManager) {
+	}
 
 	public PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
@@ -33,34 +43,43 @@ public class PrefixCheckinHandler extends CheckinHandler {
 		}
 	}
 
-	public CheckinProjectPanel getCheckinProjectPanel() {
-		return checkinProjectPanel;
+	@Override
+	public void installSearch(EditorTextField name, EditorTextField comment) {
+		PrefixCheckinHandler handler = PrefixCheckinHandlerFactory.getHandler();
+		if (handler.checkinProjectPanel == null) return;
+		Splitter splitter = null;
+		CheckinProjectPanel dialog = handler.checkinProjectPanel;
+		if (dialog.getComponent() instanceof Splitter) {
+			splitter = (Splitter) dialog.getComponent();
+		} else {
+			try {
+				Field mySplitter = dialog.getClass().getDeclaredField("mySplitter");
+				mySplitter.setAccessible(true);
+				splitter = (Splitter) mySplitter.get(dialog);
+			} catch (ReflectiveOperationException ignored) {
+			}
+		}
+		if (splitter != null) handler.injectPrefixPanel(splitter);
 	}
 
-	public void injectPrefixPanel(Splitter splitter) {
-		PrefixResourceFile prefixFile = PrefixResourceFile.getFromSetting(checkinProjectPanel.getProject());
+	private PrefixButton prefixButton;
+
+	private void injectPrefixPanel(Splitter splitter) {
+		PrefixResourceFile prefixFile = PrefixResourceFileUtil.getFromSetting(checkinProjectPanel.getProject());
 		if (prefixFile == null) return;
 
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
 		JPanel panel = new JPanel();
 		panel.setLayout(new VerticalFlowLayout(true, true));
-		JButton test = new JButton("Select Prefix");
-		panel.add(test);
+		prefixButton = new PrefixButton(checkinProjectPanel.getProject());
+		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.COMMIT);
+		panel.add(prefixButton);
 		Component commitTextField = commitMessage.getComponent(0);
 		panel.add(commitTextField);
 		commitMessage.add(panel, 0);
 
-		JBPopupMenu popupMenu = PrefixResourceFile.BlockType.COMMIT.createPopupMenu(prefixFile);
-		if (popupMenu == null) return;
-		test.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				popupMenu.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-
 		String comment = commitMessage.getComment();
-		String key = PrefixResourceFile.BlockType.COMMIT.containsKey(comment);
+		String key = PrefixResourceFileUtil.BlockType.COMMIT.containsKey(comment);
 		if (key != null) comment = comment.substring(key.length()).trim();
 		commitMessage.setCommitMessage(comment);
 
@@ -77,10 +96,18 @@ public class PrefixCheckinHandler extends CheckinHandler {
 				return ReturnResult.CANCEL;
 			}
 		}
-		String prefix = prefixPanel.getSelectedToolTipText();
-		if (prefix != null) {
-			checkinProjectPanel.setCommitMessage(prefix + " " + checkinProjectPanel.getCommitMessage());
-		}
+		PrefixResourceProperty currentProperty = prefixButton.getCurrentProperty();
+		if (currentProperty == null) return ReturnResult.COMMIT;
+		checkinProjectPanel.setCommitMessage(currentProperty.getKey() + " " + checkinProjectPanel.getCommitMessage());
 		return ReturnResult.COMMIT;
+	}
+
+	@Override
+	public Consumer<LocalChangeList> addControls(JPanel bottomPanel, @Nullable LocalChangeList initial) {
+		return null;
+	}
+
+	@Override
+	public void changelistCreated(LocalChangeList changeList) {
 	}
 }

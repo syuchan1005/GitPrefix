@@ -6,6 +6,7 @@ import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighter;
 import com.github.syuchan1005.gitprefix.ui.EmojiListEditor;
 import com.github.syuchan1005.gitprefix.ui.TextAndPreviewEditor;
+import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
 import com.intellij.codeInsight.daemon.impl.UpdateHighlightersUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
@@ -46,7 +47,7 @@ public class GitPrefixEditorProvider implements FileEditorProvider {
 			return TextEditorProvider.getInstance().createEditor(project, file);
 		TextEditor mainEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, file);
 
-		Document document = EditorFactory.getInstance().createDocument(((PrefixResourceFile) psiFile).createStructuredFile(true).getText());
+		Document document = EditorFactory.getInstance().createDocument(PrefixResourceFileUtil.createStructuredFile((PrefixResourceFile) psiFile, true).getText());
 		TextEditor structuredPreviewEditor = TextEditorProvider.getInstance()
 				.getTextEditor(EditorFactory.getInstance().createViewer(document, project, EditorKind.PREVIEW));
 		EditorEx editorEx = EditorUtil.getEditorEx(structuredPreviewEditor);
@@ -59,7 +60,7 @@ public class GitPrefixEditorProvider implements FileEditorProvider {
 			public void documentChanged(@NotNull DocumentEvent event) {
 				PrefixResourceFile prefixResourceFile = PrefixResourceElementFactory.createFile(project, event.getDocument().getText());
 				structuredPreviewEditor.getEditor().getDocument()
-						.setText(prefixResourceFile.createStructuredFile(true).getText());
+						.setText(PrefixResourceFileUtil.createStructuredFile(prefixResourceFile, true).getText());
 			}
 		});
 

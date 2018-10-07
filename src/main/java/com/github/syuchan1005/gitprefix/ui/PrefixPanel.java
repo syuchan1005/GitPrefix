@@ -1,17 +1,12 @@
 package com.github.syuchan1005.gitprefix.ui;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.GitPrefixData;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
-import com.intellij.openapi.components.ServiceManager;
+import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.VerticalFlowLayout;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiManager;
 import com.intellij.ui.ColoredListCellRenderer;
 import com.intellij.ui.components.JBScrollPane;
 import java.awt.Component;
@@ -70,7 +65,7 @@ public class PrefixPanel extends JBScrollPane {
 
 	@Nullable
 	public static PsiElement[] getGitPrefixFilePsiElements(Project project) {
-		PrefixResourceFile prefixFile = PrefixResourceFile.getFromSetting(project);
+		PrefixResourceFile prefixFile = PrefixResourceFileUtil.getFromSetting(project);
 		if (prefixFile == null) return null;
 		PsiElement[] children = prefixFile.getChildren();
 		if (children.length == 0) return null;
@@ -79,10 +74,6 @@ public class PrefixPanel extends JBScrollPane {
 
 	public boolean notExist() {
 		return PrefixPanel.getGitPrefixFilePsiElements(myProject) == null;
-	}
-
-	public ButtonGroup getButtonGroup() {
-		return buttonGroup;
 	}
 
 	public String getSelectedToolTipText() {

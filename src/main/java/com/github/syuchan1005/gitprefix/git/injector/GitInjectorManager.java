@@ -22,7 +22,7 @@ public class GitInjectorManager implements ApplicationComponent {
 			classPool.appendClassPath(new ClassClassPath(this.getClass()));
 
 			for (InjectorType type : InjectorType.values()) {
-				GitInjectorUtil.injectClass(classPool, type);
+				// GitInjectorUtil.injectClass(classPool, type);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

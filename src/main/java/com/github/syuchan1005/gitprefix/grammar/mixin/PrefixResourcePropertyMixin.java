@@ -17,7 +17,8 @@ public abstract class PrefixResourcePropertyMixin extends ASTWrapperPsiElement i
 	@NotNull
 	public String getKey() {
 		if (this.getTextKey() != null) {
-			return this.getTextKey().getText();
+			String text = this.getTextKey().getText();
+			return text.substring(1, text.length() - 1);
 		}
 		return this.getEmojiKey().getText();
 	}

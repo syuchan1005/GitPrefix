@@ -1,5 +1,5 @@
 plugins {
-    id "org.jetbrains.intellij" version "0.3.7"
+    id "org.jetbrains.intellij" version "0.3.11"
     id "org.jetbrains.grammarkit" version "2018.2"
 }
 
@@ -38,6 +38,8 @@ patchPluginXml {
 
 
 apply plugin: 'org.jetbrains.grammarkit'
+
+import jdk.internal.dynalink.support.CompositeTypeBasedGuardingDynamicLinker
 import org.jetbrains.grammarkit.tasks.*
 
 task generateLexer(group:'grammar', type: GenerateLexer) {
