@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.swing.JMenu;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class PrefixResourceFileUtil {
@@ -65,7 +66,23 @@ public class PrefixResourceFileUtil {
 		}
 
 		@Nullable
-		public String containsKey(String key) {
+		public PrefixResourceProperty containsKey(PrefixResourceFile structuredFile, String key) {
+			PrefixResourceNamedBlock block = this.getBlock(structuredFile);
+			if (block == null) return null;
+			return containsKey(block, key);
+		}
+
+		@Nullable
+		private static PrefixResourceProperty containsKey(@NotNull PrefixResourceNamedBlock block, String key) {
+			for (PsiElement child : block.getChildren()) {
+				if (child instanceof PrefixResourceProperty) {
+					String blockKey = ((PrefixResourceProperty) child).getKey();
+					if (key.startsWith(blockKey)) return (PrefixResourceProperty) child;
+				} else if (child instanceof PrefixResourceNamedBlock) {
+					PrefixResourceProperty containsKey = containsKey((PrefixResourceNamedBlock) child, key);
+					if (containsKey != null) return containsKey;
+				}
+			}
 			return null;
 		}
 
@@ -145,9 +162,7 @@ public class PrefixResourceFileUtil {
 				if (fromBeforeName != null) {
 					child.getNode().replaceChild(blockName.getNode(),
 							PrefixResourceElementFactory.createBlockNameNode(file.getProject(), fromBeforeName.getBlockName()));
-					properties.forEach(n -> {
-						child.getNode().addChild(n.copy().getNode(), child.getNode().getLastChildNode().getTreePrev());
-					});
+					properties.forEach(n -> child.getNode().addChild(n.copy().getNode(), child.getNode().getLastChildNode().getTreePrev()));
 				} else {
 					file.getNode().removeChild(child.getNode());
 				}
@@ -158,9 +173,7 @@ public class PrefixResourceFileUtil {
 			if (value.getBlock(file) == null) {
 				PrefixResourceNamedBlock namedBlock = PrefixResourceElementFactory.createNamedBlock(file.getProject(), value.blockName);
 				file.getNode().addChild(namedBlock.getNode());
-				properties.forEach(n -> {
-					namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev());
-				});
+				properties.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
 			}
 		}
 
@@ -182,8 +195,9 @@ public class PrefixResourceFileUtil {
 	}
 
 	private static void calcNamedBlock(PrefixResourceNamedBlock block) {
-		for (ASTNode child : block.getNode().getChildren(needElements)) {
-			block.getNode().removeChild(child);
+		for (PsiElement child : block.getChildren()) {
+			if (!needElements.contains(child.getNode().getElementType()))
+				block.getNode().removeChild(child.getNode());
 		}
 		for (PsiElement child : block.getChildren()) {
 			if (child instanceof PrefixResourceBlockExpr) {
@@ -195,9 +209,7 @@ public class PrefixResourceFileUtil {
 					ASTNode newChild = targetNamedBlock.getNode().copyElement();
 					switch (expr.getExprType()) {
 						case EXPAND:
-							ASTNode[] children = newChild.getChildren(TokenSet.create(
-									PrefixResourceTypes.PROPERTY, PrefixResourceTypes.NAMED_BLOCK));
-							for (ASTNode node : children) {
+							for (ASTNode node : newChild.getChildren(needElements)) {
 								block.getNode().addChild(node, expr.getNode());
 							}
 							block.getNode().removeChild(expr.getNode());

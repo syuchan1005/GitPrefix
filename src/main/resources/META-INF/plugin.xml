@@ -46,7 +46,6 @@
 
         <!-- File -->
         <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileTypeFactory" />
-        <fileTypeFactory implementation="com.github.syuchan1005.gitprefix.filetype.EmojiResourceFileTypeFactory" />
 
         <lang.parserDefinition language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceParserDefinition" />
         <lang.syntaxHighlighterFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
@@ -85,15 +84,11 @@
         </action>
     </actions>
 
-    <project-components>
-        <component>
-            <implementation-class>com.github.syuchan1005.gitprefix.components.EmojiResourceRenameNotifier</implementation-class>
-        </component>
-    </project-components>
-
+    <!--
     <application-components>
         <component>
             <implementation-class>com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager</implementation-class>
         </component>
     </application-components>
+    -->
 </idea-plugin>

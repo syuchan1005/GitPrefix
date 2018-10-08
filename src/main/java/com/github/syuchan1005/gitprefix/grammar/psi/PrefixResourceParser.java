@@ -7,11 +7,10 @@ import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
-@SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
+@SuppressWarnings("ALL")
 public class PrefixResourceParser implements PsiParser, LightPsiParser {
 
   public ASTNode parse(IElementType t, PsiBuilder b) {

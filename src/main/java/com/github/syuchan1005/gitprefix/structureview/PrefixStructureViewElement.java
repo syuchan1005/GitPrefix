@@ -19,7 +19,7 @@ import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 
-import static com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin.*;
+import static com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin.BlockExprType;
 
 public class PrefixStructureViewElement implements StructureViewTreeElement, SortableTreeElement {
 	private PsiElement element;

@@ -1,6 +1,5 @@
 {
 	parserClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceParser"
-
 	extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
 	psiClassPrefix="PrefixResource"

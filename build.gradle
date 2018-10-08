@@ -1,6 +1,9 @@
+import org.jetbrains.grammarkit.tasks.*
+
 plugins {
     id "org.jetbrains.intellij" version "0.3.11"
     id "org.jetbrains.grammarkit" version "2018.2"
+    id "org.jetbrains.kotlin.jvm" version '1.2.70'
 }
 
 repositories {
@@ -9,13 +12,22 @@ repositories {
 
 dependencies {
     compile 'org.javassist:javassist:3.23.1-GA'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.70"
 }
 
 apply plugin: 'idea'
+apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
+apply plugin: 'org.jetbrains.grammarkit'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+group 'com.github.syuchan1005'
 
 compileJava {
+    options.compilerArgs << "-Xlint:deprecation"
     options.encoding = 'UTF-8'
 }
 
@@ -26,7 +38,6 @@ intellij {
     version 'LATEST-EAP-SNAPSHOT'
     type 'IU'
 
-
     plugins = ['git4idea']
 }
 
@@ -35,12 +46,6 @@ patchPluginXml {
     sinceBuild '162.0'
     untilBuild null
 }
-
-
-apply plugin: 'org.jetbrains.grammarkit'
-
-import jdk.internal.dynalink.support.CompositeTypeBasedGuardingDynamicLinker
-import org.jetbrains.grammarkit.tasks.*
 
 task generateLexer(group:'grammar', type: GenerateLexer) {
     source = 'grammars/Grammar.flex'

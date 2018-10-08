@@ -4,7 +4,6 @@ import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.util.Debouncer;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.table.JBTable;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;

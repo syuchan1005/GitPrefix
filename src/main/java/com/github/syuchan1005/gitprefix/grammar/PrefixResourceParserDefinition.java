@@ -2,7 +2,6 @@ package com.github.syuchan1005.gitprefix.grammar;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceParser;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;

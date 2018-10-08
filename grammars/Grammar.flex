@@ -8,11 +8,13 @@ import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 
+@SuppressWarnings("ALL")
 %%
 
 %{
   public PrefixResourceLexer() { this(null); }
 %}
+
 
 %public
 %class PrefixResourceLexer

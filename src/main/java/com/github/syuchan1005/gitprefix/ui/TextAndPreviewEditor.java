@@ -11,12 +11,9 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.ToggleAction;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
-import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorLocation;
-import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.FileEditorState;
 import com.intellij.openapi.fileEditor.FileEditorStateLevel;
 import com.intellij.openapi.fileEditor.TextEditor;
@@ -106,7 +103,7 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	public JComponent getComponent() {
 		if (myComponent == null) {
 			mySplitter = new JBSplitter(false, 0.5f, 0.15f, 0.85f);
-			mySplitter.setSplitterProportionKey(getSplitterProportionKey());
+			mySplitter.setSplitterProportionKey("TextAndPreviewEditor.SplitterProportionKey");
 			mySplitter.setFirstComponent(myEditor.getComponent());
 			mySplitter.setSecondComponent(myEmojiList.getComponent());
 
@@ -171,11 +168,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		if (focusComponent != null) {
 			IdeFocusManager.findInstanceByComponent(focusComponent).requestFocus(focusComponent, true);
 		}
-	}
-
-	@NotNull
-	protected String getSplitterProportionKey() {
-		return "TextAndPreviewEditor.SplitterProportionKey";
 	}
 
 	@Nullable
@@ -273,11 +265,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 	@Override
 	public boolean isValid() {
 		return myEditor.isValid() && myEmojiList.isValid() && myStructuredFileEditor.isValid();
-	}
-
-	@Nullable
-	protected ActionToolbar createToolbar() {
-		return null;
 	}
 
 	@NotNull
@@ -386,12 +373,6 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		public SplitEditorToolbar(@NotNull final JComponent targetComponentForActions) {
 			super(new BorderLayout());
 
-			final ActionToolbar leftToolbar = createToolbar();
-			if (leftToolbar != null) {
-				leftToolbar.setTargetComponent(targetComponentForActions);
-				add(leftToolbar.getComponent(), BorderLayout.WEST);
-			}
-
 			ActionGroup group = new DefaultActionGroup(
 					new ChangeViewModeAction(Layout.SHOW_EDITOR),
 					new ChangeViewModeAction(Layout.SHOW_EDITOR_AND_EMOJILIST),
@@ -448,12 +429,12 @@ public class TextAndPreviewEditor extends UserDataHolderBase implements FileEdit
 		}
 
 		@Override
-		public boolean isSelected(AnActionEvent e) {
+		public boolean isSelected(@NotNull AnActionEvent e) {
 			return myLayout == myActionLayout;
 		}
 
 		@Override
-		public void setSelected(AnActionEvent e, boolean state) {
+		public void setSelected(@NotNull AnActionEvent e, boolean state) {
 			if (state) {
 				myLayout = myActionLayout;
 				PropertiesComponent.getInstance().setValue(getLayoutPropertyName(), myLayout.myName, myActionLayout.myName);

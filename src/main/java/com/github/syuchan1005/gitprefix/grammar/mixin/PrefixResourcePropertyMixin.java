@@ -5,6 +5,7 @@ import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
+import java.util.Objects;
 import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +21,7 @@ public abstract class PrefixResourcePropertyMixin extends ASTWrapperPsiElement i
 			String text = this.getTextKey().getText();
 			return text.substring(1, text.length() - 1);
 		}
-		return this.getEmojiKey().getText();
+		return Objects.requireNonNull(Objects.requireNonNull(this.getEmojiKey())).getText();
 	}
 
 	@Nullable

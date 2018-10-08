@@ -1,6 +1,5 @@
 package com.github.syuchan1005.gitprefix.icons;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
 

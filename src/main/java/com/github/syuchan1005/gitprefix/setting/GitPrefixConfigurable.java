@@ -4,14 +4,13 @@ import com.github.syuchan1005.gitprefix.GitPrefixData;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import javax.swing.JComponent;
-import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class GitPrefixConfigurable implements SearchableConfigurable {
 	private Project myProject;
 	private GitPrefixConfigurableGUI gui = null;
-	private GitPrefixData prefixData = null;
+	private GitPrefixData prefixData;
 
 	public GitPrefixConfigurable(Project project) {
 		this.myProject = project;
@@ -24,7 +23,6 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 		return "perference.gitprefix.GitPrefixConfigurable";
 	}
 
-	@Nls(capitalization = Nls.Capitalization.Title)
 	@Override
 	public String getDisplayName() {
 		return "GitPrefix";
@@ -66,5 +64,6 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 	}
 
 	@Override
-	public void reset() { }
+	public void reset() {
+	}
 }

@@ -1,7 +1,6 @@
 package com.github.syuchan1005.gitprefix.formatter;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.FormattingModel;
 import com.intellij.formatting.FormattingModelBuilder;

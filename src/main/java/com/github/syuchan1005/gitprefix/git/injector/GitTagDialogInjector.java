@@ -26,10 +26,9 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 		super.beforeShow(dialog);
 		scrollPane = (JBScrollPane) myCenterPanel.getComponent(7);
 		GridConstraints constraintsForComponent = ((GridLayoutManager) myCenterPanel.getLayout()).getConstraintsForComponent(scrollPane);
-		JPanel panel = new JPanel();
-		panel.setLayout(new VerticalFlowLayout(true, true));
+		JPanel panel = new JPanel(new VerticalFlowLayout(true, true));
 		prefixButton = new PrefixButton(myProject);
-		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.COMMIT);
+		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.TAG);
 		if (prefixButton.getPopupMenu() == null) return;
 		panel.add(prefixButton);
 		panel.add(scrollPane);

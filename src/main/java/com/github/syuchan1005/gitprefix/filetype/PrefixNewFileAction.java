@@ -11,6 +11,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.NotNull;
 
 public class PrefixNewFileAction extends AnAction {
 	public PrefixNewFileAction() {
@@ -18,7 +19,7 @@ public class PrefixNewFileAction extends AnAction {
 	}
 
 	@Override
-	public void actionPerformed(AnActionEvent e) {
+	public void actionPerformed(@NotNull AnActionEvent e) {
 		Project project = e.getProject();
 		if (project == null) return;
 		IdeView ideView = e.getRequiredData(LangDataKeys.IDE_VIEW);
@@ -36,7 +37,7 @@ public class PrefixNewFileAction extends AnAction {
 	}
 
 	@Override
-	public void update(AnActionEvent e) {
+	public void update(@NotNull AnActionEvent e) {
 		Project project = e.getProject();
 		IdeView ideView;
 		try {

@@ -4,7 +4,7 @@ import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
 import com.intellij.application.options.CodeStyleAbstractConfigurable;
 import com.intellij.application.options.CodeStyleAbstractPanel;
 import com.intellij.application.options.TabbedLanguageCodeStylePanel;
-import com.intellij.openapi.options.Configurable;
+import com.intellij.psi.codeStyle.CodeStyleConfigurable;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider;
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings;
@@ -26,7 +26,7 @@ public class PrefixResourceCodeStyleSettingsProvider extends CodeStyleSettingsPr
 
 	@NotNull
 	@Override
-	public Configurable createSettingsPage(CodeStyleSettings settings, CodeStyleSettings modelSettings) {
+	public CodeStyleConfigurable createConfigurable(@NotNull CodeStyleSettings settings, @NotNull CodeStyleSettings modelSettings) {
 		return new CodeStyleAbstractConfigurable(settings, modelSettings, "GitPrefix") {
 			@Override
 			protected CodeStyleAbstractPanel createPanel(CodeStyleSettings settings) {

@@ -24,7 +24,7 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 		extend(CompletionType.BASIC, PlatformPatterns.psiElement(PsiElement.class), new CompletionProvider<CompletionParameters>() {
 			@Override
 			protected void addCompletions(@NotNull CompletionParameters completionParameters,
-										  ProcessingContext processingContext,
+										  @NotNull ProcessingContext processingContext,
 										  @NotNull CompletionResultSet completionResultSet) {
 				PsiElement position = completionParameters.getPosition();
 				if (position.getNode().getElementType() == TokenType.BAD_CHARACTER &&
@@ -36,12 +36,10 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 						}
 					};
 
-					EmojiUtil.getEmojiMap().forEach((key, value) -> {
-						completionResultSet.addElement(
-								LookupElementBuilder.create(key, key + ":")
-										.withIcon(value.getIcon()).withInsertHandler(insertHandler)
-						);
-					});
+					EmojiUtil.getEmojiMap().forEach((key, value) -> completionResultSet.addElement(
+							LookupElementBuilder.create(key, key + ":")
+									.withIcon(value.getIcon()).withInsertHandler(insertHandler)
+					));
 				} else if (position.getNode().getElementType() == PrefixResourceTypes.BLOCK_NAME) {
 					completionResultSet.addAllElements(
 							Arrays.stream(position.getContainingFile().getChildren())

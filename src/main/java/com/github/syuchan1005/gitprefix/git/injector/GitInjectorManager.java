@@ -1,6 +1,6 @@
 package com.github.syuchan1005.gitprefix.git.injector;
 
-import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.components.BaseComponent;
 import com.intellij.openapi.project.Project;
 import git4idea.actions.GitRepositoryAction;
 import java.lang.reflect.Constructor;
@@ -11,9 +11,11 @@ import javassist.ClassPool;
 import javassist.LoaderClassPath;
 import org.jetbrains.annotations.NotNull;
 
-public class GitInjectorManager implements ApplicationComponent {
+@SuppressWarnings("ComponentNotRegistered") // Because, Disabled merge and tag injection
+public class GitInjectorManager implements BaseComponent {
 	@Override
 	public void initComponent() {
+		System.out.println("A");
 		try {
 			GitInjectorUtil.injectClassPath();
 
@@ -22,7 +24,7 @@ public class GitInjectorManager implements ApplicationComponent {
 			classPool.appendClassPath(new ClassClassPath(this.getClass()));
 
 			for (InjectorType type : InjectorType.values()) {
-				// GitInjectorUtil.injectClass(classPool, type);
+				GitInjectorUtil.injectClass(classPool, type);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,7 +32,8 @@ public class GitInjectorManager implements ApplicationComponent {
 	}
 
 	@Override
-	public void disposeComponent() { }
+	public void disposeComponent() {
+	}
 
 	@NotNull
 	@Override

@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <selected value="true"/>
-          <text value="Default"/>
+          <text resource-bundle="lang" key="configGUI.default"/>
         </properties>
       </component>
       <component id="6148e" class="javax.swing.JLabel">
@@ -22,7 +22,7 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Path to GitPrefix:"/>
+          <text resource-bundle="lang" key="configGUI.pathGitprefix"/>
         </properties>
       </component>
       <component id="b3024" class="javax.swing.JRadioButton" binding="customRadioButton" default-binding="true">
@@ -30,7 +30,7 @@
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Custom"/>
+          <text resource-bundle="lang" key="configGUI.custom"/>
         </properties>
       </component>
       <vspacer id="4b6b3">
@@ -50,7 +50,7 @@
         <properties>
           <font size="12"/>
           <foreground color="-9803158"/>
-          <text value="(Project root)"/>
+          <text resource-bundle="lang" key="configGUI.projectroot"/>
         </properties>
       </component>
       <component id="29f4" class="com.intellij.openapi.ui.TextFieldWithBrowseButton" binding="pathField">

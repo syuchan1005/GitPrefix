@@ -8,7 +8,6 @@ import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import java.util.Collection;
-import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 
 public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider {

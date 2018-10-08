@@ -1,11 +1,11 @@
 package com.github.syuchan1005.gitprefix.highlight;
 
+import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
 import java.util.Map;
 import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;

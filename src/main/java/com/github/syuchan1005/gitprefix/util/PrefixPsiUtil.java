@@ -59,7 +59,6 @@ public class PrefixPsiUtil {
 		return result;
 	}
 
-	@NotNull
 	public static boolean isRecursive(PrefixResourceBlockExpr expr) {
 		PrefixResourceNamedBlock containsRootNamedBlock = getContainsRootNamedBlock(expr);
 		PrefixResourceNamedBlock targetNamedBlock = expr.getTargetNamedBlock();
