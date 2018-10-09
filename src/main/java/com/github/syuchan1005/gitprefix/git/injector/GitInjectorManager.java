@@ -1,27 +1,21 @@
 package com.github.syuchan1005.gitprefix.git.injector;
 
 import com.intellij.openapi.components.BaseComponent;
-import com.intellij.openapi.project.Project;
 import git4idea.actions.GitRepositoryAction;
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
 import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.LoaderClassPath;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("ComponentNotRegistered") // Because, Disabled merge and tag injection
 public class GitInjectorManager implements BaseComponent {
 	@Override
 	public void initComponent() {
-		System.out.println("A");
 		try {
 			GitInjectorUtil.injectClassPath();
 
 			ClassPool classPool = ClassPool.getDefault();
-			classPool.appendClassPath(new LoaderClassPath(GitRepositoryAction.class.getClassLoader()));
 			classPool.appendClassPath(new ClassClassPath(this.getClass()));
+			classPool.appendClassPath(new LoaderClassPath(GitRepositoryAction.class.getClassLoader()));
 
 			for (InjectorType type : InjectorType.values()) {
 				GitInjectorUtil.injectClass(classPool, type);
@@ -42,16 +36,19 @@ public class GitInjectorManager implements BaseComponent {
 	}
 
 	public enum InjectorType {
-		TAG(GitTagDialogInjector.class, "git4idea.ui.GitTagDialog"),
-		MERGE(GitMergeDialogInjector.class, "git4idea.merge.GitMergeDialog");
+		TAG(GitTagDialogInjector.class, "git4idea.ui.GitTagDialog",
+				"com.github.syuchan1005.gitprefix.git.injector.GitTagDialogInjector"),
+		MERGE(GitMergeDialogInjector.class, "git4idea.merge.GitMergeDialog",
+				"com.github.syuchan1005.gitprefix.git.injector.GitMergeDialogInjector");
 
 		private final Class<? extends AbstractGitDialogInjector> clazz;
 		private final String injectClassName;
-		private final Map<Project, AbstractGitDialogInjector> map = new HashMap<>();
+		private final String injectorClassName;
 
-		InjectorType(Class<? extends AbstractGitDialogInjector> clazz, String injectClassName) {
+		InjectorType(Class<? extends AbstractGitDialogInjector> clazz, String injectClassName, String injectorClassName) {
 			this.clazz = clazz;
 			this.injectClassName = injectClassName;
+			this.injectorClassName = injectorClassName;
 		}
 
 		public Class<? extends AbstractGitDialogInjector> getClazz() {
@@ -62,30 +59,13 @@ public class GitInjectorManager implements BaseComponent {
 			return injectClassName;
 		}
 
-		public Map<Project, AbstractGitDialogInjector> getMap() {
-			return map;
+		public String getInjectorClassName() {
+			return injectorClassName;
 		}
 
 		@Override
 		public String toString() {
 			return InjectorType.class.getCanonicalName() + "." + super.toString();
-		}
-
-		public AbstractGitDialogInjector getOrCreateInjector(Project project) {
-			AbstractGitDialogInjector injector = map.get(project);
-			if (injector == null) {
-				try {
-					Constructor<? extends AbstractGitDialogInjector> constructor = clazz.getConstructor(InjectorType.class, Project.class);
-					injector = constructor.newInstance(this, project);
-				} catch (ReflectiveOperationException ignored) {
-				}
-				map.put(project, injector);
-			}
-			return injector;
-		}
-
-		public void removeInjector(Project project) {
-			map.remove(project);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.github.syuchan1005.gitprefix.git.injector;
 
+import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
 import com.intellij.util.lang.UrlClassLoader;
 import git4idea.actions.GitRepositoryAction;
 import java.io.IOException;
@@ -14,8 +15,8 @@ import javassist.CtNewMethod;
 import javassist.NotFoundException;
 import javax.swing.JPanel;
 
-public class GitInjectorUtil {
-	public static void injectClassPath() throws ReflectiveOperationException, IOException {
+class GitInjectorUtil {
+	static void injectClassPath() throws ReflectiveOperationException, IOException {
 		ClassLoader git4ideaClassLoader = GitRepositoryAction.class.getClassLoader();
 		JarURLConnection jarConn = (JarURLConnection) GitInjectorUtil.class.getResource("").openConnection();
 		URL fileURL = jarConn.getJarFileURL();
@@ -25,15 +26,21 @@ public class GitInjectorUtil {
 		addURL.setAccessible(false);
 	}
 
-	public static void injectClass(ClassPool classPool, GitInjectorManager.InjectorType type) throws NotFoundException, CannotCompileException, IOException {
+	static void injectClass(ClassPool classPool, GitInjectorManager.InjectorType type) throws NotFoundException, CannotCompileException, IOException {
 		CtClass ctClass = classPool.get(type.getInjectClassName());
 		ctClass.defrost();
 
-		String src = "public void show() { " +
-				AbstractGitDialogInjector.class.getCanonicalName() + " injector = " + type.toString() + ".getOrCreateInjector(myProject);" +
-				"injector.beforeShow(this);" +
-				"super.show();" +
-				"injector.afterShow(this);" +
+		String src =
+				"public void show() { " +
+					"ClassLoader loader = com.intellij.lang.Language.findLanguageByID(\"" + PrefixResourceLanguage.myID + "\").getClass().getClassLoader();" +
+					"Class clazz = loader.loadClass(\"" + type.getInjectorClassName() + "\");" +
+					"java.lang.reflect.Constructor constructor = clazz.getConstructor(new Class[] {com.intellij.openapi.project.Project.class});" +
+					"Object injector = constructor.newInstance(new Object[] {myProject});" +
+					"java.lang.reflect.Method beforeShow = injector.getClass().getMethod(\"beforeShow\", new Class[]{Object.class});" +
+					"java.lang.reflect.Method afterShow  = injector.getClass().getMethod(\"afterShow\" , new Class[]{Object.class});" +
+					"beforeShow.invoke(injector, new Object[] {this});" +
+					"super.show();" +
+					"afterShow.invoke(injector, new Object[] {this});" +
 				"}";
 		CtMethod make = CtNewMethod.make(src, ctClass);
 		ctClass.addMethod(make);
@@ -43,7 +50,7 @@ public class GitInjectorUtil {
 	}
 
 
-	public static JPanel getPanel(Object object) throws ReflectiveOperationException {
+	static JPanel getPanel(Object object) throws ReflectiveOperationException {
 		Method createCenterPanel = object.getClass().getDeclaredMethod("createCenterPanel");
 		createCenterPanel.setAccessible(true);
 		JPanel panel = (JPanel) createCenterPanel.invoke(object);

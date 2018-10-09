@@ -1,6 +1,7 @@
 package com.github.syuchan1005.gitprefix.grammar;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
+import com.intellij.lang.Language;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 

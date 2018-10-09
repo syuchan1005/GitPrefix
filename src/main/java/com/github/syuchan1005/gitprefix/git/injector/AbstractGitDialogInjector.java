@@ -5,12 +5,10 @@ import javax.swing.JPanel;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractGitDialogInjector {
-	protected GitInjectorManager.InjectorType myType;
-	protected Project myProject;
-	protected JPanel myCenterPanel;
+	Project myProject;
+	JPanel myCenterPanel;
 
-	public AbstractGitDialogInjector(@NotNull GitInjectorManager.InjectorType type, @NotNull Project project) {
-		this.myType = type;
+	AbstractGitDialogInjector(@NotNull Project project) {
 		this.myProject = project;
 	}
 
@@ -18,7 +16,5 @@ public abstract class AbstractGitDialogInjector {
 		this.myCenterPanel = GitInjectorUtil.getPanel(dialog);
 	}
 
-	public void afterShow(Object dialog) throws Exception {
-		this.myType.removeInjector(myProject);
-	}
+	public void afterShow(Object dialog) throws Exception { }
 }

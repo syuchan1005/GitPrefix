@@ -40,6 +40,7 @@ public class PrefixButton extends JButton {
 	public void setCurrent(SmartPsiElementPointer<PrefixResourceProperty> current) {
 		this.current = current;
 		if (current == null) {
+			setIcon(null);
 			setText("NO PREFIX");
 			return;
 		}

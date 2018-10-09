@@ -227,7 +227,7 @@ public class PrefixResourceFileUtil {
 
 	@Nullable
 	public static PrefixResourceFile getFromSetting(Project project) {
-		GitPrefixData prefixData = GitPrefixData.convertClassLoader(ServiceManager.getService(project, GitPrefixData.class));
+		GitPrefixData prefixData = ServiceManager.getService(project, GitPrefixData.class);
 		VirtualFile virtualFile;
 		if (prefixData.isPathType.equals("DEFAULT")) {
 			String basePath = project.getBasePath();

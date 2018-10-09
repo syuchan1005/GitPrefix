@@ -84,11 +84,9 @@
         </action>
     </actions>
 
-    <!--
     <application-components>
         <component>
             <implementation-class>com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager</implementation-class>
         </component>
     </application-components>
-    -->
 </idea-plugin>

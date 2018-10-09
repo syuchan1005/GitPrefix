@@ -17,8 +17,8 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 	private PrefixButton prefixButton;
 	private boolean addPanel = false;
 
-	public GitTagDialogInjector(@NotNull GitInjectorManager.InjectorType type, @NotNull Project project) {
-		super(type, project);
+	public GitTagDialogInjector(@NotNull Project project) {
+		super(project);
 	}
 
 	@Override
