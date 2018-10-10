@@ -20,6 +20,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.psi.TokenType;
+import com.intellij.psi.impl.source.tree.TreeUtil;
 import com.intellij.psi.tree.TokenSet;
 import java.awt.Container;
 import java.util.ArrayList;
@@ -181,7 +183,7 @@ public class PrefixResourceFileUtil {
 			for (PsiElement child : file.getChildren()) {
 				addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 			}
-			file = PrefixResourceElementFactory.createFile(file.getProject(), file.getText());
+			file = PrefixResourceElementFactory.createFile(file.getProject(), file.getText().replaceAll("\n\\s*?\n", "\n"));
 			new RearrangeCodeProcessor(new ReformatCodeProcessor(file, false)).runWithoutProgress();
 		}
 		return file;
@@ -189,8 +191,9 @@ public class PrefixResourceFileUtil {
 
 	private static void addSpaceAfterProperty(PrefixResourceNamedBlock block) {
 		for (PsiElement child : block.getChildren()) {
-			block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-			if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
+			if (child instanceof PrefixResourceProperty)
+				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
+			else if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 		}
 	}
 
