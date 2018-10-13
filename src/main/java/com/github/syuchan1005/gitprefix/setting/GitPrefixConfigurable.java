@@ -31,7 +31,7 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 	@Nullable
 	@Override
 	public JComponent createComponent() {
-		gui = new GitPrefixConfigurableGUI(this.myProject, this.prefixData.isPathType, this.prefixData.gitPrefixPath);
+		gui = new GitPrefixConfigurableGUI(this.myProject, this.prefixData.getPathType(), this.prefixData.getGitPrefixPath());
 		return gui.getRootPane();
 	}
 
@@ -47,8 +47,8 @@ public class GitPrefixConfigurable implements SearchableConfigurable {
 
 	@Override
 	public void apply() {
-		this.prefixData.isPathType = gui.getDefaultRadioButton().isSelected() ? "DEFAULT" : "CUSTOM";
-		this.prefixData.gitPrefixPath = gui.getPathField().getText();
+		this.prefixData.setPathType(gui.getDefaultRadioButton().isSelected() ? GitPrefixData.PathType.DEFAULT : GitPrefixData.PathType.CUSTOM);
+		this.prefixData.setGitPrefixPath(gui.getPathField().getText());
 	}
 
 	@Nullable

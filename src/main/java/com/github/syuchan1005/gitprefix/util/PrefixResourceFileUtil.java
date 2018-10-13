@@ -232,14 +232,14 @@ public class PrefixResourceFileUtil {
 	public static PrefixResourceFile getFromSetting(Project project) {
 		GitPrefixData prefixData = ServiceManager.getService(project, GitPrefixData.class);
 		VirtualFile virtualFile;
-		if (prefixData.isPathType.equals("DEFAULT")) {
+		if (prefixData.getPathType() == GitPrefixData.PathType.DEFAULT) {
 			String basePath = project.getBasePath();
 			if (basePath == null) return null;
 			VirtualFile baseDir = LocalFileSystem.getInstance().refreshAndFindFileByPath(basePath);
 			if (baseDir == null) return null;
 			virtualFile = baseDir.findChild(".gitprefix");
-		} else if (prefixData.isPathType.equals("CUSTOM") && !prefixData.gitPrefixPath.equals("")) {
-			virtualFile = LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.gitPrefixPath);
+		} else if (prefixData.getPathType() == GitPrefixData.PathType.CUSTOM && !prefixData.getGitPrefixPath().isEmpty()) {
+			virtualFile = LocalFileSystem.getInstance().refreshAndFindFileByPath(prefixData.getGitPrefixPath());
 		} else {
 			return null;
 		}

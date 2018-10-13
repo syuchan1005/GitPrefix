@@ -14,15 +14,12 @@ import org.jetbrains.annotations.Nullable;
 
 @State(name = "GitPrefixData", storages = {@Storage(StoragePathMacros.WORKSPACE_FILE)})
 public class GitPrefixData implements PersistentStateComponent<GitPrefixData> {
-	public String isPathType = "DEFAULT";
-	public String gitPrefixPath = "";
+	private PathType pathType = PathType.DEFAULT;
+	private String gitPrefixPath = "";
 
-	public GitPrefixData() {
-	}
-
-	public GitPrefixData(String isPathType, String gitPrefixPath) {
-		this.isPathType = isPathType;
-		this.gitPrefixPath = gitPrefixPath;
+	public enum PathType {
+		DEFAULT,
+		CUSTOM;
 	}
 
 	@Nullable
@@ -39,5 +36,21 @@ public class GitPrefixData implements PersistentStateComponent<GitPrefixData> {
 	@Override
 	public void loadState(@NotNull GitPrefixData state) {
 		XmlSerializerUtil.copyBean(state, this);
+	}
+
+	public PathType getPathType() {
+		return pathType;
+	}
+
+	public void setPathType(PathType pathType) {
+		this.pathType = pathType;
+	}
+
+	public String getGitPrefixPath() {
+		return gitPrefixPath;
+	}
+
+	public void setGitPrefixPath(String gitPrefixPath) {
+		this.gitPrefixPath = gitPrefixPath;
 	}
 }

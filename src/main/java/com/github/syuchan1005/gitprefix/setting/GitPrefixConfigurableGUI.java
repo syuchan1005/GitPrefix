@@ -1,5 +1,6 @@
 package com.github.syuchan1005.gitprefix.setting;
 
+import com.github.syuchan1005.gitprefix.GitPrefixData;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
@@ -12,14 +13,14 @@ public class GitPrefixConfigurableGUI {
 	private JRadioButton customRadioButton;
 	private TextFieldWithBrowseButton pathField;
 
-	private String initPathType;
+	private GitPrefixData.PathType initPathType;
 	private String initFilePath;
 
-	public GitPrefixConfigurableGUI(Project project, String pathType, String filePath) {
+	public GitPrefixConfigurableGUI(Project project, GitPrefixData.PathType pathType, String filePath) {
 		this.initPathType = pathType;
 		this.initFilePath = filePath;
 
-		if (pathType.equals("DEFAULT")) {
+		if (pathType == GitPrefixData.PathType.DEFAULT) {
 			defaultRadioButton.setSelected(true);
 		} else {
 			customRadioButton.setSelected(true);
@@ -35,7 +36,7 @@ public class GitPrefixConfigurableGUI {
 	}
 
 	public boolean isModified() {
-		return !(defaultRadioButton.isSelected() && this.initPathType.equals("DEFAULT")) || !this.initFilePath.equals(pathField.getText());
+		return !(defaultRadioButton.isSelected() && this.initPathType == GitPrefixData.PathType.DEFAULT) || !this.initFilePath.equals(pathField.getText());
 	}
 
 	public JPanel getRootPane() {
