@@ -1,0 +1,5 @@
+commit {
+	> empty<caret>
+}
+
+empty { }

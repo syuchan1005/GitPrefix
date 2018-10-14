@@ -18,7 +18,6 @@ public class GitPrefixReferenceContributor extends PsiReferenceContributor {
 					@NotNull
 					@Override
 					public PsiReference[] getReferencesByElement(@NotNull PsiElement element, @NotNull ProcessingContext context) {
-						System.out.println(element.getClass().getSimpleName());
 						return new PsiReference[0];
 					}
 				});

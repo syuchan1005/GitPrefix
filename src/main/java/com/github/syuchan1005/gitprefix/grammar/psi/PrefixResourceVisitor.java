@@ -7,6 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public class PrefixResourceVisitor extends PsiElementVisitor {
 
+  public void visitEmojiKey(@NotNull PrefixResourceEmojiKey o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTextKey(@NotNull PrefixResourceTextKey o) {
+    visitPsiElement(o);
+  }
+
   public void visitBlockExpr(@NotNull PrefixResourceBlockExpr o) {
     visitPsiElement(o);
   }

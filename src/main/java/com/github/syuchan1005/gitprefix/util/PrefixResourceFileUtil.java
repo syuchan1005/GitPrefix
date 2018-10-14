@@ -184,7 +184,7 @@ public class PrefixResourceFileUtil {
 				addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 			}
 			file = PrefixResourceElementFactory.createFile(file.getProject(), file.getText().replaceAll("\n\\s*?\n", "\n"));
-			new RearrangeCodeProcessor(new ReformatCodeProcessor(file, false)).runWithoutProgress();
+			new RearrangeCodeProcessor(new ReformatCodeProcessor(file, false)).run();
 		}
 		return file;
 	}

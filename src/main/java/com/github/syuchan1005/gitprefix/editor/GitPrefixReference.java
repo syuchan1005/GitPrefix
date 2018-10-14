@@ -21,7 +21,6 @@ public class GitPrefixReference extends PsiReferenceBase<PsiElement> implements 
 	public ResolveResult[] multiResolve(boolean incompleteCode) {
 		return Arrays.stream(myElement.getContainingFile().getChildren())
 				.filter(element -> element instanceof PrefixResourceNamedBlock)
-				// .filter(element -> ((PrefixResourceNamedBlock) element).getBlockName().getText().equals())
 				.map(PsiElementResolveResult::new).toArray(ResolveResult[]::new);
 	}
 

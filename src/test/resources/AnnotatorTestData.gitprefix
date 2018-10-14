@@ -1,0 +1,23 @@
+commit {
+	<info descr="null">> </info>test
+	<info descr="null">...</info>test
+
+	> <error descr="Unresolved block name">miss</error>
+	...<error descr="Unresolved block name">miss</error>
+
+	> <error descr="Cannot recursive block name">recA</error>
+	...<error descr="Cannot recursive block name">recA</error>
+
+	> <error descr="Cannot recursive block name">recB</error>
+	...<error descr="Cannot recursive block name">recB</error>
+}
+
+test {}
+
+recA {
+	> <error descr="Cannot recursive block name">commit</error>
+}
+
+recB {
+	...<error descr="Cannot recursive block name">commit</error>
+}

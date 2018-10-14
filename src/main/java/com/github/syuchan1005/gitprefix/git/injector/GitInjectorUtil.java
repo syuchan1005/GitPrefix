@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -16,16 +17,6 @@ import javassist.NotFoundException;
 import javax.swing.JPanel;
 
 class GitInjectorUtil {
-	static void injectClassPath() throws ReflectiveOperationException, IOException {
-		ClassLoader git4ideaClassLoader = GitRepositoryAction.class.getClassLoader();
-		JarURLConnection jarConn = (JarURLConnection) GitInjectorUtil.class.getResource("").openConnection();
-		URL fileURL = jarConn.getJarFileURL();
-		Method addURL = UrlClassLoader.class.getDeclaredMethod("addURL", URL.class);
-		addURL.setAccessible(true);
-		addURL.invoke(git4ideaClassLoader, fileURL);
-		addURL.setAccessible(false);
-	}
-
 	static void injectClass(ClassPool classPool, GitInjectorManager.InjectorType type) throws NotFoundException, CannotCompileException, IOException {
 		CtClass ctClass = classPool.get(type.getInjectClassName());
 		ctClass.defrost();

@@ -30,7 +30,6 @@ public class CreateNamedBlockQuickFix extends BaseIntentionAction {
 		return "Create namedBlock";
 	}
 
-	@Nls(capitalization = Nls.Capitalization.Sentence)
 	@NotNull
 	@Override
 	public String getFamilyName() {

@@ -1,0 +1,28 @@
+:tada: TEST
+|WIP| Work in Progress
+
+commit {
+    :art: test
+
+    test {
+        :penguin: cute
+    }
+
+    > block
+}
+
+merge {
+    :pencil2: test
+
+    ...block
+}
+
+tag {
+    |TEST| TEST
+}
+/*
+BLOCK
+*/
+block {
+    |BLOCK| BLOCK // Line Comment
+}

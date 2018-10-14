@@ -8,18 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
-import com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.syuchan1005.gitprefix.grammar.psi.*;
-import com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceBlockExprMixin.BlockExprType;
 
-public class PrefixResourceBlockExprImpl extends PrefixResourceBlockExprMixin implements PrefixResourceBlockExpr {
+public class PrefixResourceTextKeyImpl extends ASTWrapperPsiElement implements PrefixResourceTextKey {
 
-  public PrefixResourceBlockExprImpl(@NotNull ASTNode node) {
+  public PrefixResourceTextKeyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PrefixResourceVisitor visitor) {
-    visitor.visitBlockExpr(this);
+    visitor.visitTextKey(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,9 +27,9 @@ public class PrefixResourceBlockExprImpl extends PrefixResourceBlockExprMixin im
   }
 
   @Override
-  @NotNull
-  public PsiElement getBlockName() {
-    return findNotNullChildByType(BLOCK_NAME);
+  @Nullable
+  public PsiElement getKeyText() {
+    return findChildByType(KEY_TEXT);
   }
 
 }

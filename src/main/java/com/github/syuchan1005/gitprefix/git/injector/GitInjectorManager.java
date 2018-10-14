@@ -11,8 +11,6 @@ public class GitInjectorManager implements BaseComponent {
 	@Override
 	public void initComponent() {
 		try {
-			GitInjectorUtil.injectClassPath();
-
 			ClassPool classPool = ClassPool.getDefault();
 			classPool.appendClassPath(new ClassClassPath(this.getClass()));
 			classPool.appendClassPath(new LoaderClassPath(GitRepositoryAction.class.getClassLoader()));

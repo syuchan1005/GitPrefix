@@ -13,11 +13,13 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.TokenType;
 import com.intellij.util.ProcessingContext;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
+
+
+import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*;
 
 public class PrefixResourceCompletionContributor extends CompletionContributor {
 	public PrefixResourceCompletionContributor() {
@@ -27,8 +29,8 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 										  @NotNull ProcessingContext processingContext,
 										  @NotNull CompletionResultSet completionResultSet) {
 				PsiElement position = completionParameters.getPosition();
-				if (position.getNode().getElementType() == TokenType.BAD_CHARACTER &&
-						position.getText().startsWith(":")) {
+				if (position.getNode().getElementType() == KEY_TEXT &&
+						position.getNode().getTreePrev().getElementType() == EMOJI_WRAP) {
 					InsertHandler<LookupElement> insertHandler = (insertionContext, lookupElement) -> {
 						int startOffset = insertionContext.getStartOffset();
 						if (startOffset > 0) {
@@ -40,7 +42,7 @@ public class PrefixResourceCompletionContributor extends CompletionContributor {
 							LookupElementBuilder.create(key, key + ":")
 									.withIcon(value.getIcon()).withInsertHandler(insertHandler)
 					));
-				} else if (position.getNode().getElementType() == PrefixResourceTypes.BLOCK_NAME) {
+				} else if (position.getNode().getElementType() == BLOCK_NAME) {
 					completionResultSet.addAllElements(
 							Arrays.stream(position.getContainingFile().getChildren())
 									.filter(e -> e instanceof PrefixResourceNamedBlock)

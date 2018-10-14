@@ -15,14 +15,12 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
   public PrefixResourceLexer() { this(null); }
 %}
 
-
 %public
 %class PrefixResourceLexer
 %implements FlexLexer
 %function advance
 %type IElementType
 %unicode
-%ignorecase
 
 // EOL=\R
 WHITE_SPACE=\s+
@@ -36,9 +34,9 @@ RIGHT_BRACE="}"
 EXPAND_BLOCK="..."
 INNER_BLOCK=">"
 
+EMOJI_WRAP=":"
+TEXT_WRAP="|"
 VALUE=[^\s:|/{}][^\n/{}]*
-// EMOJI_KEY=:([^:\n]|.)*?:
-// TEXT_KEY=\|([^|\n]|.)*?\|
 
 %state BLOCK_CMNT
 %state EMOJI TEXT VAL
@@ -53,25 +51,23 @@ VALUE=[^\s:|/{}][^\n/{}]*
   {INNER_BLOCK} { return INNER_BLOCK; }
 
   "/*" { yybegin(BLOCK_CMNT); }
-  ":"  { yybegin(EMOJI); }
-  "|"  { yybegin(TEXT); }
+  {EMOJI_WRAP}  { yybegin(EMOJI); return EMOJI_WRAP; }
+  {TEXT_WRAP}  { yybegin(TEXT); return TEXT_WRAP; }
+}
 
-  {WHITE_SPACE} { return WHITE_SPACE; }
+<EMOJI> {
+  [^:\n]+ { return KEY_TEXT; }
+  ":" { yybegin(VAL); return EMOJI_WRAP; }
+}
 
-  <EMOJI> {
-    [^:\n] {}
-    ":" { yybegin(VAL); return EMOJI_KEY; }
-  }
+<TEXT> {
+  [^|\n]+ { return KEY_TEXT; }
+  "|" { yybegin(VAL); return TEXT_WRAP; }
+}
 
-  <TEXT> {
-    [^|\n] {}
-    "|" { yybegin(VAL); return TEXT_KEY; }
-  }
-
-  <BLOCK_CMNT> {
-    [^]   {}
-    "*/" { yybegin(YYINITIAL); return BLOCK_COMMENT; }
-  }
+<BLOCK_CMNT> {
+  [^*/]   {}
+  "*/" { yybegin(YYINITIAL); return BLOCK_COMMENT; }
 }
 
 <VAL> {
@@ -80,4 +76,5 @@ VALUE=[^\s:|/{}][^\n/{}]*
   {VALUE} { yybegin(YYINITIAL); return VALUE; }
 }
 
+{WHITE_SPACE} { return WHITE_SPACE; }
 [^] { return BAD_CHARACTER; }

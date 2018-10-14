@@ -7,10 +7,11 @@ import static com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes.*
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
-@SuppressWarnings("ALL")
+@SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class PrefixResourceParser implements PsiParser, LightPsiParser {
 
   public ASTNode parse(IElementType t, PsiBuilder b) {
@@ -22,7 +23,13 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == BLOCK_EXPR) {
+    if (t == EMOJI_KEY) {
+      r = EMOJI_KEY(b, 0);
+    }
+    else if (t == TEXT_KEY) {
+      r = TEXT_KEY(b, 0);
+    }
+    else if (t == BLOCK_EXPR) {
       r = block_expr(b, 0);
     }
     else if (t == NAMED_BLOCK) {
@@ -39,6 +46,48 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
 
   protected boolean parse_root_(IElementType t, PsiBuilder b, int l) {
     return root(b, l + 1);
+  }
+
+  /* ********************************************************** */
+  // EMOJI_WRAP KEY_TEXT? EMOJI_WRAP
+  public static boolean EMOJI_KEY(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EMOJI_KEY")) return false;
+    if (!nextTokenIs(b, EMOJI_WRAP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, EMOJI_WRAP);
+    r = r && EMOJI_KEY_1(b, l + 1);
+    r = r && consumeToken(b, EMOJI_WRAP);
+    exit_section_(b, m, EMOJI_KEY, r);
+    return r;
+  }
+
+  // KEY_TEXT?
+  private static boolean EMOJI_KEY_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "EMOJI_KEY_1")) return false;
+    consumeToken(b, KEY_TEXT);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // TEXT_WRAP  KEY_TEXT? TEXT_WRAP
+  public static boolean TEXT_KEY(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TEXT_KEY")) return false;
+    if (!nextTokenIs(b, TEXT_WRAP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, TEXT_WRAP);
+    r = r && TEXT_KEY_1(b, l + 1);
+    r = r && consumeToken(b, TEXT_WRAP);
+    exit_section_(b, m, TEXT_KEY, r);
+    return r;
+  }
+
+  // KEY_TEXT?
+  private static boolean TEXT_KEY_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "TEXT_KEY_1")) return false;
+    consumeToken(b, KEY_TEXT);
+    return true;
   }
 
   /* ********************************************************** */
@@ -82,10 +131,10 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   // EMOJI_KEY | TEXT_KEY
   static boolean key(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "key")) return false;
-    if (!nextTokenIs(b, "", EMOJI_KEY, TEXT_KEY)) return false;
+    if (!nextTokenIs(b, "", EMOJI_WRAP, TEXT_WRAP)) return false;
     boolean r;
-    r = consumeToken(b, EMOJI_KEY);
-    if (!r) r = consumeToken(b, TEXT_KEY);
+    r = EMOJI_KEY(b, l + 1);
+    if (!r) r = TEXT_KEY(b, l + 1);
     return r;
   }
 
@@ -128,7 +177,7 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
   // key VALUE?
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, "<property>", EMOJI_KEY, TEXT_KEY)) return false;
+    if (!nextTokenIs(b, "<property>", EMOJI_WRAP, TEXT_WRAP)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
     r = key(b, l + 1);

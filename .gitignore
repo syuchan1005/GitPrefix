@@ -12,3 +12,5 @@ build/
 *.iml
 
 **/resources/emojis/*.png
+git4idea/
+

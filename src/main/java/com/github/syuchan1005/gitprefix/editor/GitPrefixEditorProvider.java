@@ -39,7 +39,8 @@ public class GitPrefixEditorProvider implements FileEditorProvider {
 			return TextEditorProvider.getInstance().createEditor(project, file);
 		TextEditor mainEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, file);
 
-		Document document = EditorFactory.getInstance().createDocument(PrefixResourceFileUtil.createStructuredFile((PrefixResourceFile) psiFile, true).getText());
+		// PrefixResourceFileUtil.createStructuredFile((PrefixResourceFile) psiFile, true).getText()
+		Document document = EditorFactory.getInstance().createDocument("");
 		TextEditor structuredPreviewEditor = TextEditorProvider.getInstance()
 				.getTextEditor(EditorFactory.getInstance().createViewer(document, project, EditorKind.PREVIEW));
 		EditorEx editorEx = EditorUtil.getEditorEx(structuredPreviewEditor);

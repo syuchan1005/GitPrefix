@@ -22,9 +22,10 @@
         EXPAND_BLOCK="..."
 		INNER_BLOCK=">"
 
+		EMOJI_WRAP=":"
+		TEXT_WRAP="|"
+		KEY_TEXT="regexp:([^:\n]|.)*?\n"
         VALUE='regexp:[^\s:|/{}][^\n/{}]*$'
-        EMOJI_KEY="regexp::([^:\n]|.)*?:\n"
-        TEXT_KEY="regexp:\|([^|\n]|.)*?\|\n"
 	]
 }
 
@@ -38,6 +39,8 @@ property ::= key VALUE? {
 	methods=[getKey getEmoji getIcon getValueText]
 }
 private key ::= EMOJI_KEY | TEXT_KEY
+EMOJI_KEY ::= EMOJI_WRAP KEY_TEXT? EMOJI_WRAP
+TEXT_KEY  ::= TEXT_WRAP  KEY_TEXT? TEXT_WRAP
 
 named_block ::= BLOCK_NAME LEFT_BRACE (property|named_block|block_expr)* RIGHT_BRACE {
 	mixin="com.github.syuchan1005.gitprefix.grammar.mixin.PrefixResourceNamedBlockMixin"
