@@ -1,0 +1,45 @@
+:tada: test
+|abc| abc
+|abcd| abcd
+|abcde| abcde
+
+block {
+    :tada: test
+    :art: test
+    |wip| work
+
+    test {
+    }
+
+    testA {
+        :tada: Test
+    }
+
+    > test
+    ...test
+
+    testB {
+
+    }
+
+    > testB
+    ...testB
+}
+
+blockA {
+
+}
+
+blockB {
+}
+
+blockC {
+    :tada: test
+}
+
+:tada: test
+
+blockD {
+}
+
+:test: test

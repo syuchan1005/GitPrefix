@@ -4,11 +4,16 @@ import com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction;
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction;
+import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
 import com.intellij.usageView.UsageInfo;
+import com.intellij.util.containers.ContainerUtil;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Test;
 
 public class GitPrefixCodeInsightTest extends LightCodeInsightFixtureTestCase {
 	@Override
@@ -32,6 +37,15 @@ public class GitPrefixCodeInsightTest extends LightCodeInsightFixtureTestCase {
 	public void testAnnotator() {
 		myFixture.configureByFile("AnnotatorTestData.gitprefix");
 		myFixture.checkHighlighting(true, true, true, true);
+	}
+
+	public void testFormatter() {
+		myFixture.configureByFiles("FormatterTestData.gitprefix");
+		WriteCommandAction.runWriteCommandAction(getProject(), () -> {
+			CodeStyleManager.getInstance(getProject())
+					.reformatText(myFixture.getFile(), ContainerUtil.newArrayList(myFixture.getFile().getTextRange()));
+		});
+		myFixture.checkResultByFile("FormatterTestDataAfter.gitprefix");
 	}
 
 	public void testRename() {
