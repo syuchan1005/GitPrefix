@@ -1,0 +1,17 @@
+:art:
+
+commit {
+    ...test
+}
+
+merge {
+    > test
+}
+
+tag {
+    :tada:
+}
+
+test {
+    :tada:
+}

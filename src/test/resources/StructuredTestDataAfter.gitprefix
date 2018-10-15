@@ -1,0 +1,18 @@
+$commit {
+    :tada:
+    :art:
+}
+
+$merge {
+
+    test {
+        :tada:
+    }
+
+    :art:
+}
+
+$tag {
+    :tada:
+    :art:
+}
