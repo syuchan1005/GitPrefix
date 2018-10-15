@@ -22,6 +22,30 @@ This can make 'Prefix Commit' easy.
 /* string prefix */
 |fix:| BugFix
 |doc:| Documentation
+
+commit {
+    :tada: test
+
+    test {
+        |aaa| test
+    }
+    ...test
+}
+
+
+merge {
+    :art: test
+    > test
+}
+
+tag {
+    :+1: test
+}
+
+test {
+    :tada: test
+    |contruction| Working
+}
 ```
 
 ## UI

@@ -53,6 +53,8 @@ VALUE=[^\s:|/{}][^\n/{}]*
   "/*" { yybegin(BLOCK_CMNT); }
   {EMOJI_WRAP}  { yybegin(EMOJI); return EMOJI_WRAP; }
   {TEXT_WRAP}  { yybegin(TEXT); return TEXT_WRAP; }
+
+  {WHITE_SPACE} { return WHITE_SPACE; }
 }
 
 <EMOJI> {
@@ -71,10 +73,9 @@ VALUE=[^\s:|/{}][^\n/{}]*
 }
 
 <VAL> {
-  \n 		{ yybegin(YYINITIAL); return WHITE_SPACE; }
-  [ \t] 	{ return WHITE_SPACE; }
+  \n      { yybegin(YYINITIAL); return WHITE_SPACE; }
+  [ \t]   { return WHITE_SPACE; }
   {VALUE} { yybegin(YYINITIAL); return VALUE; }
 }
 
-{WHITE_SPACE} { return WHITE_SPACE; }
 [^] { return BAD_CHARACTER; }

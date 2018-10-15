@@ -61,9 +61,9 @@ public class PrefixResourceLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\1\1\3\3\4\22\0\1\1\11\0\1\13\3\0\1\11\1\2\12\0\1\12\3\0\1\5\74\0\1"+
-    "\7\1\6\1\10\7\0\1\4\32\0\1\1\337\0\1\1\177\0\13\1\35\0\2\4\5\0\1\1\57\0\1"+
-    "\1\40\0");
+    "\11\0\1\14\1\3\3\4\22\0\1\14\11\0\1\13\3\0\1\11\1\2\12\0\1\12\3\0\1\5\74\0"+
+    "\1\7\1\6\1\10\7\0\1\4\32\0\1\1\337\0\1\1\177\0\13\1\35\0\2\4\5\0\1\1\57\0"+
+    "\1\1\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -72,11 +72,11 @@ public class PrefixResourceLexer implements FlexLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\5\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\3\1\10\2\11\2\3\2\12\1\13\2\12\1\14"+
-    "\1\15\1\16\1\17\1\20\1\0\1\21\1\22";
+    "\1\3\1\10\1\11\2\3\1\12\1\13\1\12\1\14"+
+    "\1\15\1\16\1\2\1\17\1\20\1\0\1\21\1\22";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[31];
+    int [] result = new int[29];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -101,13 +101,13 @@ public class PrefixResourceLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\14\0\30\0\44\0\60\0\74\0\110\0\124"+
-    "\0\140\0\140\0\140\0\140\0\154\0\140\0\140\0\110"+
-    "\0\140\0\170\0\204\0\220\0\140\0\234\0\250\0\140"+
-    "\0\264\0\110\0\300\0\140\0\314\0\140\0\140";
+    "\0\0\0\15\0\32\0\47\0\64\0\101\0\116\0\133"+
+    "\0\150\0\150\0\150\0\150\0\165\0\150\0\150\0\150"+
+    "\0\202\0\217\0\150\0\234\0\150\0\251\0\150\0\150"+
+    "\0\266\0\150\0\303\0\150\0\150";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[31];
+    int [] result = new int[29];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -131,21 +131,18 @@ public class PrefixResourceLexer implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\6\1\7\1\10\2\7\1\11\1\12\1\13\1\14"+
-    "\1\15\1\16\1\6\1\17\1\20\1\21\2\20\6\17"+
-    "\1\22\1\23\1\24\1\23\1\7\1\24\5\23\1\25"+
-    "\1\23\1\26\1\27\1\26\1\7\1\27\1\26\1\30"+
-    "\5\26\1\31\1\7\1\21\1\32\1\7\1\31\3\21"+
-    "\1\31\1\21\1\31\1\6\4\0\1\6\3\0\1\6"+
-    "\1\0\1\6\1\0\1\7\1\0\2\7\11\0\1\33"+
-    "\10\0\1\34\25\0\1\35\4\0\1\36\11\0\3\23"+
-    "\1\0\6\23\1\0\2\23\1\24\1\23\1\7\1\24"+
-    "\5\23\1\0\1\23\3\26\1\0\2\26\1\0\6\26"+
-    "\1\27\1\26\1\7\1\27\1\26\1\0\5\26\2\31"+
-    "\2\0\3\31\2\0\3\31\3\33\2\0\7\33\11\0"+
-    "\1\37\2\0";
+    "\1\15\1\16\1\6\1\7\2\17\1\20\10\17\1\21"+
+    "\1\17\3\22\1\20\6\22\1\23\2\22\3\24\1\20"+
+    "\2\24\1\25\6\24\1\26\2\20\1\27\1\20\1\26"+
+    "\3\20\1\26\1\20\1\26\1\30\1\6\4\0\1\6"+
+    "\3\0\1\6\1\0\1\6\2\0\1\7\1\0\2\7"+
+    "\7\0\1\7\2\0\1\31\10\0\1\32\27\0\1\33"+
+    "\5\0\1\34\12\0\3\22\1\0\6\22\1\0\2\22"+
+    "\3\24\1\0\2\24\1\0\6\24\2\26\2\0\3\26"+
+    "\2\0\4\26\3\31\2\0\10\31\11\0\1\35\3\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[216];
+    int [] result = new int[208];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -183,11 +180,11 @@ public class PrefixResourceLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\5\0\3\1\4\11\1\1\2\11\1\1\1\11\3\1"+
-    "\1\11\2\1\1\11\3\1\1\11\1\0\2\11";
+    "\5\0\3\1\4\11\1\1\3\11\2\1\1\11\1\1"+
+    "\1\11\1\1\2\11\1\1\1\11\1\0\2\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[31];
+    int [] result = new int[29];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;

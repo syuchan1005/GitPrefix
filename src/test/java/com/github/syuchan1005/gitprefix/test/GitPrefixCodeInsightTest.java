@@ -1,6 +1,8 @@
 package com.github.syuchan1005.gitprefix.test;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
+import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction;
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction;
@@ -74,5 +76,13 @@ public class GitPrefixCodeInsightTest extends LightCodeInsightFixtureTestCase {
 		myFixture.checkResult("/*\n:tada: test*/\n");
 		commentAction.actionPerformedImpl(getProject(), myFixture.getEditor());
 		myFixture.checkResult(":tada: test\n");
+	}
+
+	public void testStructured() {
+		myFixture.configureByFile("StructuredTestData.gitprefix");
+		PrefixResourceFile file = (PrefixResourceFile) myFixture.getFile();
+		file = PrefixResourceFileUtil.createStructuredFile(file, true);
+		myFixture.configureByText(PrefixResourceFileType.INSTANCE, file.getText() + "\n");
+		myFixture.checkResultByFile("StructuredTestDataAfter.gitprefix", true);
 	}
 }

@@ -186,17 +186,9 @@ public class PrefixResourceFileUtil {
 		return file;
 	}
 
-	private static void addSpaceAfterProperty(PrefixResourceNamedBlock block) {
-		for (PsiElement child : block.getChildren()) {
-			if (child instanceof PrefixResourceProperty)
-				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-			else if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
-		}
-	}
-
 	private static void calcNamedBlock(PrefixResourceNamedBlock block) {
 		for (PsiElement child : block.getChildren()) {
-			if (!needElements.contains(child.getNode().getElementType()))
+			if (!(child instanceof PrefixResourceBlockExpr || child instanceof PrefixResourceNamedBlock || child instanceof PrefixResourceProperty))
 				block.getNode().removeChild(child.getNode());
 		}
 		for (PsiElement child : block.getChildren()) {
@@ -222,6 +214,14 @@ public class PrefixResourceFileUtil {
 			} else if (child instanceof PrefixResourceNamedBlock) {
 				calcNamedBlock((PrefixResourceNamedBlock) child);
 			}
+		}
+	}
+
+	private static void addSpaceAfterProperty(PrefixResourceNamedBlock block) {
+		for (PsiElement child : block.getChildren()) {
+			if (child instanceof PrefixResourceProperty)
+				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
+			else if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 		}
 	}
 
