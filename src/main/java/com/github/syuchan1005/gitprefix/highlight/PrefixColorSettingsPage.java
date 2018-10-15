@@ -13,8 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PrefixColorSettingsPage implements ColorSettingsPage {
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
-			new AttributesDescriptor("EmojiKey", PrefixResourceSyntaxHighlighter.EMOJI_KEY),
-			new AttributesDescriptor("TextKey", PrefixResourceSyntaxHighlighter.TEXT_KEY),
+			new AttributesDescriptor("Key", PrefixResourceSyntaxHighlighter.KEY),
 			new AttributesDescriptor("Value", PrefixResourceSyntaxHighlighter.VALUE),
 			new AttributesDescriptor("LineComment", PrefixResourceSyntaxHighlighter.LINE_COMMENT),
 			new AttributesDescriptor("BlockComment", PrefixResourceSyntaxHighlighter.BLOCK_COMMENT),

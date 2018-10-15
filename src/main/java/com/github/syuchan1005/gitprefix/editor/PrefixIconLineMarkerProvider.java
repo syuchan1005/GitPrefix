@@ -17,10 +17,11 @@ public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider 
 		if (element instanceof LeafPsiElement) {
 			LeafPsiElement leafPsiElement = (LeafPsiElement) element;
 			RelatedItemLineMarkerInfo<PsiElement> lineMarkerInfo = null;
-			if (leafPsiElement.getElementType() == PrefixResourceTypes.EMOJI_KEY) {
-				String emoji = leafPsiElement.getText().trim();
+			if (leafPsiElement.getElementType() == PrefixResourceTypes.KEY_TEXT &&
+				leafPsiElement.getNode().getTreePrev().getElementType() == PrefixResourceTypes.EMOJI_WRAP) {
+				String emoji = leafPsiElement.getText();
 				if (emoji.length() < 1) return;
-				EmojiUtil.EmojiData emojiData = EmojiUtil.getEmojiData(emoji.substring(1, emoji.length() - 1));
+				EmojiUtil.EmojiData emojiData = EmojiUtil.getEmojiData(emoji);
 				if (emojiData != null) {
 					NavigationGutterIconBuilder<PsiElement> builder = NavigationGutterIconBuilder.create(emojiData.getIcon()).setTarget(element);
 					lineMarkerInfo = builder.createLineMarkerInfo(element);

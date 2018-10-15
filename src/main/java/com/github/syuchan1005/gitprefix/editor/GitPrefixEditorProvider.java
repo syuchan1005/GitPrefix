@@ -8,10 +8,12 @@ import com.github.syuchan1005.gitprefix.ui.TextAndPreviewEditor;
 import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.EditorGutter;
 import com.intellij.openapi.editor.EditorKind;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
 import com.intellij.openapi.editor.ex.util.EditorUtil;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -21,8 +23,13 @@ import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.FileViewProvider;
+import com.intellij.psi.FileViewProviderFactory;
+import com.intellij.psi.LanguageFileViewProviders;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.psi.util.PsiEditorUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class GitPrefixEditorProvider implements FileEditorProvider {
@@ -39,21 +46,17 @@ public class GitPrefixEditorProvider implements FileEditorProvider {
 			return TextEditorProvider.getInstance().createEditor(project, file);
 		TextEditor mainEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(project, file);
 
-		// PrefixResourceFileUtil.createStructuredFile((PrefixResourceFile) psiFile, true).getText()
-		Document document = EditorFactory.getInstance().createDocument("");
-		TextEditor structuredPreviewEditor = TextEditorProvider.getInstance()
-				.getTextEditor(EditorFactory.getInstance().createViewer(document, project, EditorKind.PREVIEW));
-		EditorEx editorEx = EditorUtil.getEditorEx(structuredPreviewEditor);
-		if (editorEx != null) {
-			editorEx.setHighlighter(EditorHighlighterFactory.getInstance().createEditorHighlighter(project, file.getFileType()));
-		}
+		PrefixResourceFile structuredFile = PrefixResourceFileUtil.createStructuredFile((PrefixResourceFile) psiFile, true);
+		TextEditor structuredPreviewEditor = (TextEditor) TextEditorProvider.getInstance().createEditor(
+				project, structuredFile.getViewProvider().getVirtualFile());
+
 
 		mainEditor.getEditor().getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void documentChanged(@NotNull DocumentEvent event) {
-				PrefixResourceFile prefixResourceFile = PrefixResourceElementFactory.createFile(project, event.getDocument().getText());
-				structuredPreviewEditor.getEditor().getDocument()
-						.setText(PrefixResourceFileUtil.createStructuredFile(prefixResourceFile, true).getText());
+				PrefixResourceFile file = PrefixResourceElementFactory.createFile(project, event.getDocument().getText());
+				file = PrefixResourceFileUtil.createStructuredFile(file, true);
+				structuredPreviewEditor.getEditor().getDocument().setText(file.getText());
 			}
 		});
 

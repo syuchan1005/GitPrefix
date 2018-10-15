@@ -8,7 +8,6 @@ import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
-import com.intellij.codeInsight.actions.RearrangeCodeProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.components.ServiceManager;
@@ -20,8 +19,6 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.TokenType;
-import com.intellij.psi.impl.source.tree.TreeUtil;
 import com.intellij.psi.tree.TokenSet;
 import java.awt.Container;
 import java.util.ArrayList;
@@ -184,7 +181,7 @@ public class PrefixResourceFileUtil {
 				addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 			}
 			file = PrefixResourceElementFactory.createFile(file.getProject(), file.getText().replaceAll("\n\\s*?\n", "\n"));
-			new RearrangeCodeProcessor(new ReformatCodeProcessor(file, false)).run();
+			new ReformatCodeProcessor(file, false).runWithoutProgress();
 		}
 		return file;
 	}
