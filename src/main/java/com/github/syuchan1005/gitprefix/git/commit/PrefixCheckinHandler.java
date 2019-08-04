@@ -5,39 +5,33 @@ import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.ui.PrefixButton;
 import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
+import com.intellij.ide.util.projectWizard.AbstractNewProjectStep;
 import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
+import com.intellij.openapi.vcs.changes.CommitExecutor;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import com.intellij.openapi.vcs.changes.ui.EditChangelistSupport;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.ui.CommitMessage;
 import com.intellij.psi.SmartPointerManager;
-import com.intellij.tasks.impl.TaskManagerImpl;
 import com.intellij.ui.EditorTextField;
 import com.intellij.util.Consumer;
-import java.awt.Component;
-import java.lang.reflect.Field;
-import javax.swing.JPanel;
+import com.intellij.util.PairConsumer;
 import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.Field;
 
 public class PrefixCheckinHandler extends CheckinHandler implements EditChangelistSupport {
 	private static final ExtensionPointName<PrefixPanelFactory> extensionPointName = new ExtensionPointName<>("com.github.syuchan1005.emojiprefix.prefixPanelFactory");
 
 	private CheckinProjectPanel checkinProjectPanel;
 
-	public PrefixCheckinHandler(Project project, TaskManagerImpl taskManager) {
-	}
-
-	public PrefixCheckinHandler(CheckinProjectPanel checkinProjectPanel) {
+	public void setCheckinProjectPanel(CheckinProjectPanel checkinProjectPanel) {
 		this.checkinProjectPanel = checkinProjectPanel;
-		try {
-			Splitter splitter = (Splitter) checkinProjectPanel.getComponent();
-			injectPrefixPanel(splitter);
-		} catch (Exception ignored) {
-		}
 	}
 
 	@Override
@@ -59,8 +53,6 @@ public class PrefixCheckinHandler extends CheckinHandler implements EditChangeli
 		if (splitter != null) handler.injectPrefixPanel(splitter);
 	}
 
-	private PrefixButton prefixButton;
-
 	private void injectPrefixPanel(Splitter splitter) {
 		PrefixResourceFile prefixFile = PrefixResourceFileUtil.getFromSetting(checkinProjectPanel.getProject());
 		if (prefixFile == null) return;
@@ -68,7 +60,17 @@ public class PrefixCheckinHandler extends CheckinHandler implements EditChangeli
 		CommitMessage commitMessage = (CommitMessage) splitter.getSecondComponent();
 		JPanel panel = new JPanel();
 		panel.setLayout(new VerticalFlowLayout(true, true));
-		prefixButton = new PrefixButton(checkinProjectPanel.getProject());
+		PrefixButton prefixButton = new PrefixButton(checkinProjectPanel.getProject(), new PrefixButton.TextHolder() {
+            @Override
+            public String getText() {
+                return checkinProjectPanel.getCommitMessage();
+            }
+
+            @Override
+            public void setText(String text) {
+                checkinProjectPanel.setCommitMessage(text);
+            }
+        });
 		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.COMMIT);
 		if (prefixButton.getPopupMenu() == null) return;
 		panel.add(prefixButton);
@@ -89,25 +91,10 @@ public class PrefixCheckinHandler extends CheckinHandler implements EditChangeli
 	}
 
 	@Override
-	public ReturnResult beforeCheckin() {
-		if (prefixButton == null || prefixButton.getPopupMenu() == null) return ReturnResult.COMMIT;
-		for (PrefixPanelFactory prefixPanelFactory : extensionPointName.getExtensions()) {
-			if (prefixPanelFactory.beforeCheckin() == PrefixPanelFactory.ReturnResult.CANCEL) {
-				return ReturnResult.CANCEL;
-			}
-		}
-		PrefixResourceProperty currentProperty = prefixButton.getCurrentProperty();
-		if (currentProperty == null) return ReturnResult.COMMIT;
-		checkinProjectPanel.setCommitMessage(currentProperty.getKey() + " " + checkinProjectPanel.getCommitMessage());
-		return ReturnResult.COMMIT;
-	}
-
-	@Override
 	public Consumer<LocalChangeList> addControls(JPanel bottomPanel, @Nullable LocalChangeList initial) {
 		return null;
 	}
 
 	@Override
-	public void changelistCreated(LocalChangeList changeList) {
-	}
+	public void changelistCreated(LocalChangeList changeList) { }
 }

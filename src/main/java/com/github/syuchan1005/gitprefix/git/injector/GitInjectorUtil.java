@@ -1,6 +1,8 @@
 package com.github.syuchan1005.gitprefix.git.injector;
 
 import com.github.syuchan1005.gitprefix.filetype.PrefixResourceLanguage;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.lang.UrlClassLoader;
 import git4idea.actions.GitRepositoryAction;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import javassist.CtMethod;
 import javassist.CtNewMethod;
 import javassist.NotFoundException;
 import javax.swing.JPanel;
+import java.awt.Component;
 
 class GitInjectorUtil {
 	static void injectClass(ClassPool classPool, GitInjectorManager.InjectorType type) throws NotFoundException, CannotCompileException, IOException {

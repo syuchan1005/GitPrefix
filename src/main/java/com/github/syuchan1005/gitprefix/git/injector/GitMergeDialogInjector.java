@@ -14,10 +14,6 @@ import javax.swing.JTextField;
 import org.jetbrains.annotations.NotNull;
 
 public class GitMergeDialogInjector extends AbstractGitDialogInjector {
-	private JTextField textField;
-	private PrefixButton prefixButton;
-	private boolean addPanel = false;
-
 	public GitMergeDialogInjector(@NotNull Project project) {
 		super(project);
 	}
@@ -25,25 +21,26 @@ public class GitMergeDialogInjector extends AbstractGitDialogInjector {
 	@Override
 	public void beforeShow(Object dialog) throws Exception {
 		super.beforeShow(dialog);
-		textField = (JTextField) myCenterPanel.getComponent(9);
-		prefixButton = new PrefixButton(myProject);
+		JTextField textField = (JTextField) myCenterPanel.getComponent(9);
+		PrefixButton prefixButton = new PrefixButton(myProject, new PrefixButton.TextHolder() {
+			@Override
+			public String getText() {
+				String text = textField.getText();
+				return text == null ? "" : text;
+			}
+
+			@Override
+			public void setText(String text) {
+				textField.setText(text);
+			}
+		});
 		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.MERGE);
 		if (prefixButton.getPopupMenu() == null) return;
-		GridConstraints constraintsForComponent = ((GridLayoutManager) myCenterPanel.getLayout()).getConstraintsForComponent(textField);
+		Object constraintsForComponent = getGridConstraints(9);
 		JPanel panel = new JPanel(new LightFillLayout());
 		panel.setBorder(JBUI.Borders.customLine(JBColor.BLACK));
 		panel.add(prefixButton);
 		panel.add(textField);
 		myCenterPanel.add(panel, constraintsForComponent, 9);
-		addPanel = true;
-	}
-
-	@Override
-	public void afterShow(Object dialog) throws Exception {
-		super.afterShow(dialog);
-		if (!addPanel) return;
-		if (prefixButton.getCurrentProperty() == null) return;
-		textField.setText(prefixButton.getCurrentProperty().getKey() + " " + textField.getText());
-		addPanel = false;
 	}
 }

@@ -8,14 +8,12 @@ import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+
+import javax.swing.*;
+
 import org.jetbrains.annotations.NotNull;
 
 public class GitTagDialogInjector extends AbstractGitDialogInjector {
-	private JBScrollPane scrollPane;
-	private PrefixButton prefixButton;
-	private boolean addPanel = false;
 
 	public GitTagDialogInjector(@NotNull Project project) {
 		super(project);
@@ -24,27 +22,26 @@ public class GitTagDialogInjector extends AbstractGitDialogInjector {
 	@Override
 	public void beforeShow(Object dialog) throws Exception {
 		super.beforeShow(dialog);
-		scrollPane = (JBScrollPane) myCenterPanel.getComponent(7);
-		GridConstraints constraintsForComponent = ((GridLayoutManager) myCenterPanel.getLayout()).getConstraintsForComponent(scrollPane);
+		JBScrollPane scrollPane = (JBScrollPane) myCenterPanel.getComponent(7);
+		Object constraintsForComponent = getGridConstraints(7);
 		JPanel panel = new JPanel(new VerticalFlowLayout(true, true));
-		prefixButton = new PrefixButton(myProject);
+		JTextArea textArea = (JTextArea) ((JViewport) scrollPane.getComponent(0)).getComponent(0);
+		PrefixButton prefixButton = new PrefixButton(myProject, new PrefixButton.TextHolder() {
+			@Override
+			public String getText() {
+				String text = textArea.getText();
+				return text == null ? "" : text;
+			}
+
+			@Override
+			public void setText(String text) {
+				textArea.setText(text);
+			}
+		});
 		prefixButton.settingPopup(PrefixResourceFileUtil.BlockType.TAG);
 		if (prefixButton.getPopupMenu() == null) return;
 		panel.add(prefixButton);
 		panel.add(scrollPane);
 		myCenterPanel.add(panel, constraintsForComponent, 7);
-		addPanel = true;
-	}
-
-	@Override
-	public void afterShow(Object dialog) throws Exception {
-		super.afterShow(dialog);
-		if (!addPanel) return;
-		PrefixResourceProperty currentProperty = prefixButton.getCurrentProperty();
-		if (currentProperty != null) {
-			JTextArea textArea = (JTextArea) scrollPane.getComponent(0).getComponentAt(0, 0);
-			textArea.setText(currentProperty.getKey() + " " + textArea.getText());
-		}
-		addPanel = false;
 	}
 }

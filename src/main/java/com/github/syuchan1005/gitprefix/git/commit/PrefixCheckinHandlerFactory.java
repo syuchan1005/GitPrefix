@@ -18,7 +18,8 @@ public class PrefixCheckinHandlerFactory extends GitCheckinHandlerFactory {
 	@NotNull
 	@Override
 	protected CheckinHandler createVcsHandler(CheckinProjectPanel panel) {
-		handler = new PrefixCheckinHandler(panel);
+		handler = new PrefixCheckinHandler();
+		handler.setCheckinProjectPanel(panel);
 		return handler;
 	}
 }
