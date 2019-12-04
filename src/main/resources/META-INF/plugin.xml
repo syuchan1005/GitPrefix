@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -25,7 +25,7 @@
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="182.0"/>
+    <idea-version since-build="192.0"/>
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 
@@ -35,25 +35,25 @@
         <editChangelistSupport    implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandler" />
 
         <!-- File -->
-        <fileType name="PrefixResource file" implementationClass="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType"
-                  fieldName="INSTANCE" language="GitPrefix Resource" extensions="gitprefix" />
+        <fileType name="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType"
+                  fieldName="INSTANCE" language="PrefixResource" extensions="gitprefix" />
 
-        <lang.parserDefinition language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceParserDefinition" />
-        <lang.syntaxHighlighterFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
+        <lang.parserDefinition language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceParserDefinition" />
+        <lang.syntaxHighlighterFactory language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.highlight.PrefixResourceSyntaxHighlighterFactory" />
         <colorSettingsPage implementation="com.github.syuchan1005.gitprefix.highlight.PrefixColorSettingsPage" />
 
-        <codeInsight.lineMarkerProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixIconLineMarkerProvider" />
+        <codeInsight.lineMarkerProvider language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixIconLineMarkerProvider" />
 
-        <annotator language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBlockExprAnnotator" />
-        <lang.findUsagesProvider language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFindUsagesProvider" />
-        <lang.foldingBuilder language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
-        <lang.formatter language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.formatter.PrefixResourceFormattingModelBuilder" />
-        <lang.braceMatcher language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
+        <annotator language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBlockExprAnnotator" />
+        <lang.findUsagesProvider language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFindUsagesProvider" />
+        <lang.foldingBuilder language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixFoldingBuilder" />
+        <lang.formatter language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.formatter.PrefixResourceFormattingModelBuilder" />
+        <lang.braceMatcher language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.GitPrefixBraceMatcher" />
 
-        <completion.contributor language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCompletionContributor" />
-        <lang.commenter language="GitPrefix Resource"
+        <completion.contributor language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCompletionContributor" />
+        <lang.commenter language="PrefixResource"
                         implementationClass="com.github.syuchan1005.gitprefix.editor.PrefixResourceCommenter"/>
-        <lang.psiStructureViewFactory language="GitPrefix Resource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
+        <lang.psiStructureViewFactory language="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.structureview.PrefixStructureViewFactory" />
 
         <fileEditorProvider implementation="com.github.syuchan1005.gitprefix.editor.GitPrefixEditorProvider" />
 

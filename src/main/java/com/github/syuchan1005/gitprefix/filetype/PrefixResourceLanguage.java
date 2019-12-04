@@ -3,7 +3,7 @@ package com.github.syuchan1005.gitprefix.filetype;
 import com.intellij.lang.Language;
 
 public class PrefixResourceLanguage extends Language {
-	public static final String myID = "GitPrefix Resource";
+	public static final String myID = "PrefixResource";
 
 	public static Language INSTANCE;
 	static {
