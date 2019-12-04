@@ -18,13 +18,13 @@ public class PrefixResourceFileType extends LanguageFileType {
 	@NotNull
 	@Override
 	public String getName() {
-		return "GitPrefix Resource";
+		return "PrefixResource";
 	}
 
 	@NotNull
 	@Override
 	public String getDescription() {
-		return "GitPrefix Resource";
+		return "PrefixResource";
 	}
 
 	@NotNull
