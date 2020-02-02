@@ -4,16 +4,15 @@ import com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementFactory;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock;
 import com.github.syuchan1005.gitprefix.icons.GitPrefixIcons;
-import com.github.syuchan1005.gitprefix.reference.PrefixResourceBlockExprReference;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.PsiReference;
-import java.util.Arrays;
-import javax.swing.Icon;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.swing.*;
+import java.util.Arrays;
 
 public abstract class PrefixResourceBlockExprMixin extends ASTWrapperPsiElement implements PrefixResourceBlockExpr, PsiNamedElement {
 	public PrefixResourceBlockExprMixin(@NotNull ASTNode node) {
@@ -65,10 +64,5 @@ public abstract class PrefixResourceBlockExprMixin extends ASTWrapperPsiElement 
 				.filter(e -> e instanceof PrefixResourceNamedBlock)
 				.filter(n -> ((PrefixResourceNamedBlock) n).getBlockName().getText().equals(blockName))
 				.findFirst().orElse(null);
-	}
-
-	@Override
-	public PsiReference getReference() {
-		return new PrefixResourceBlockExprReference(this);
 	}
 }
