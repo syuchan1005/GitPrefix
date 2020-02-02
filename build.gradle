@@ -42,10 +42,9 @@ intellij {
 }
 
 patchPluginXml {
-    version null
-    // sinceBuild "193.0"
-    sinceBuild null
-    untilBuild null
+    version "2.1.2"
+    sinceBuild "192.*"
+    untilBuild "193.*"
 }
 
 // TODO: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23

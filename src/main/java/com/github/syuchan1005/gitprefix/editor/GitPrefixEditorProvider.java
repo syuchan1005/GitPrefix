@@ -33,7 +33,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.util.PsiEditorUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class GitPrefixEditorProvider implements FileEditorProvider, DumbAware {
+public class GitPrefixEditorProvider implements FileEditorProvider {
 	@Override
 	public boolean accept(@NotNull Project project, @NotNull VirtualFile file) {
 		return file.getFileType() instanceof PrefixResourceFileType;
