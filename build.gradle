@@ -2,7 +2,7 @@
 
 plugins {
     id "org.jetbrains.intellij" version '0.3.11'
-    // id "org.jetbrains.grammarkit" version '2018.2'
+    // id "org.jetbrains.grammarkit" version '2020.1'
     // id "org.jetbrains.kotlin.jvm" version '1.2.70'
 }
 
@@ -35,34 +35,36 @@ intellij {
     pluginName 'GitPrefix'
 
     // https://www.jetbrains.com/intellij-repository/releases
-    version 'LATEST-EAP-SNAPSHOT'
+    version '193.5662.53'
     type 'IU'
 
     plugins = ['git4idea']
 }
 
 patchPluginXml {
-    version null
-    sinceBuild null
-    untilBuild null
+    version "2.1.2"
+    sinceBuild "192.*"
+    untilBuild "193.*"
 }
 
+// TODO: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23
 /*
 grammarKit {
-    jflexRelease '1.7.0'
+    jflexRelease '1.7.0-2'
 }
 
 task generateLexer(group:'grammar', type: GenerateLexer) {
-    source = 'grammars/Grammar.flex'
-    skeleton = '/grammars/flex/idea-flex.skeleton'
-    targetDir = '/src/main/java/com/github/syuchan1005/gitprefix/grammar/psi'
+    source = 'src/main/grammars/Grammar.flex'
+    targetDir = 'src/main/java/com/github/syuchan1005/gitprefix/grammar/lexer'
     targetClass = 'PrefixResourceLexer'
+    purgeOldFiles = true
 }
 
 task generateParser(group:'grammar', type: GenerateParser) {
-    source = 'grammars/Grammar.bnf'
+    source = 'src/main/grammars/Grammar.bnf'
     targetRoot = 'src/main/java'
-    pathToParser = '/com/github/syuchan1005/gitprefix/grammar/psi/PrefixResourceParser.java'
+    pathToParser = '/com/github/syuchan1005/gitprefix/grammar/parser/PrefixResourceParser.java'
     pathToPsiRoot = '/com/github/syuchan1005/gitprefix/grammar/psi'
+    purgeOldFiles = true
 }
 */

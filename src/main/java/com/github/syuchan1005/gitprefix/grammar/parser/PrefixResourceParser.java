@@ -1,5 +1,5 @@
 // This is a generated file. Not intended for manual editing.
-package com.github.syuchan1005.gitprefix.grammar.psi;
+package com.github.syuchan1005.gitprefix.grammar.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
@@ -23,28 +23,15 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == EMOJI_KEY) {
-      r = EMOJI_KEY(b, 0);
-    }
-    else if (t == TEXT_KEY) {
-      r = TEXT_KEY(b, 0);
-    }
-    else if (t == BLOCK_EXPR) {
-      r = block_expr(b, 0);
-    }
-    else if (t == NAMED_BLOCK) {
-      r = named_block(b, 0);
-    }
-    else if (t == PROPERTY) {
-      r = property(b, 0);
-    }
-    else {
-      r = parse_root_(t, b, 0);
-    }
+    r = parse_root_(t, b);
     exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
   }
 
-  protected boolean parse_root_(IElementType t, PsiBuilder b, int l) {
+  protected boolean parse_root_(IElementType t, PsiBuilder b) {
+    return parse_root_(t, b, 0);
+  }
+
+  static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
     return root(b, l + 1);
   }
 
@@ -257,7 +244,7 @@ public class PrefixResourceParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  final static Parser root_recover_parser_ = new Parser() {
+  static final Parser root_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return root_recover(b, l + 1);
     }

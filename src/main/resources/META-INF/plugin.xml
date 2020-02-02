@@ -1,7 +1,6 @@
 <idea-plugin>
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
-    <version>2.1.1</version>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
 
     <description><![CDATA[
@@ -21,11 +20,10 @@
     <change-notes><![CDATA[
         <i>Implemented enhancements:</i>
         <ul>
-            <li>Support 2019.2</li>
+            <li>Support 2019.3</li>
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="192.0"/>
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 

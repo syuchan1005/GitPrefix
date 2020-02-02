@@ -28,7 +28,7 @@ public class PrefixNewFileAction extends AnAction {
 			VirtualFile file = null;
 			String ext = "." + PrefixResourceFileType.DEFAULT_EXTENSION;
 			WriteCommandAction.runWriteCommandAction(project, () -> {
-				directory.createFile(ext);
+				if (directory.findFile(ext) == null) directory.createFile(ext);
 			});
 			PsiFile psiFile = directory.findFile(ext);
 			if (psiFile != null) file = psiFile.getVirtualFile();

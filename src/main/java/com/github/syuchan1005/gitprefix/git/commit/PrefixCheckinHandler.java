@@ -37,7 +37,7 @@ public class PrefixCheckinHandler extends CheckinHandler implements EditChangeli
 	@Override
 	public void installSearch(EditorTextField name, EditorTextField comment) {
 		PrefixCheckinHandler handler = PrefixCheckinHandlerFactory.getHandler();
-		if (handler.checkinProjectPanel == null) return;
+		if (handler == null || handler.checkinProjectPanel == null) return;
 		Splitter splitter = null;
 		CheckinProjectPanel dialog = handler.checkinProjectPanel;
 		if (dialog.getComponent() instanceof Splitter) {

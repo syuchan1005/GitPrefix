@@ -31,7 +31,7 @@ public interface PrefixResourceTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-       if (type == BLOCK_EXPR) {
+      if (type == BLOCK_EXPR) {
         return new PrefixResourceBlockExprImpl(node);
       }
       else if (type == EMOJI_KEY) {
