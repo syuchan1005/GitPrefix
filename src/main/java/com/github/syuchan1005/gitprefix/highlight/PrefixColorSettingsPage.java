@@ -15,6 +15,7 @@ public class PrefixColorSettingsPage implements ColorSettingsPage {
 	private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
 			new AttributesDescriptor("Key", PrefixResourceSyntaxHighlighter.KEY),
 			new AttributesDescriptor("Value", PrefixResourceSyntaxHighlighter.VALUE),
+			new AttributesDescriptor("BlockName", PrefixResourceSyntaxHighlighter.BLOCK_NAME),
 			new AttributesDescriptor("LineComment", PrefixResourceSyntaxHighlighter.LINE_COMMENT),
 			new AttributesDescriptor("BlockComment", PrefixResourceSyntaxHighlighter.BLOCK_COMMENT),
 	};
@@ -36,6 +37,9 @@ public class PrefixColorSettingsPage implements ColorSettingsPage {
 	public String getDemoText() {
 		return ":tada: Release!!\n\n" +
 				"|[Update]| Update Docs\n\n" +
+				"block {\n" +
+				"  :tea: Tea Time\n" +
+				"}\n\n" +
 				"// Line Comment\n\n" +
 				"/*\n" +
 				"Block Comment\n" +
