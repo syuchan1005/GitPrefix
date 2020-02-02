@@ -25,7 +25,6 @@
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="192.0"/>
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 

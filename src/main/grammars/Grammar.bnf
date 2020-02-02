@@ -1,12 +1,10 @@
 {
-	parserClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceParser"
-	extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+	parserClass="com.github.syuchan1005.gitprefix.grammar.parser.PrefixResourceParser"
 
 	psiClassPrefix="PrefixResource"
 	psiImplClassSuffix="Impl"
 	psiPackage="com.github.syuchan1005.gitprefix.grammar.psi"
 	psiImplPackage="com.github.syuchan1005.gitprefix.grammar.psi.impl"
-	psiImplUtilClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourcePsiImplUtil"
 
 	elementTypeHolderClass="com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes"
 	elementTypeClass="com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementType"

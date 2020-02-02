@@ -21,6 +21,7 @@ import com.intellij.openapi.fileEditor.FileEditorPolicy;
 import com.intellij.openapi.fileEditor.FileEditorProvider;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.FileViewProvider;
@@ -32,7 +33,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.util.PsiEditorUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class GitPrefixEditorProvider implements FileEditorProvider {
+public class GitPrefixEditorProvider implements FileEditorProvider, DumbAware {
 	@Override
 	public boolean accept(@NotNull Project project, @NotNull VirtualFile file) {
 		return file.getFileType() instanceof PrefixResourceFileType;

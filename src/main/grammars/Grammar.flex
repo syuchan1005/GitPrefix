@@ -1,4 +1,4 @@
-package com.github.syuchan1005.gitprefix.grammar.psi;
+package com.github.syuchan1005.gitprefix.grammar.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;

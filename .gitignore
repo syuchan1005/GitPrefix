@@ -5,6 +5,7 @@
 
 out/
 lib/
+src/main/grammars/flex
 build/
 
 *.ini
@@ -13,4 +14,3 @@ build/
 
 **/resources/emojis/*.png
 git4idea/
-
