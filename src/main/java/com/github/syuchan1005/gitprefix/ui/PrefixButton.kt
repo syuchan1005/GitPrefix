@@ -1,89 +1,76 @@
-package com.github.syuchan1005.gitprefix.ui;
+package com.github.syuchan1005.gitprefix.ui
 
-import com.github.syuchan1005.gitprefix.EmojiUtil;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
-import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.JBMenuItem;
-import com.intellij.openapi.ui.JBPopupMenu;
-import com.intellij.openapi.vcs.CheckinProjectPanel;
-import com.intellij.psi.SmartPointerManager;
-import com.intellij.psi.SmartPsiElementPointer;
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty
+import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.JBMenuItem
+import com.intellij.openapi.ui.JBPopupMenu
+import com.intellij.psi.SmartPointerManager
+import com.intellij.psi.SmartPsiElementPointer
+import java.awt.event.ActionEvent
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import javax.swing.JButton
 
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Objects;
+class PrefixButton(private val myProject: Project, private val myHolder: TextHolder) : JButton() {
+    var popupMenu: JBPopupMenu? = null
+        private set
 
-public class PrefixButton extends JButton {
-	private final TextHolder myHolder;
-	private final Project myProject;
-	private JBPopupMenu popupMenu;
-	private SmartPsiElementPointer<PrefixResourceProperty> current = null;
+    private var current: SmartPsiElementPointer<PrefixResourceProperty>? = null
 
-	public PrefixButton(Project project, TextHolder holder) {
-		this.myHolder = holder;
-		this.myProject = project;
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				popupMenu.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-		this.setText("NO PREFIX");
-	}
+    fun settingPopup(type: PrefixResourceFileUtil.BlockType) {
+        popupMenu = type.createPopupMenu(PrefixResourceFileUtil.getFromSetting(myProject)
+        ) { p: PrefixResourceProperty -> setCurrent(SmartPointerManager.getInstance(p.project).createSmartPsiElementPointer(p)) }
+        if (popupMenu == null) return
+        JBMenuItem("NO PREFIX").apply {
+            addActionListener { e: ActionEvent? -> setCurrent(null) }
+            popupMenu!!.add(this)
+        }
+    }
 
-	public void settingPopup(PrefixResourceFileUtil.BlockType type) {
-		popupMenu = type.createPopupMenu(PrefixResourceFileUtil.getFromSetting(myProject),
-				(p) -> setCurrent(SmartPointerManager.getInstance(p.getProject()).createSmartPsiElementPointer(p)));
-		if (popupMenu == null) return;
-		JBMenuItem noPrefix = new JBMenuItem("NO PREFIX");
-		noPrefix.addActionListener(e -> setCurrent(null));
-		popupMenu.add(noPrefix);
-	}
+    fun setCurrent(current: SmartPsiElementPointer<PrefixResourceProperty>?) {
+        val key = if (this.current != null) this.current!!.element!!.key else null
+        this.current = current
+        if (current == null) {
+            icon = null
+            text = "NO PREFIX"
+        } else {
+            val p = current.element ?: return
+            val emoji = p.emoji
+            if (emoji != null) {
+                icon = emoji.icon
+                text = p.valueText
+            } else {
+                icon = null
+                text = "|" + p.key + "| " + p.valueText
+            }
+        }
+        var commitMessage = myHolder.getText()
+        if (key != null && commitMessage.startsWith(key)) {
+            commitMessage = commitMessage.substring(key.length)
+        }
+        val trimMessage = commitMessage.replace("^\\s+".toRegex(), "")
+        if (current == null) {
+            myHolder.setText(trimMessage)
+        } else {
+            myHolder.setText(current.element!!.key + " " + trimMessage)
+        }
+    }
 
-	public void setCurrent(SmartPsiElementPointer<PrefixResourceProperty> current) {
-		String key = this.current != null ? this.current.getElement().getKey() : null;
-		this.current = current;
-		if (current == null) {
-			setIcon(null);
-			setText("NO PREFIX");
-		} else {
-			PrefixResourceProperty p = current.getElement();
-			if (p == null) return;
-			EmojiUtil.EmojiData emoji = p.getEmoji();
-			if (emoji != null) {
-				setIcon(emoji.getIcon());
-				setText(p.getValueText());
-			} else {
-				setIcon(null);
-				setText("|" + p.getKey() + "| " + p.getValueText());
-			}
-		}
+    val currentProperty: PrefixResourceProperty?
+        get() = if (current == null) null else current!!.element
 
-		String commitMessage = this.myHolder.getText();
-		if (key != null && commitMessage.startsWith(key)) {
-			commitMessage = commitMessage.substring(key.length());
-		}
-		String trimMessage = commitMessage.replaceAll("^\\s+", "");
-		if (current == null) {
-			this.myHolder.setText(trimMessage);
-		} else {
-			this.myHolder.setText(current.getElement().getKey() + " " + trimMessage);
-		}
-	}
+    abstract class TextHolder {
+        abstract fun getText(): String
+        abstract fun setText(text: String?)
+    }
 
-	public PrefixResourceProperty getCurrentProperty() {
-		if (current == null) return null;
-		return current.getElement();
-	}
-
-	public JBPopupMenu getPopupMenu() {
-		return popupMenu;
-	}
-
-	public static abstract class TextHolder {
-		abstract public String getText();
-		abstract public void setText(String text);
-	}
+    init {
+        addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent) {
+                popupMenu!!.show(e.component, e.x, e.y)
+            }
+        })
+        text = "NO PREFIX"
+    }
 }
