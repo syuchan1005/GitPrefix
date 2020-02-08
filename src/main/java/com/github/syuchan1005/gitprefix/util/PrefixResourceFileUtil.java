@@ -2,7 +2,6 @@ package com.github.syuchan1005.gitprefix.util;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.GitPrefixData;
-import com.github.syuchan1005.gitprefix.formatter.PrefixResourceBlock;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementFactory;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
@@ -11,6 +10,9 @@ import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBMenuItem;
@@ -86,6 +88,55 @@ public class PrefixResourceFileUtil {
 			return null;
 		}
 
+		@NotNull
+		public DefaultActionGroup createActionGroup(@Nullable PrefixResourceFile file, Consumer<PrefixResourceProperty> click) {
+			DefaultActionGroup group = new DefaultActionGroup();
+			if (file != null) {
+				PrefixResourceNamedBlock block = this.getBlock(createStructuredFile(file, false));
+				if (block != null) {
+					addFileContent(block, group, click);
+				}
+			}
+			return group;
+		}
+
+		private static AnAction toAction(PrefixResourceProperty property, Consumer<PrefixResourceProperty> click) {
+			EmojiUtil.EmojiData emoji = property.getEmoji();
+			AnAction action;
+			if (emoji != null) {
+				action = new AnAction(property.getValueText(), null, emoji.getIcon()) {
+					@Override
+					public void actionPerformed(@NotNull AnActionEvent e) {
+						click.accept(property);
+					}
+				};
+			} else {
+				action = new AnAction("|" + property.getKey() + "| " + property.getValueText()) {
+					@Override
+					public void actionPerformed(@NotNull AnActionEvent e) {
+						click.accept(property);
+					}
+				};
+			}
+			return action;
+		}
+
+		private static DefaultActionGroup toActionGroup(PrefixResourceNamedBlock block, Consumer<PrefixResourceProperty> click) {
+			DefaultActionGroup group = new DefaultActionGroup(block.getName(), true);
+			addFileContent(block, group, click);
+			return group;
+		}
+
+		private static void addFileContent(PrefixResourceNamedBlock block, DefaultActionGroup group, Consumer<PrefixResourceProperty> click) {
+			for (PsiElement child : block.getChildren()) {
+				if (child instanceof PrefixResourceProperty) {
+					group.add(toAction((PrefixResourceProperty) child, click));
+				} else if (child instanceof PrefixResourceNamedBlock) {
+					group.add(toActionGroup((PrefixResourceNamedBlock) child, click));
+				}
+			}
+		}
+
 		@Nullable
 		public JBPopupMenu createPopupMenu(PrefixResourceFile file, Consumer<PrefixResourceProperty> click) {
 			if (file == null) return null;
@@ -136,7 +187,7 @@ public class PrefixResourceFileUtil {
 			}
 			return null;
 		}
-	}
+    }
 
 	public static PrefixResourceFile createStructuredFile(PrefixResourceFile prefixResourceFile, boolean isPreview) {
 		PrefixResourceFile file = (PrefixResourceFile) prefixResourceFile.copy();

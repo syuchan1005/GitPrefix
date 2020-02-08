@@ -24,13 +24,12 @@
         </ul>
     ]]></change-notes>
 
-    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.vcs</depends>
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Commit -->
-        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
-        <editChangelistSupport    implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandler" />
+        <vcsCheckinHandlerFactory order="first" implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
 
         <!-- File -->
         <fileType name="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType"
@@ -68,8 +67,17 @@
     </extensionPoints>
 
     <actions>
+        <!-- New File Action -->
         <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
+        </action>
+
+        <!-- Commit ToolWindow comboBox-->
+        <action
+          id="GitPrefix.ActionA"
+          class="com.github.syuchan1005.gitprefix.git.commit.GitCommitComboBoxAction"
+        >
+            <add-to-group group-id="ChangesView.CommitToolbar" anchor="first" />
         </action>
     </actions>
 
