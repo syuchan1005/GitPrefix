@@ -62,10 +62,6 @@
         <langCodeStyleSettingsProvider implementation="com.github.syuchan1005.gitprefix.codestyle.PrefixResourceLanguageCodeStyleSettingsProvider" />-->
     </extensions>
 
-    <extensionPoints>
-        <extensionPoint name="prefixPanelFactory" interface="com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory" />
-    </extensionPoints>
-
     <actions>
         <!-- New File Action -->
         <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction">
