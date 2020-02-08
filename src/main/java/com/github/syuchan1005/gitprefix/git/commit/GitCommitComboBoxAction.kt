@@ -8,6 +8,7 @@ import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.JBInsets
+import java.awt.Dimension
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
 import javax.swing.JComponent
@@ -60,8 +61,11 @@ class GitCommitComboBoxAction : ComboBoxAction() {
 
     override fun createCustomComponent(presentation: Presentation, place: String): JComponent {
         val panel = JPanel(GridBagLayout())
+
         presentation.setText("NO PREFIX")
         boxButton = ComboBoxButton(presentation)
+        boxButton.preferredSize = Dimension(65, boxButton.height)
+
         val constraints = GridBagConstraints(
                 0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, JBInsets.create(0, 0), 0, 0)
         panel.add(boxButton, constraints)
