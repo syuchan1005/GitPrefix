@@ -16,8 +16,8 @@ import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class PrefixButton extends JButton {
-	private TextHolder myHolder;
-	private Project myProject;
+	private final TextHolder myHolder;
+	private final Project myProject;
 	private JBPopupMenu popupMenu;
 	private SmartPsiElementPointer<PrefixResourceProperty> current = null;
 

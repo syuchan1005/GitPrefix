@@ -194,29 +194,18 @@ public class PrefixResourceFileUtil {
 
 		/* extract property, calcNamedBlock */
 		List<PrefixResourceProperty> properties = new ArrayList<>();
-		List<PrefixResourceNamedBlock> namedBlocks = new ArrayList<>();
 		for (PsiElement child : file.getChildren()) {
 			if (child instanceof PrefixResourceProperty) {
 				properties.add((PrefixResourceProperty) child);
 				file.getNode().removeChild(child.getNode());
 			} else if (child instanceof PrefixResourceNamedBlock) {
-				PrefixResourceNamedBlock block = (PrefixResourceNamedBlock) child;
-				calcNamedBlock(block);
-				BlockType blockType = BlockType.getFromBeforeName(block.getName());
-				if (blockType == null) {
-					namedBlocks.add(block);
-					file.getNode().removeChild(block.getNode());
-				} else {
-					block.getNode().replaceChild(block.getBlockName().getNode(),
-							PrefixResourceElementFactory.createBlockNameNode(file.getProject(), blockType.blockName));
-				}
+				calcNamedBlock((PrefixResourceNamedBlock) child);
 			} else if (!needElements.contains(child.getNode().getElementType())) {
 				file.getNode().removeChild(child.getNode());
 			}
 		}
 
 		/* remove blocks */
-		/*
 		for (PsiElement child : file.getChildren()) {
 			if (child instanceof PrefixResourceNamedBlock) {
 				PsiElement blockName = ((PrefixResourceNamedBlock) child).getBlockName();
@@ -230,17 +219,13 @@ public class PrefixResourceFileUtil {
 				}
 			}
 		}
-		*/
 
 		for (BlockType value : BlockType.values()) {
-			PrefixResourceNamedBlock b = value.getBlock(file);
-			if (b == null) {
-				b = PrefixResourceElementFactory.createNamedBlock(file.getProject(), value.blockName);
-				file.getNode().addChild(b.getNode());
+			if (value.getBlock(file) == null) {
+				PrefixResourceNamedBlock namedBlock = PrefixResourceElementFactory.createNamedBlock(file.getProject(), value.blockName);
+				file.getNode().addChild(namedBlock.getNode());
+				properties.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
 			}
-			PrefixResourceNamedBlock namedBlock = b;
-			properties.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
-			namedBlocks.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
 		}
 
 		if (isPreview) {
@@ -288,10 +273,7 @@ public class PrefixResourceFileUtil {
 		for (PsiElement child : block.getChildren()) {
 			if (child instanceof PrefixResourceProperty)
 				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-			else if (child instanceof PrefixResourceNamedBlock) {
-				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-				addSpaceAfterProperty((PrefixResourceNamedBlock) child);
-			}
+			else if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 		}
 	}
 
