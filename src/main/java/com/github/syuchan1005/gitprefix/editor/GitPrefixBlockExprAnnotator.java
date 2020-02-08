@@ -5,15 +5,16 @@ import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock;
 import com.github.syuchan1005.gitprefix.quickfix.CreateNamedBlockQuickFix;
 import com.github.syuchan1005.gitprefix.util.PrefixPsiUtil;
-import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
 
 public class GitPrefixBlockExprAnnotator implements Annotator {
 	@Override
@@ -28,16 +29,22 @@ public class GitPrefixBlockExprAnnotator implements Annotator {
 		if (first.isPresent()) {
 			boolean isRecursive = PrefixPsiUtil.isRecursive(((PrefixResourceBlockExpr) element));
 			if (isRecursive) {
-				holder.createErrorAnnotation(((PrefixResourceBlockExpr) element).getBlockName(), "Cannot recursive block name");
+				holder.newAnnotation(HighlightSeverity.ERROR, "Cannot recursive block name")
+					.range(((PrefixResourceBlockExpr) element).getBlockName())
+					.create();
 			} else {
-				Annotation infoAnnotation = holder.createInfoAnnotation(
-						new TextRange(element.getTextRange().getStartOffset(),
-								element.getTextRange().getEndOffset() - blockName.length()), null);
-				infoAnnotation.setTextAttributes(DefaultLanguageHighlighterColors.LINE_COMMENT);
+				TextRange range = new TextRange(element.getTextRange().getStartOffset(),
+						element.getTextRange().getEndOffset() - blockName.length());
+				holder.newAnnotation(HighlightSeverity.INFORMATION, "")
+						.range(range)
+						.textAttributes(DefaultLanguageHighlighterColors.LINE_COMMENT)
+						.create();
 			}
 		} else {
-			holder.createErrorAnnotation(((PrefixResourceBlockExpr) element).getBlockName(), "Unresolved block name")
-				.registerFix(new CreateNamedBlockQuickFix(blockName));
+			holder.newAnnotation(HighlightSeverity.ERROR, "Unresolved block name")
+					.range(((PrefixResourceBlockExpr) element).getBlockName())
+					.newFix(new CreateNamedBlockQuickFix(blockName))
+					.registerFix().create();
 		}
 	}
 }
