@@ -3,7 +3,7 @@
 plugins {
     id "org.jetbrains.intellij" version '0.3.11'
     // id "org.jetbrains.grammarkit" version '2020.1'
-    // id "org.jetbrains.kotlin.jvm" version '1.2.70'
+    id "org.jetbrains.kotlin.jvm" version '1.3.61'
 }
 
 repositories {
@@ -12,12 +12,12 @@ repositories {
 
 dependencies {
     compile 'org.javassist:javassist:3.23.1-GA'
-    // compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.70'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.61'
 }
 
 apply plugin: 'idea'
-// apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'kotlin'
 apply plugin: 'java'
 // apply plugin: 'org.jetbrains.grammarkit'
 
@@ -27,7 +27,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 group 'com.github.syuchan1005'
 
 compileJava {
-    // options.compilerArgs << '-Xlint:deprecation'
+    options.compilerArgs << '-Xlint:deprecation'
     options.encoding = 'UTF-8'
 }
 
@@ -35,16 +35,16 @@ intellij {
     pluginName 'GitPrefix'
 
     // https://www.jetbrains.com/intellij-repository/releases
-    version '193.5662.53'
+    // version '193.5662.53'
     type 'IU'
 
     plugins = ['git4idea']
 }
 
 patchPluginXml {
-    version "2.1.2"
-    sinceBuild "192.*"
-    untilBuild "193.*"
+    version null
+    sinceBuild null
+    untilBuild null
 }
 
 // TODO: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23

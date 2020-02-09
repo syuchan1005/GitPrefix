@@ -2,7 +2,6 @@ package com.github.syuchan1005.gitprefix.util;
 
 import com.github.syuchan1005.gitprefix.EmojiUtil;
 import com.github.syuchan1005.gitprefix.GitPrefixData;
-import com.github.syuchan1005.gitprefix.formatter.PrefixResourceBlock;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceElementFactory;
 import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
@@ -11,6 +10,9 @@ import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty;
 import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceTypes;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.JBMenuItem;
@@ -86,6 +88,55 @@ public class PrefixResourceFileUtil {
 			return null;
 		}
 
+		@NotNull
+		public DefaultActionGroup createActionGroup(@Nullable PrefixResourceFile file, Consumer<PrefixResourceProperty> click) {
+			DefaultActionGroup group = new DefaultActionGroup();
+			if (file != null) {
+				PrefixResourceNamedBlock block = this.getBlock(createStructuredFile(file, false));
+				if (block != null) {
+					addFileContent(block, group, click);
+				}
+			}
+			return group;
+		}
+
+		private static AnAction toAction(PrefixResourceProperty property, Consumer<PrefixResourceProperty> click) {
+			EmojiUtil.EmojiData emoji = property.getEmoji();
+			AnAction action;
+			if (emoji != null) {
+				action = new AnAction(property.getValueText(), null, emoji.getIcon()) {
+					@Override
+					public void actionPerformed(@NotNull AnActionEvent e) {
+						click.accept(property);
+					}
+				};
+			} else {
+				action = new AnAction("|" + property.getKey() + "| " + property.getValueText()) {
+					@Override
+					public void actionPerformed(@NotNull AnActionEvent e) {
+						click.accept(property);
+					}
+				};
+			}
+			return action;
+		}
+
+		private static DefaultActionGroup toActionGroup(PrefixResourceNamedBlock block, Consumer<PrefixResourceProperty> click) {
+			DefaultActionGroup group = new DefaultActionGroup(block.getName(), true);
+			addFileContent(block, group, click);
+			return group;
+		}
+
+		private static void addFileContent(PrefixResourceNamedBlock block, DefaultActionGroup group, Consumer<PrefixResourceProperty> click) {
+			for (PsiElement child : block.getChildren()) {
+				if (child instanceof PrefixResourceProperty) {
+					group.add(toAction((PrefixResourceProperty) child, click));
+				} else if (child instanceof PrefixResourceNamedBlock) {
+					group.add(toActionGroup((PrefixResourceNamedBlock) child, click));
+				}
+			}
+		}
+
 		@Nullable
 		public JBPopupMenu createPopupMenu(PrefixResourceFile file, Consumer<PrefixResourceProperty> click) {
 			if (file == null) return null;
@@ -136,36 +187,25 @@ public class PrefixResourceFileUtil {
 			}
 			return null;
 		}
-	}
+    }
 
 	public static PrefixResourceFile createStructuredFile(PrefixResourceFile prefixResourceFile, boolean isPreview) {
 		PrefixResourceFile file = (PrefixResourceFile) prefixResourceFile.copy();
 
 		/* extract property, calcNamedBlock */
 		List<PrefixResourceProperty> properties = new ArrayList<>();
-		List<PrefixResourceNamedBlock> namedBlocks = new ArrayList<>();
 		for (PsiElement child : file.getChildren()) {
 			if (child instanceof PrefixResourceProperty) {
 				properties.add((PrefixResourceProperty) child);
 				file.getNode().removeChild(child.getNode());
 			} else if (child instanceof PrefixResourceNamedBlock) {
-				PrefixResourceNamedBlock block = (PrefixResourceNamedBlock) child;
-				calcNamedBlock(block);
-				BlockType blockType = BlockType.getFromBeforeName(block.getName());
-				if (blockType == null) {
-					namedBlocks.add(block);
-					file.getNode().removeChild(block.getNode());
-				} else {
-					block.getNode().replaceChild(block.getBlockName().getNode(),
-							PrefixResourceElementFactory.createBlockNameNode(file.getProject(), blockType.blockName));
-				}
+				calcNamedBlock((PrefixResourceNamedBlock) child);
 			} else if (!needElements.contains(child.getNode().getElementType())) {
 				file.getNode().removeChild(child.getNode());
 			}
 		}
 
 		/* remove blocks */
-		/*
 		for (PsiElement child : file.getChildren()) {
 			if (child instanceof PrefixResourceNamedBlock) {
 				PsiElement blockName = ((PrefixResourceNamedBlock) child).getBlockName();
@@ -179,17 +219,13 @@ public class PrefixResourceFileUtil {
 				}
 			}
 		}
-		*/
 
 		for (BlockType value : BlockType.values()) {
-			PrefixResourceNamedBlock b = value.getBlock(file);
-			if (b == null) {
-				b = PrefixResourceElementFactory.createNamedBlock(file.getProject(), value.blockName);
-				file.getNode().addChild(b.getNode());
+			if (value.getBlock(file) == null) {
+				PrefixResourceNamedBlock namedBlock = PrefixResourceElementFactory.createNamedBlock(file.getProject(), value.blockName);
+				file.getNode().addChild(namedBlock.getNode());
+				properties.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
 			}
-			PrefixResourceNamedBlock namedBlock = b;
-			properties.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
-			namedBlocks.forEach(n -> namedBlock.getNode().addChild(n.copy().getNode(), namedBlock.getNode().getLastChildNode().getTreePrev()));
 		}
 
 		if (isPreview) {
@@ -237,10 +273,7 @@ public class PrefixResourceFileUtil {
 		for (PsiElement child : block.getChildren()) {
 			if (child instanceof PrefixResourceProperty)
 				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-			else if (child instanceof PrefixResourceNamedBlock) {
-				block.getNode().addChild(PrefixResourceElementFactory.createLF(block.getProject()).getNode(), child.getNode());
-				addSpaceAfterProperty((PrefixResourceNamedBlock) child);
-			}
+			else if (child instanceof PrefixResourceNamedBlock) addSpaceAfterProperty((PrefixResourceNamedBlock) child);
 		}
 	}
 

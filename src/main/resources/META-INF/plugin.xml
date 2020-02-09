@@ -2,6 +2,8 @@
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
+    <idea-version since-build="193.0" />
+    <version>2.1.3</version>
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -20,17 +22,16 @@
     <change-notes><![CDATA[
         <i>Implemented enhancements:</i>
         <ul>
-            <li>Support 2019.3</li>
+            <li>Support 2020.1 EAP</li>
         </ul>
     ]]></change-notes>
 
-    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.vcs</depends>
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Commit -->
-        <vcsCheckinHandlerFactory implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
-        <editChangelistSupport    implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandler" />
+        <vcsCheckinHandlerFactory order="first" implementation="com.github.syuchan1005.gitprefix.git.commit.PrefixCheckinHandlerFactory" />
 
         <!-- File -->
         <fileType name="PrefixResource" implementationClass="com.github.syuchan1005.gitprefix.filetype.PrefixResourceFileType"
@@ -63,19 +64,23 @@
         <langCodeStyleSettingsProvider implementation="com.github.syuchan1005.gitprefix.codestyle.PrefixResourceLanguageCodeStyleSettingsProvider" />-->
     </extensions>
 
-    <extensionPoints>
-        <extensionPoint name="prefixPanelFactory" interface="com.github.syuchan1005.gitprefix.extension.PrefixPanelFactory" />
-    </extensionPoints>
-
     <actions>
+        <!-- New File Action -->
         <action id="GitPrefix.NewFile" class="com.github.syuchan1005.gitprefix.filetype.PrefixNewFileAction">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
+
+        <!-- Commit ToolWindow comboBox-->
+        <action
+          id="GitPrefix.CommitComboBoxAction"
+          class="com.github.syuchan1005.gitprefix.git.commit.GitCommitComboBoxAction"
+        >
+            <add-to-group group-id="ChangesView.CommitToolbar" anchor="first" />
+        </action>
     </actions>
 
-    <application-components>
-        <component>
-            <implementation-class>com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager</implementation-class>
-        </component>
-    </application-components>
+    <applicationListeners>
+        <listener class="com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager"
+                  topic="com.intellij.ide.AppLifecycleListener" />
+    </applicationListeners>
 </idea-plugin>

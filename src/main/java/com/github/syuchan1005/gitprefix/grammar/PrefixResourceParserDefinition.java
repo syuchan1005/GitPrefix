@@ -69,10 +69,4 @@ public class PrefixResourceParserDefinition implements ParserDefinition {
 	public PsiFile createFile(FileViewProvider fileViewProvider) {
 		return new PrefixResourceFile(fileViewProvider);
 	}
-
-	@SuppressWarnings("deprecation") // support 172.0
-	@Override
-	public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-		return SpaceRequirements.MAY;
-	}
 }

@@ -6,31 +6,17 @@ import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
 import com.github.syuchan1005.gitprefix.ui.EmojiListEditor;
 import com.github.syuchan1005.gitprefix.ui.TextAndPreviewEditor;
 import com.github.syuchan1005.gitprefix.util.PrefixResourceFileUtil;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.EditorGutter;
-import com.intellij.openapi.editor.EditorKind;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
-import com.intellij.openapi.editor.ex.EditorEx;
-import com.intellij.openapi.editor.ex.EditorGutterComponentEx;
-import com.intellij.openapi.editor.ex.util.EditorUtil;
-import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorPolicy;
 import com.intellij.openapi.fileEditor.FileEditorProvider;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider;
-import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.FileViewProvider;
-import com.intellij.psi.FileViewProviderFactory;
-import com.intellij.psi.LanguageFileViewProviders;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.util.PsiEditorUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class GitPrefixEditorProvider implements FileEditorProvider {
@@ -73,6 +59,6 @@ public class GitPrefixEditorProvider implements FileEditorProvider {
 	@NotNull
 	@Override
 	public FileEditorPolicy getPolicy() {
-		return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
+		return FileEditorPolicy.PLACE_BEFORE_DEFAULT_EDITOR;
 	}
 }

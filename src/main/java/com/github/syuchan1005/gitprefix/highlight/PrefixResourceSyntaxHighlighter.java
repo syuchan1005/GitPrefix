@@ -15,8 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
-	static final TextAttributesKey KEY = createTextAttributesKey("EMOJI_RESOURCE_EMOJI_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-	static final TextAttributesKey VALUE = createTextAttributesKey("EMOJI_RESOURCE_TEXT_VALUE", DefaultLanguageHighlighterColors.STRING);
+	static final TextAttributesKey KEY = createTextAttributesKey("EMOJI_RESOURCE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+	static final TextAttributesKey VALUE = createTextAttributesKey("EMOJI_RESOURCE_VALUE", DefaultLanguageHighlighterColors.STRING);
+	static final TextAttributesKey BLOCK_NAME = createTextAttributesKey("EMOJI_RESOURCE_BLOCK_NAME", DefaultLanguageHighlighterColors.KEYWORD);
 	static final TextAttributesKey LINE_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 	static final TextAttributesKey BLOCK_COMMENT = createTextAttributesKey("EMOJI_RESOURCE_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
 
@@ -30,6 +31,7 @@ public class PrefixResourceSyntaxHighlighter extends SyntaxHighlighterBase {
 		textAttrMap.put(PrefixResourceTypes.LINE_COMMENT, new TextAttributesKey[]{LINE_COMMENT});
 		textAttrMap.put(PrefixResourceTypes.BLOCK_COMMENT, new TextAttributesKey[]{BLOCK_COMMENT});
 		textAttrMap.put(PrefixResourceTypes.VALUE, new TextAttributesKey[]{VALUE});
+		textAttrMap.put(PrefixResourceTypes.BLOCK_NAME, new TextAttributesKey[]{BLOCK_NAME});
 	}
 
 	@NotNull
