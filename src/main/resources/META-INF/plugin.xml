@@ -3,6 +3,7 @@
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
     <idea-version since-build="193.0" />
+    <version>2.1.3</version>
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -21,7 +22,7 @@
     <change-notes><![CDATA[
         <i>Implemented enhancements:</i>
         <ul>
-            <li>Support 2019.3</li>
+            <li>Support 2020.1 EAP</li>
         </ul>
     ]]></change-notes>
 

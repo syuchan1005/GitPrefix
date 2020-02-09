@@ -42,7 +42,7 @@ intellij {
 }
 
 patchPluginXml {
-    version "2.1.2"
+    version null
     sinceBuild null
     untilBuild null
 }
