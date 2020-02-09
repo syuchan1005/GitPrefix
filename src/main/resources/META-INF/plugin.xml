@@ -2,6 +2,7 @@
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
+    <idea-version since-build="193.0" />
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -70,16 +71,15 @@
 
         <!-- Commit ToolWindow comboBox-->
         <action
-          id="GitPrefix.ActionA"
+          id="GitPrefix.CommitComboBoxAction"
           class="com.github.syuchan1005.gitprefix.git.commit.GitCommitComboBoxAction"
         >
             <add-to-group group-id="ChangesView.CommitToolbar" anchor="first" />
         </action>
     </actions>
 
-    <application-components>
-        <component>
-            <implementation-class>com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager</implementation-class>
-        </component>
-    </application-components>
+    <applicationListeners>
+        <listener class="com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager"
+                  topic="com.intellij.ide.AppLifecycleListener" />
+    </applicationListeners>
 </idea-plugin>

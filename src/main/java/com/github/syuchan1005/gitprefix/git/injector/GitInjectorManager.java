@@ -1,15 +1,17 @@
 package com.github.syuchan1005.gitprefix.git.injector;
 
-import com.intellij.openapi.components.BaseComponent;
+import com.intellij.ide.AppLifecycleListener;
 import git4idea.actions.GitRepositoryAction;
 import javassist.ClassClassPath;
 import javassist.ClassPool;
 import javassist.LoaderClassPath;
 import org.jetbrains.annotations.NotNull;
 
-public class GitInjectorManager implements BaseComponent {
+import java.util.List;
+
+public class GitInjectorManager implements AppLifecycleListener {
 	@Override
-	public void initComponent() {
+	public void appFrameCreated(@NotNull List<String> commandLineArgs) {
 		try {
 			ClassPool classPool = ClassPool.getDefault();
 			classPool.appendClassPath(new ClassClassPath(this.getClass()));
@@ -21,16 +23,6 @@ public class GitInjectorManager implements BaseComponent {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void disposeComponent() {
-	}
-
-	@NotNull
-	@Override
-	public String getComponentName() {
-		return "GitInjectorManager";
 	}
 
 	public enum InjectorType {
