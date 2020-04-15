@@ -6,13 +6,8 @@ import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction
 import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
-import com.intellij.ui.JBColor
-import com.intellij.util.ui.JBInsets
 import java.awt.Dimension
-import java.awt.GridBagConstraints
-import java.awt.GridBagLayout
 import javax.swing.JComponent
-import javax.swing.JPanel
 
 class GitCommitComboBoxAction : ComboBoxAction() {
     private lateinit var boxButton: ComboBoxButton
@@ -20,8 +15,8 @@ class GitCommitComboBoxAction : ComboBoxAction() {
     fun setCurrent(property: SmartPsiElementPointer<PrefixResourceProperty>?) {
         current = property
         if (current == null) {
-            boxButton.text = "NO PREFIX"
             boxButton.icon = null
+            boxButton.text = "NO PREFIX"
         } else {
             val p = current!!.element ?: return
             val emoji = p.emoji
@@ -60,17 +55,11 @@ class GitCommitComboBoxAction : ComboBoxAction() {
     }
 
     override fun createCustomComponent(presentation: Presentation, place: String): JComponent {
-        val panel = JPanel(GridBagLayout())
-
-        presentation.setText("NO PREFIX")
+        presentation.text = "NO PREFIX"
         boxButton = ComboBoxButton(presentation)
         boxButton.preferredSize = Dimension(65, boxButton.height)
 
-        val constraints = GridBagConstraints(
-                0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, JBInsets.create(0, 0), 0, 0)
-        panel.add(boxButton, constraints)
-        panel.background = JBColor.WHITE
-        return panel
+        return boxButton
     }
 
     companion object {
