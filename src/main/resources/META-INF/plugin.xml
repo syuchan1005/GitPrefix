@@ -75,7 +75,7 @@
           id="GitPrefix.CommitComboBoxAction"
           class="com.github.syuchan1005.gitprefix.git.commit.GitCommitComboBoxAction"
         >
-            <add-to-group group-id="ChangesView.CommitToolbar" anchor="first" />
+            <add-to-group group-id="Vcs.MessageActionGroup" anchor="first" />
         </action>
     </actions>
 
