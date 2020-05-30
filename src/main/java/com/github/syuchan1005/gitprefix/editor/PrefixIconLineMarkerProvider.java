@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class PrefixIconLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
 	@Override
-	protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo> result) {
+	protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo<?>> result) {
 		if (element instanceof LeafPsiElement) {
 			LeafPsiElement leafPsiElement = (LeafPsiElement) element;
 			RelatedItemLineMarkerInfo<PsiElement> lineMarkerInfo = null;
