@@ -10,22 +10,23 @@ import java.awt.Dimension
 import javax.swing.JComponent
 
 class GitCommitComboBoxAction : ComboBoxAction() {
-    private lateinit var boxButton: ComboBoxButton
-
     fun setCurrent(property: SmartPsiElementPointer<PrefixResourceProperty>?) {
         current = property
+    }
+
+    override fun update(e: AnActionEvent) {
         if (current == null) {
-            boxButton.icon = null
-            boxButton.text = "NO PREFIX"
+            e.presentation.icon = null
+            e.presentation.text = "NO PREFIX"
         } else {
             val p = current!!.element ?: return
             val emoji = p.emoji
             if (emoji != null) {
-                boxButton.icon = emoji.icon
-                boxButton.text = p.valueText
+                e.presentation.icon = emoji.icon
+                e.presentation.text = p.valueText
             } else {
-                boxButton.icon = null
-                boxButton.text = "|${p.key}| ${p.valueText}"
+                e.presentation.icon = null
+                e.presentation.text = "|${p.key}| ${p.valueText}"
             }
         }
     }
@@ -56,7 +57,7 @@ class GitCommitComboBoxAction : ComboBoxAction() {
 
     override fun createCustomComponent(presentation: Presentation, place: String): JComponent {
         presentation.text = "NO PREFIX"
-        boxButton = ComboBoxButton(presentation)
+        val boxButton = ComboBoxButton(presentation)
         boxButton.preferredSize = Dimension(65, boxButton.height)
 
         return boxButton
