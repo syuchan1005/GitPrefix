@@ -23,7 +23,7 @@ class PrefixButton(private val myProject: Project, private val myHolder: TextHol
         ) { p: PrefixResourceProperty -> setCurrent(SmartPointerManager.getInstance(p.project).createSmartPsiElementPointer(p)) }
         if (popupMenu == null) return
         JBMenuItem("NO PREFIX").apply {
-            addActionListener { e: ActionEvent? -> setCurrent(null) }
+            addActionListener { setCurrent(null) }
             popupMenu!!.add(this)
         }
     }
