@@ -2,7 +2,7 @@
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
-    <idea-version since-build="193.*" until-build="202.*" />
+    <idea-version since-build="201.*" until-build="202.*" />
     <version>2.1.6</version>
 
     <description><![CDATA[
