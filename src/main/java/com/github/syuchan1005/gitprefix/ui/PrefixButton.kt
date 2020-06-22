@@ -7,7 +7,6 @@ import com.intellij.openapi.ui.JBMenuItem
 import com.intellij.openapi.ui.JBPopupMenu
 import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.SmartPsiElementPointer
-import java.awt.event.ActionEvent
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import javax.swing.JButton
@@ -28,7 +27,7 @@ class PrefixButton(private val myProject: Project, private val myHolder: TextHol
         }
     }
 
-    fun setCurrent(current: SmartPsiElementPointer<PrefixResourceProperty>?) {
+    private fun setCurrent(current: SmartPsiElementPointer<PrefixResourceProperty>?) {
         val key = if (this.current != null) this.current!!.element!!.key else null
         this.current = current
         if (current == null) {
@@ -56,9 +55,6 @@ class PrefixButton(private val myProject: Project, private val myHolder: TextHol
             myHolder.setText(current.element!!.key + " " + trimMessage)
         }
     }
-
-    val currentProperty: PrefixResourceProperty?
-        get() = if (current == null) null else current!!.element
 
     abstract class TextHolder {
         abstract fun getText(): String
