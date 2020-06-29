@@ -40,7 +40,7 @@ jobs:
           draft: false
           prerelease: contains("${{ github.ref }}", '-')
       - name: Upload Release Asset
-        id: upload-release-asset
+        id: upload-release-asset-jar
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,3 +49,13 @@ jobs:
           asset_path: "build/libs/GitPrefix.jar"
           asset_name: GitPrefix.jar
           asset_content_type: application/java-archive
+      - name: Upload Release Asset (zip)
+        id: upload-release-asset-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: "build/distributions/GitPrefix.zip"
+          asset_name: GitPrefix.zip
+          asset_content_type: application/zip
