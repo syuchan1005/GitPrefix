@@ -2,8 +2,8 @@
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
-    <idea-version since-build="201.*" until-build="202.*" />
-    <version>2.1.7</version>
+    <idea-version since-build="201.0" until-build="202.*" />
+    <version>2.1.8</version>
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -20,10 +20,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <i>Implemented enhancements:</i>
+        <i>Bugs:</i>
         <ul>
-            <li>Support 2020.1</li>
-            <li>Fix ui</li>
+            <li>Fix support version</li>
+            <li>Fix commit ui</li>
         </ul>
     ]]></change-notes>
 
