@@ -19,7 +19,7 @@ class GitCommitComboBoxAction : ComboBoxAction() {
             e.presentation.icon = null
             e.presentation.text = "NO PREFIX"
         } else {
-            val p = current!!.element ?: return
+            val p = current?.element ?: return
             val emoji = p.emoji
             if (emoji != null) {
                 e.presentation.icon = emoji.icon
@@ -67,6 +67,6 @@ class GitCommitComboBoxAction : ComboBoxAction() {
         private var current: SmartPsiElementPointer<PrefixResourceProperty>? = null
 
         val currentProperty: PrefixResourceProperty?
-            get() = if (current == null) null else current!!.element
+            get() = current?.element
     }
 }
