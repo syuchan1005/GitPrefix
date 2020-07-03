@@ -27,7 +27,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew buildPlugin
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIST_TOKEN }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
