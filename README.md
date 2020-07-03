@@ -54,3 +54,12 @@ test {
 |![Editor](screenshot/file.png)|
 |![CommitMessage](screenshot/commit.png)|
 
+
+# Develop
+## How to use
+```
+$ git submodule update --init --recursive
+$ ./gradlew sync
+// write EmojiUpdate.json
+$ ./gradlew updateEmoji
+```

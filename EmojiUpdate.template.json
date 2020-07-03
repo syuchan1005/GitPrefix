@@ -1,0 +1,10 @@
+{
+  "createClass": true,
+  "convertIcon": true,
+  "srcEmojiFolderPath":  "./emoji-cheat-sheet/public/graphics/emojis/",
+  "distEmojiFolderPath": "./src/main/resources/emojis/",
+  "classPackageName":  "com.github.syuchan1005.gitprefix",
+  "className": "EmojiUtil",
+  "classMapName":  "emojiMap",
+  "gistToken": "<Your gist token>"
+}
