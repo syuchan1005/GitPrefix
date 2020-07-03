@@ -8,7 +8,6 @@ import com.github.kittinunf.fuel.gson.gsonDeserializerOf
 buildscript {
     repositories {
         mavenCentral()
-        maven(url = "https://www.jitpack.io")
     }
 
     dependencies {
@@ -120,11 +119,16 @@ open class UpdateEmojiTask : DefaultTask() {
 
     private fun fetchGists(emojiNames: List<String>): Map<String, String> {
         val config = Config.get()
+        val gistToken = if (config.gistToken.isEmpty()) {
+            System.getenv("GITHUB_TOKEN")
+        } else {
+            config.gistToken
+        }
         val (_, _, createData) = Fuel
                 .post("https://api.github.com/gists")
                 .jsonBody("{\"files\":{\"test.md\":{\"content\":\"${emojiNames.map { ":$it:" }
                         .joinToString(":", ":", ":")}\"}}}")
-                .authentication().bearer(config.gistToken)
+                .authentication().bearer(gistToken)
                 .responseObject(gsonDeserializerOf(GistResponse.Create::class.java))
         val (createResult, _) = createData
 
@@ -155,7 +159,7 @@ open class UpdateEmojiTask : DefaultTask() {
 
         val deleteRes = Fuel
                 .delete("https://api.github.com/gists/${createResult.id}")
-                .authentication().bearer(config.gistToken)
+                .authentication().bearer(gistToken)
                 .response()
 
         if (deleteRes.second.statusCode != 204) {
@@ -208,7 +212,8 @@ ${emojiList.map { (k, v) -> "                \"$k\" to EmojiData(\"$v\", IconLoa
 
             fun get(): Config {
                 if (config == null) {
-                    val file = File("./EmojiUpdate.json")
+                    var file = File("./EmojiUpdate.json")
+                    if (!file.exists()) file = File("./EmojiUpdate.template.json")
                     config = com.google.gson.Gson()
                             .fromJson(file.reader(), Config::class.java)
                 }
