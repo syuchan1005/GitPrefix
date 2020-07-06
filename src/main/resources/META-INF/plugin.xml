@@ -71,7 +71,7 @@
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFromTemplate"/>
         </action>
 
-        <!-- Commit ToolWindow comboBox-->
+        <!-- Commit Dialog/ToolWindow comboBox-->
         <action
           id="GitPrefix.CommitComboBoxAction"
           class="com.github.syuchan1005.gitprefix.git.commit.GitCommitComboBoxAction"

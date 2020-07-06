@@ -84,12 +84,12 @@ open class UpdateEmojiTask : DefaultTask() {
         // TODO: no output = no update = return logic
         runCommand("git submodule update --recursive")
 
-        File(config.distEmojiFolderPath).mkdirs()
-
         val emojiNames = File(config.srcEmojiFolderPath).listFiles()
                 ?.map { it.name.replace(".png", "") } ?: return
 
         if (config.convertIcon) {
+            File(config.distEmojiFolderPath).mkdirs()
+
             emojiNames.forEach {
                 logger.info("Processing: ${it}.png")
                 net.coobird.thumbnailator.Thumbnails.of("${config.srcEmojiFolderPath}${it}.png")
