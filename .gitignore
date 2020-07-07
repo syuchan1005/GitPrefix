@@ -8,8 +8,8 @@ lib/
 src/main/grammars/flex
 build/
 
-*.ini
-!*.template.ini
+*.json
+!*.template.json
 *.iml
 
 **/resources/emojis/*.png

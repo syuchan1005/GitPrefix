@@ -22,6 +22,7 @@ class GitInjectorManager : AppLifecycleListener {
         }
     }
 
+    // Reference: https://github.com/JetBrains/intellij-community/tree/master/plugins/git4idea
     enum class InjectorType(val clazz: Class<out AbstractGitDialogInjector?>, val injectClassName: String, val injectorClassName: String) {
         TAG(GitTagDialogInjector::class.java, "git4idea.ui.GitTagDialog",
                 "com.github.syuchan1005.gitprefix.git.injector.GitTagDialogInjector"),

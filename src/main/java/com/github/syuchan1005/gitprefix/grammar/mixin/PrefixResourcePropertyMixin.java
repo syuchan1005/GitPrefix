@@ -28,7 +28,7 @@ public abstract class PrefixResourcePropertyMixin extends ASTWrapperPsiElement i
 	public EmojiUtil.EmojiData getEmoji() {
 		if (this.getEmojiKey() != null) {
 			String text = this.getEmojiKey().getText();
-			return EmojiUtil.getEmojiData(text.substring(1, text.length() - 1));
+			return EmojiUtil.getEmojiMap().get(text.substring(1, text.length() - 1));
 		}
 		return null;
 	}
