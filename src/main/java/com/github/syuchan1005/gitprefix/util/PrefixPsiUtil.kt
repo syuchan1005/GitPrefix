@@ -1,72 +1,80 @@
-package com.github.syuchan1005.gitprefix.util;
+package com.github.syuchan1005.gitprefix.util
 
-import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr;
-import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.tree.TokenSet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.github.syuchan1005.gitprefix.grammar.PrefixResourceFile
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceBlockExpr
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceNamedBlock
+import com.github.syuchan1005.gitprefix.grammar.psi.PrefixResourceProperty
+import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiElement
+import com.intellij.psi.tree.TokenSet
+import java.util.*
 
-public class PrefixPsiUtil {
-	@NotNull
-	public static List<ASTNode> getChildrenRecursive(ASTNode root, TokenSet filter) {
-		List<ASTNode> result = new ArrayList<>();
-		ASTNode[] children = root.getChildren(filter);
-		for (ASTNode child : children) {
-			result.add(child);
-			ASTNode[] children1 = child.getChildren(filter);
-			if (children1.length != 0) result.addAll(getChildrenRecursive(child, filter));
-		}
-		return result;
-	}
+object PrefixPsiUtil {
+    @JvmStatic
+	fun getChildrenRecursive(root: ASTNode, filter: TokenSet?): List<ASTNode> {
+        val result: MutableList<ASTNode> = ArrayList()
+        val children = root.getChildren(filter)
+        for (child in children) {
+            result.add(child)
+            val children1 = child.getChildren(filter)
+            if (children1.isNotEmpty()) result.addAll(getChildrenRecursive(child, filter))
+        }
+        return result
+    }
 
-	@Nullable
-	public static PrefixResourceNamedBlock getContainsRootNamedBlock(PsiElement element) {
-		PsiElement parent = element.getParent();
-		if (parent instanceof PrefixResourceFile) {
-			if (element instanceof PrefixResourceNamedBlock) return ((PrefixResourceNamedBlock) element);
-			return null;
-		} else {
-			return getContainsRootNamedBlock(parent);
-		}
-	}
+    private fun getContainsRootNamedBlock(element: PsiElement): PrefixResourceNamedBlock? {
+        val parent = element.parent
+        return if (parent is PrefixResourceFile) {
+            if (element is PrefixResourceNamedBlock) element else null
+        } else {
+            getContainsRootNamedBlock(parent)
+        }
+    }
 
-	@NotNull
-	public static List<PrefixResourceBlockExpr> getExprRecursive(@NotNull PrefixResourceNamedBlock block) {
-		List<PrefixResourceBlockExpr> result = new ArrayList<>(block.getBlockExprList());
-		for (PrefixResourceNamedBlock namedBlock : block.getNamedBlockList()) {
-			result.addAll(getExprRecursive(namedBlock));
-		}
-		return result;
-	}
+    private fun getExprRecursive(block: PrefixResourceNamedBlock): List<PrefixResourceBlockExpr> {
+        val result: MutableList<PrefixResourceBlockExpr> = ArrayList(block.blockExprList)
+        for (namedBlock in block.namedBlockList) {
+            result.addAll(getExprRecursive(namedBlock))
+        }
+        return result
+    }
 
-	public static List<PrefixResourceNamedBlock> getTargetBlockRecursive(List<PrefixResourceNamedBlock> targetBlocks,
-																		 PrefixResourceNamedBlock targetNamedBlock) {
-		List<PrefixResourceNamedBlock> result = new ArrayList<>(targetBlocks);
-		if (targetNamedBlock == null) return result;
-		List<PrefixResourceBlockExpr> exprRecursive = getExprRecursive(targetNamedBlock);
-		for (PrefixResourceBlockExpr blockExpr : exprRecursive) {
-			PrefixResourceNamedBlock namedBlock = blockExpr.getTargetNamedBlock();
-			if (result.contains(namedBlock)) continue;
-			result.add(namedBlock);
-			result.addAll(getTargetBlockRecursive(result, namedBlock));
-		}
-		return result;
-	}
+    private fun getTargetBlockRecursive(targetBlocks: List<PrefixResourceNamedBlock?>,
+                                        targetNamedBlock: PrefixResourceNamedBlock?): List<PrefixResourceNamedBlock?> {
+        val result: MutableList<PrefixResourceNamedBlock?> = ArrayList(targetBlocks)
+        if (targetNamedBlock == null) return result
+        val exprRecursive = getExprRecursive(targetNamedBlock)
+        for (blockExpr in exprRecursive) {
+            val namedBlock = blockExpr.targetNamedBlock
+            if (result.contains(namedBlock)) continue
+            result.add(namedBlock)
+            result.addAll(getTargetBlockRecursive(result, namedBlock))
+        }
+        return result
+    }
 
-	public static boolean isRecursive(PrefixResourceBlockExpr expr) {
-		PrefixResourceNamedBlock containsRootNamedBlock = getContainsRootNamedBlock(expr);
-		PrefixResourceNamedBlock targetNamedBlock = expr.getTargetNamedBlock();
-		if (containsRootNamedBlock == null || targetNamedBlock == null) return false;
-		if (containsRootNamedBlock == targetNamedBlock) return true;
+    @JvmStatic
+	fun isRecursive(expr: PrefixResourceBlockExpr): Boolean {
+        val containsRootNamedBlock = getContainsRootNamedBlock(expr)
+        val targetNamedBlock = expr.targetNamedBlock
+        if (containsRootNamedBlock == null || targetNamedBlock == null) return false
+        if (containsRootNamedBlock === targetNamedBlock) return true
 
-		// nest recursive
-		List<PrefixResourceNamedBlock> targetBlocks = getTargetBlockRecursive(Collections.emptyList(), targetNamedBlock);
-		return targetBlocks.contains(containsRootNamedBlock);
-	}
+        // nest recursive
+        val targetBlocks = getTargetBlockRecursive(emptyList(), targetNamedBlock)
+        return targetBlocks.contains(containsRootNamedBlock)
+    }
+}
+
+fun PrefixResourceNamedBlock?.getFlattenPropertyList(): List<PrefixResourceProperty> {
+    if (this == null) return emptyList()
+    val properties = mutableListOf<PrefixResourceProperty>()
+    this.children.forEach { child ->
+        if (child is PrefixResourceProperty) {
+            properties.add(child)
+        } else if (child is PrefixResourceNamedBlock) {
+            properties.addAll(child.getFlattenPropertyList())
+        }
+    }
+    return properties
 }
