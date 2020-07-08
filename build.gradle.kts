@@ -57,8 +57,8 @@ intellij {
     pluginName = "GitPrefix"
 
     // https://www.jetbrains.com/intellij-repository/releases
-    // version '193.5662.53'
     type = "IU"
+    // type = "PY"; version = "2020.1.2"
 
     setPlugins("git4idea")
 }

@@ -3,7 +3,7 @@
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
     <idea-version since-build="201.0" until-build="202.*" />
-    <version>2.1.9</version>
+    <version>2.1.10</version>
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -24,6 +24,7 @@
         <ul>
             <li>Fix support version</li>
             <li>Fix commit ui</li>
+            <li>Fix support Pycharm, AppCode etc... IDE</li>
         </ul>
     ]]></change-notes>
 
