@@ -31,7 +31,7 @@ jobs:
         with:
           plugin: "build/libs/GitPrefix.jar"
           versions: |
-            2017.3.7
+            2017.3.6
             2018.3.6
             2019.1.4
             2019.3.5
