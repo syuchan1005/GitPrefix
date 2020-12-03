@@ -5,6 +5,17 @@ import com.github.kittinunf.fuel.gson.gsonDeserializerOf
 
 // TODO: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23
 
+plugins {
+    id("java")
+    id("org.jetbrains.kotlin.jvm") version "1.4.20"
+    id("org.jetbrains.intellij") version "0.6.5"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -20,37 +31,22 @@ buildscript {
     }
 }
 
-plugins {
-    id("org.jetbrains.intellij") version "0.4.21"
-    id("org.jetbrains.kotlin.jvm") version "1.3.70"
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation("org.javassist:javassist:3.23.1-GA")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.3.61")
-}
-
-apply {
-    plugin("idea")
-    plugin("org.jetbrains.intellij")
-    plugin("kotlin")
-    plugin("java")
-}
-
 val sourceCompatibility = JavaVersion.VERSION_1_8
 val targetCompatibility = JavaVersion.VERSION_1_8
 
 group = "com.github.syuchan1005"
 
 val compileJava: JavaCompile by tasks
-compileJava.options.apply {
-    compilerArgs = listOf("-Xlint:deprecation")
-    encoding = "UTF-8"
+compileJava.apply {
+    sourceCompatibility = sourceCompatibility.toString()
+    targetCompatibility = targetCompatibility.toString()
+    options.apply {
+        compilerArgs = listOf("-Xlint:deprecation")
+        encoding = "UTF-8"
+    }
 }
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+compileKotlin.kotlinOptions.jvmTarget = targetCompatibility.toString()
 
 // val intellij: org.jetbrains.intellij.tasks.IntelliJInstrumentCodeTask by tasks
 intellij {
@@ -58,7 +54,6 @@ intellij {
 
     // https://www.jetbrains.com/intellij-repository/releases
     type = "IU"
-    // type = "PY"; version = "2020.1.2"
 
     setPlugins("git4idea")
 }
@@ -74,13 +69,15 @@ tasks.register<UpdateEmojiTask>("updateEmoji") {
     group = "gitprefix"
     description = "Update EmojiUtil from submodule"
 }
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileKotlin.dependsOn("updateEmoji")
 
 open class UpdateEmojiTask : DefaultTask() {
     @org.gradle.api.tasks.TaskAction
     fun update() {
         val config = Config.get()
+        if (!config.createClass && !config.convertIcon) {
+            return
+        }
         // TODO: no output = no update = return logic
         runCommand("git submodule update --recursive")
 
@@ -177,6 +174,7 @@ open class UpdateEmojiTask : DefaultTask() {
         return """package ${config.classPackageName}
 
 import com.intellij.openapi.util.IconLoader
+import com.intellij.util.castSafelyTo
 import javax.swing.Icon
 
 class ${config.className} {
@@ -185,12 +183,12 @@ class ${config.className} {
     companion object {
         @JvmStatic
         val ${config.classMapName}: Map<String, EmojiData> = mapOf(
-${emojiList.map { (k, v) -> "                \"$k\" to EmojiData(\"$v\", IconLoader.getIcon(\"/emojis/$k.png\"))" }
+${emojiList.map { (k, v) -> "                \"$k\" to EmojiData(\"$v\", IconLoader.getIcon(\"/emojis/$k.png\", ${config.className}::class.java))" }
                 .joinToString(",\n")}
         )
     }
 }
-""".trimIndent()
+"""
     }
 
     sealed class GistResponse {
