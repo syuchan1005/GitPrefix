@@ -9,22 +9,22 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.tree.TokenSet
+import org.jetbrains.annotations.ApiStatus
 
 class PrefixResourceFormattingModelBuilder : FormattingModelBuilder {
 
-    override fun createModel(element: PsiElement, settings: CodeStyleSettings, mode: FormattingMode): FormattingModel {
-        return FormattingModelProvider
+    override fun createModel(formattingContext: FormattingContext): FormattingModel =
+        FormattingModelProvider
             .createFormattingModelForPsiFile(
-                element.containingFile,
+                formattingContext.psiElement.containingFile,
                 PrefixResourceBlock(
-                    element.node,
+                    formattingContext.psiElement.node,
                     Wrap.createWrap(WrapType.NONE, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(settings)
+                    createSpaceBuilder(formattingContext.codeStyleSettings)
                 ),
-                settings
+                formattingContext.codeStyleSettings
             )
-    }
 
     override fun getRangeAffectingIndent(file: PsiFile, offset: Int, elementAtOffset: ASTNode): TextRange? {
         return null
