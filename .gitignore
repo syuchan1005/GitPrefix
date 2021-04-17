@@ -14,5 +14,6 @@ build/
 
 **/resources/emojis/*.png
 git4idea/
+.gitignore
 
 !/gradle/wrapper/gradle-wrapper.jar

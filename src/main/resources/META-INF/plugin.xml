@@ -2,8 +2,8 @@
     <id>com.github.syuchan1005.emojiprefix</id>
     <name>GitPrefix</name>
     <vendor url="https://twitter.com/syu_chan_1005" email="syuchan.dev@gmail.com">syuchan1005</vendor>
-    <idea-version since-build="201.0" until-build="202.*" />
-    <version>2.1.11</version>
+    <idea-version since-build="203.3645.34" until-build="211.*" />
+    <version>2.2.0</version>
 
     <description><![CDATA[
         <h1>Easy to 'Emoji(or Text) Prefix Commit'</span>
@@ -20,11 +20,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <i>Bugs:</i>
         <ul>
-            <li>Fix support version</li>
-            <li>Fix commit ui</li>
-            <li>Fix support Pycharm, AppCode etc... IDE</li>
+            <li>Update support version</li>
+            <li>Remove merge / tag message injection</li>
         </ul>
     ]]></change-notes>
 
@@ -80,9 +78,4 @@
             <add-to-group group-id="Vcs.MessageActionGroup" anchor="first" />
         </action>
     </actions>
-
-    <applicationListeners>
-        <listener class="com.github.syuchan1005.gitprefix.git.injector.GitInjectorManager"
-                  topic="com.intellij.ide.AppLifecycleListener" />
-    </applicationListeners>
 </idea-plugin>
