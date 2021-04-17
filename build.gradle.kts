@@ -27,7 +27,6 @@ buildscript {
         classpath("com.github.kittinunf.fuel:fuel-gson:2.2.3")
         classpath("org.jsoup:jsoup:1.13.1")
         classpath("net.coobird:thumbnailator:0.4.11")
-
     }
 }
 
@@ -53,7 +52,7 @@ intellij {
     pluginName = "GitPrefix"
 
     // https://www.jetbrains.com/intellij-repository/releases
-    type = "IU"
+    type = "IC"
 
     setPlugins("git4idea")
 }
@@ -74,7 +73,7 @@ compileKotlin.dependsOn("updateEmoji")
 open class UpdateEmojiTask : DefaultTask() {
     @org.gradle.api.tasks.TaskAction
     fun update() {
-        val config = Config.get()
+        val config = Config.get(project)
         if (!config.createClass && !config.convertIcon) {
             return
         }
@@ -115,7 +114,7 @@ open class UpdateEmojiTask : DefaultTask() {
     }
 
     private fun fetchGists(emojiNames: List<String>): Map<String, String> {
-        val config = Config.get()
+        val config = Config.get(project)
         val gistToken = if (config.gistToken.isEmpty()) {
             System.getenv("GITHUB_TOKEN")
         } else {
@@ -169,7 +168,7 @@ open class UpdateEmojiTask : DefaultTask() {
     }
 
     private fun generateClassContent(emojiList: Map<String, String>): String {
-        val config = Config.get()
+        val config = Config.get(project)
 
         return """package ${config.classPackageName}
 
@@ -206,14 +205,15 @@ ${emojiList.map { (k, v) -> "                \"$k\" to EmojiData(\"$v\", IconLoa
             val gistToken: String
     ) {
         companion object {
+            private val gson = com.google.gson.Gson()
+
             private var config: Config? = null
 
-            fun get(): Config {
+            fun get(p: Project): Config {
                 if (config == null) {
-                    var file = File("./EmojiUpdate.json")
-                    if (!file.exists()) file = File("./EmojiUpdate.template.json")
-                    config = com.google.gson.Gson()
-                            .fromJson(file.reader(), Config::class.java)
+                    var jsonFile = p.file("EmojiUpdate.json")
+                    if (!jsonFile.exists()) jsonFile = p.file("./EmojiUpdate.template.json")
+                    config = gson.fromJson(jsonFile.reader(), Config::class.java)
                 }
 
                 return config!!
