@@ -7,7 +7,7 @@ import com.github.kittinunf.fuel.gson.gsonDeserializerOf
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.4.20"
+    id("org.jetbrains.kotlin.jvm") version "1.5.31"
     id("org.jetbrains.intellij") version "0.6.5"
 }
 
