@@ -25,7 +25,7 @@ buildscript {
         classpath("com.google.code.gson:gson:2.8.6")
         classpath("com.github.kittinunf.fuel:fuel:2.2.3")
         classpath("com.github.kittinunf.fuel:fuel-gson:2.2.3")
-        classpath("org.jsoup:jsoup:1.13.1")
+        classpath("org.jsoup:jsoup:1.14.3")
         classpath("net.coobird:thumbnailator:0.4.11")
     }
 }
@@ -135,8 +135,8 @@ open class UpdateEmojiTask : DefaultTask() {
         var readIndex = 0
         val resultMap = org.jsoup.Jsoup.connect(createResult.html_url).get()
                 .select(".markdown-body.entry-content > p").first()
-                .childNodes()
-                .mapNotNull { node ->
+                ?.childNodes()
+                ?.mapNotNull { node ->
                     when (node) {
                         is org.jsoup.nodes.TextNode -> {
                             if (node.text() != ":") {
@@ -150,7 +150,7 @@ open class UpdateEmojiTask : DefaultTask() {
                         }
                     }
                     return@mapNotNull null
-                }.toMap()
+                }?.toMap().orEmpty()
 
 
         val deleteRes = Fuel
