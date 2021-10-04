@@ -55,13 +55,8 @@ intellij {
     type.set("IC")
 
     plugins.set(listOf("git4idea"))
-}
 
-val patchPluginXml: org.jetbrains.intellij.tasks.PatchPluginXmlTask by tasks
-patchPluginXml.apply {
-    version.set(null as String?)
-    sinceBuild.set(null as String?)
-    untilBuild.set(null as String?)
+    updateSinceUntilBuild.set(false)
 }
 
 tasks.register<UpdateEmojiTask>("updateEmoji") {
