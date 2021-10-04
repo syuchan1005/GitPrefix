@@ -8,7 +8,7 @@ import com.github.kittinunf.fuel.gson.gsonDeserializerOf
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.5.31"
-    id("org.jetbrains.intellij") version "0.6.5"
+    id("org.jetbrains.intellij") version "1.2.0"
 }
 
 repositories {
@@ -49,19 +49,19 @@ compileKotlin.kotlinOptions.jvmTarget = targetCompatibility.toString()
 
 // val intellij: org.jetbrains.intellij.tasks.IntelliJInstrumentCodeTask by tasks
 intellij {
-    pluginName = "GitPrefix"
+    pluginName.set("GitPrefix")
 
     // https://www.jetbrains.com/intellij-repository/releases
-    type = "IC"
+    type.set("IC")
 
-    setPlugins("git4idea")
+    plugins.set(listOf("git4idea"))
 }
 
 val patchPluginXml: org.jetbrains.intellij.tasks.PatchPluginXmlTask by tasks
 patchPluginXml.apply {
-    version(null)
-    sinceBuild(null)
-    untilBuild(null)
+    version.set(null as String?)
+    sinceBuild.set(null as String?)
+    untilBuild.set(null as String?)
 }
 
 tasks.register<UpdateEmojiTask>("updateEmoji") {
