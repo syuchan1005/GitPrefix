@@ -27,13 +27,13 @@ jobs:
         run: ./gradlew buildPlugin
         env:
           GITHUB_TOKEN: ${{ secrets.GIST_TOKEN }}
-      - uses: thepieterdc/intellij-plugin-verifier-action@v1.1.2
+      - uses: ChrisCarini/intellij-platform-plugin-verifier-action@v1.2.1
         with:
-          plugin: "build/libs/GitPrefix.jar"
-          versions: |
-            2017.3.6
-            2018.3.6
-            2019.1.4
-            2019.3.5
-            2020.1.3
-            LATEST-EAP-SNAPSHOT
+          plugin-location: "./build/libs/GitPrefix.jar"
+          ide-versions: |
+            ideaIU:2017.3.6
+            ideaIU:2018.3.6
+            ideaIU:2019.1.4
+            ideaIU:2019.3.5
+            ideaIU:2020.1.3
+            ideaIU:LATEST-EAP-SNAPSHOT
